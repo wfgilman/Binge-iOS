@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0C4C0ECA24205CAF8C76CE13 /* Pods_Binge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8E12D4704556F1B02E21169 /* Pods_Binge.framework */; };
 		BE5E69BD247772E800B4D937 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE5E69BC247772E800B4D937 /* AppDelegate.swift */; };
 		BE5E69BF247772E800B4D937 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE5E69BE247772E800B4D937 /* SceneDelegate.swift */; };
 		BE5E69C1247772E800B4D937 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE5E69C0247772E800B4D937 /* ViewController.swift */; };
@@ -16,6 +17,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		110525F9D7E73B07372E65B4 /* Pods-Binge.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Binge.release.xcconfig"; path = "Target Support Files/Pods-Binge/Pods-Binge.release.xcconfig"; sourceTree = "<group>"; };
+		AD4E1DF4A66673C39FF89446 /* Pods-Binge.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Binge.debug.xcconfig"; path = "Target Support Files/Pods-Binge/Pods-Binge.debug.xcconfig"; sourceTree = "<group>"; };
 		BE5E69B9247772E800B4D937 /* Binge.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Binge.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE5E69BC247772E800B4D937 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BE5E69BE247772E800B4D937 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -24,6 +27,7 @@
 		BE5E69C5247772EA00B4D937 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BE5E69C8247772EA00B4D937 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		BE5E69CA247772EA00B4D937 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F8E12D4704556F1B02E21169 /* Pods_Binge.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Binge.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,17 +35,38 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0C4C0ECA24205CAF8C76CE13 /* Pods_Binge.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2811DAA1552EDAE375144C22 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				F8E12D4704556F1B02E21169 /* Pods_Binge.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		72C5A768DE6DD59210E03E2D /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				AD4E1DF4A66673C39FF89446 /* Pods-Binge.debug.xcconfig */,
+				110525F9D7E73B07372E65B4 /* Pods-Binge.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		BE5E69B0247772E800B4D937 = {
 			isa = PBXGroup;
 			children = (
 				BE5E69BB247772E800B4D937 /* Binge */,
 				BE5E69BA247772E800B4D937 /* Products */,
+				72C5A768DE6DD59210E03E2D /* Pods */,
+				2811DAA1552EDAE375144C22 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -74,9 +99,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = BE5E69CD247772EA00B4D937 /* Build configuration list for PBXNativeTarget "Binge" */;
 			buildPhases = (
+				25BEF681BE4E2F623A4FFE3B /* [CP] Check Pods Manifest.lock */,
 				BE5E69B5247772E800B4D937 /* Sources */,
 				BE5E69B6247772E800B4D937 /* Frameworks */,
 				BE5E69B7247772E800B4D937 /* Resources */,
+				B8654FE7A6E69270FAEF6F2B /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -132,6 +159,48 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		25BEF681BE4E2F623A4FFE3B /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Binge-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B8654FE7A6E69270FAEF6F2B /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Binge/Pods-Binge-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Binge/Pods-Binge-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Binge/Pods-Binge-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		BE5E69B5247772E800B4D937 /* Sources */ = {
@@ -282,6 +351,7 @@
 		};
 		BE5E69CE247772EA00B4D937 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = AD4E1DF4A66673C39FF89446 /* Pods-Binge.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -294,12 +364,13 @@
 				PRODUCT_BUNDLE_IDENTIFIER = BGHFM.Binge;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
 		BE5E69CF247772EA00B4D937 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 110525F9D7E73B07372E65B4 /* Pods-Binge.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -312,7 +383,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = BGHFM.Binge;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

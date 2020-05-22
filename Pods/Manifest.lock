@@ -1,0 +1,20 @@
+PODS:
+  - Alamofire (4.9.1)
+  - Unbox (2.5.0)
+
+DEPENDENCIES:
+  - Alamofire (~> 4.4)
+  - Unbox (~> 2.4)
+
+SPEC REPOS:
+  trunk:
+    - Alamofire
+    - Unbox
+
+SPEC CHECKSUMS:
+  Alamofire: 85e8a02c69d6020a0d734f6054870d7ecb75cf18
+  Unbox: 30e437e6151a6de16139375fd4e8dd9a664cfbf7
+
+PODFILE CHECKSUM: 32ca29e0092646265276f873ee82f2c6cf2232e8
+
+COCOAPODS: 1.9.1
