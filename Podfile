@@ -6,6 +6,8 @@ target 'Binge' do
   use_frameworks!
 
   # Pods for Binge
-  pod 'Alamofire', '~> 4.4'
-  pod 'Unbox', '~> 2.4'
+  pod 'Alamofire'
+  pod 'Codextended'
+  pod 'Shuffle-iOS'
+  pod 'Kingfisher'
 end

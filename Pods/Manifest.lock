@@ -1,20 +1,30 @@
 PODS:
   - Alamofire (4.9.1)
-  - Unbox (2.5.0)
+  - Codextended (0.3.0)
+  - Kingfisher (5.14.0):
+    - Kingfisher/Core (= 5.14.0)
+  - Kingfisher/Core (5.14.0)
+  - Shuffle-iOS (0.2.3)
 
 DEPENDENCIES:
-  - Alamofire (~> 4.4)
-  - Unbox (~> 2.4)
+  - Alamofire
+  - Codextended
+  - Kingfisher
+  - Shuffle-iOS
 
 SPEC REPOS:
   trunk:
     - Alamofire
-    - Unbox
+    - Codextended
+    - Kingfisher
+    - Shuffle-iOS
 
 SPEC CHECKSUMS:
   Alamofire: 85e8a02c69d6020a0d734f6054870d7ecb75cf18
-  Unbox: 30e437e6151a6de16139375fd4e8dd9a664cfbf7
+  Codextended: f384271b8694376ad766ddbf2a011efbfdcee905
+  Kingfisher: 7b64389a43139c903ec434788344c288217c792d
+  Shuffle-iOS: c44712781da509c8efbaeb83b8b7b5b637504724
 
-PODFILE CHECKSUM: 32ca29e0092646265276f873ee82f2c6cf2232e8
+PODFILE CHECKSUM: 7ff95dad9cd3fbe6473c01dc3b286e1215f0855a
 
 COCOAPODS: 1.9.1
