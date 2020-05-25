@@ -73,6 +73,7 @@ class DishViewController: UIViewController {
 }
 
 extension DishViewController: SwipeCardStackDelegate, SwipeCardStackDataSource {
+    
     func cardStack(_ cardStack: SwipeCardStack, cardForIndexAt index: Int) -> SwipeCard {
         let card = SwipeCard()
         card.swipeDirections = [.left, .right, .up]
@@ -89,6 +90,15 @@ extension DishViewController: SwipeCardStackDelegate, SwipeCardStackDataSource {
     
     func numberOfCards(in cardStack: SwipeCardStack) -> Int {
         return dishes.count
+    }
+    
+    func cardStack(_ cardStack: SwipeCardStack, didSwipeCardAt index: Int, with direction: SwipeDirection) {
+        if direction == .up {
+            let dish = dishes[index]
+            if let url = URL(string: dish.doordashUrl) {
+                UIApplication.shared.open(url)
+            }
+        }
     }
     
 }

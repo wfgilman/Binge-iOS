@@ -32,7 +32,7 @@ class DishCardOverlay: UIView {
     private func createLeftOverlay() {
         let leftTextView = UILabel(frame: .zero)
         leftTextView.text = "👎"
-        leftTextView.font = UIFont.systemFont(ofSize: 56)
+        leftTextView.font = UIFont.systemFont(ofSize: 72)
         addSubview(leftTextView)
         leftTextView.anchor(top: topAnchor,
                             right: rightAnchor,
@@ -43,7 +43,7 @@ class DishCardOverlay: UIView {
     private func createUpOverlay() {
         let upTextView = UILabel(frame: .zero)
         upTextView.text = "💸"
-        upTextView.font = UIFont.systemFont(ofSize: 56)
+        upTextView.font = UIFont.systemFont(ofSize: 72)
         addSubview(upTextView)
         upTextView.anchor(bottom: bottomAnchor, paddingBottom: 20)
         upTextView.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
@@ -52,7 +52,7 @@ class DishCardOverlay: UIView {
     private func createRightOverlay() {
         let rightTextView = UILabel(frame: .zero)
         rightTextView.text = "🤤"
-        rightTextView.font = UIFont.systemFont(ofSize: 56)
+        rightTextView.font = UIFont.systemFont(ofSize: 72)
         addSubview(rightTextView)
         rightTextView.anchor(top: topAnchor,
                            left: leftAnchor,
