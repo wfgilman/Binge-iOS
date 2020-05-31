@@ -1,7 +1,8 @@
 # Binge-iOS
 A dating app for food
 
-<img src="Design/binge-take1.gif" width="300">
+Evolution
+<img src="Design/binge-take1.gif" width="200"><img src="Design/binge-take2.gif" width="200">
 
 ### Credits
 - Shuffle https://github.com/mac-gallagher/Shuffle
