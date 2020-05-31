@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Cty-6x-JLG">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16086"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Likes View Controller-->
+        <scene sceneID="EZg-ra-JPr">
+            <objects>
+                <viewController id="TNx-XO-vU0" customClass="LikesViewController" customModule="Binge" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="FQe-E6-cmy">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="Ouf-7p-scn"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="UP0-bQ-J8G"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="0G6-Yb-Qdf" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="963.76811594202911" y="-35.491071428571423"/>
+        </scene>
+        <!--Decide-->
+        <scene sceneID="yKq-AC-1hR">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Cty-6x-JLG" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Decide" image="rectangle.grid.1x2" catalog="system" selectedImage="rectangle.grid.1x2.fill" id="jYM-QG-MzD"/>
+                    <toolbarItems/>
+                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="HmJ-To-Az1">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="TNx-XO-vU0" kind="relationship" relationship="rootViewController" id="R62-mi-lwu"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="6N0-Vd-udY" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="53.623188405797109" y="-35.491071428571423"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="rectangle.grid.1x2" catalog="system" width="128" height="101"/>
+        <image name="rectangle.grid.1x2.fill" catalog="system" width="128" height="101"/>
+    </resources>
+</document>

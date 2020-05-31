@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Hf1-FV-0Bm">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16086"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Discovery-->
+        <scene sceneID="FRl-gL-VKr">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Discovery" id="rLD-TS-0em" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Discovery" id="525-BJ-50b"/>
+                    <navigationItem key="navigationItem" id="ljG-TE-j6Q"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="lW2-yq-VPu" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-251" y="-672"/>
+        </scene>
+        <!--Tab Bar Controller-->
+        <scene sceneID="v96-MJ-rv6">
+            <objects>
+                <tabBarController storyboardIdentifier="TabBarController" id="Hf1-FV-0Bm" sceneMemberID="viewController">
+                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="lak-eJ-EyL">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="49"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="rLD-TS-0em" kind="relationship" relationship="viewControllers" id="n4u-Bj-lwd"/>
+                        <segue destination="mpA-8q-BiQ" kind="relationship" relationship="viewControllers" id="2rT-Tc-zvW"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="kSn-VO-ADf" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1077" y="-567"/>
+        </scene>
+        <!--Decide-->
+        <scene sceneID="UBu-ve-vLf">
+            <objects>
+                <viewControllerPlaceholder storyboardIdentifier="DecideNavigationController" storyboardName="Decide" id="mpA-8q-BiQ" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Decide" image="rectangle.grid.1x2" catalog="system" id="NIW-Kg-m2m"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="uJH-sq-AeF" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-251" y="-512"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="rectangle.grid.1x2" catalog="system" width="128" height="101"/>
+    </resources>
+</document>

@@ -13,6 +13,7 @@ struct Dish: Codable {
     var id: Int
     var name: String
     var imageUrl: String
+    var restaurantId: Int
     var restaurantName: String
     var doordashUrl: String
     
@@ -20,6 +21,7 @@ struct Dish: Codable {
         id = try decoder.decode("id")
         name = try decoder.decode("name")
         imageUrl = try decoder.decode("image_url")
+        restaurantId = try decoder.decode("restaurant_id")
         restaurantName = try decoder.decode("restaurant_name")
         doordashUrl = try decoder.decode("doordash_url")
     }

@@ -93,11 +93,24 @@ extension DishViewController: SwipeCardStackDelegate, SwipeCardStackDataSource {
     }
     
     func cardStack(_ cardStack: SwipeCardStack, didSwipeCardAt index: Int, with direction: SwipeDirection) {
-        if direction == .up {
+        switch direction {
+        case .up:
             let dish = dishes[index]
             if let url = URL(string: dish.doordashUrl) {
                 UIApplication.shared.open(url)
             }
+        case .right:
+            let dish = dishes[index]
+            BingeAPI.sharedClient.dishAction(dish: dish, action: .like, success: {
+                NotificationCenter.default.post(name: NSNotification.Name.likedDish, object: dish)
+            }) { (_, message) in
+                guard let message = message else { return }
+                print("\(message)")
+            }
+        case .left:
+            print("nothing yet")
+        case .down:
+            print("down swiping not allowed")
         }
     }
     

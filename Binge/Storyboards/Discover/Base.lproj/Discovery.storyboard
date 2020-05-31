@@ -10,7 +10,7 @@
         <!--Dish View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="DishViewController" customModule="Binge" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="DishViewController" id="BYZ-38-t0r" customClass="DishViewController" customModule="Binge" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -23,11 +23,13 @@
             </objects>
             <point key="canvasLocation" x="1042.0289855072465" y="112.5"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Discover-->
         <scene sceneID="wRX-H6-MOw">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Ejz-fz-Yhd" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Discover" image="magnifyingglass.circle" catalog="system" selectedImage="magnifyingglass.circle.fill" id="tea-7D-5ck"/>
                     <toolbarItems/>
+                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="9Qw-I8-t3w">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -42,4 +44,8 @@
             <point key="canvasLocation" x="131.8840579710145" y="112.5"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="magnifyingglass.circle" catalog="system" width="128" height="121"/>
+        <image name="magnifyingglass.circle.fill" catalog="system" width="128" height="121"/>
+    </resources>
 </document>

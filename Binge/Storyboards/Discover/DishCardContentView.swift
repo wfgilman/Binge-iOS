@@ -12,10 +12,12 @@ import Kingfisher
 
 class DishCardContentView: UIView {
     
+    private var bevelAmount: CGFloat!
+    private var hasShadow: Bool!
+    
     private let backgroundView: UIView = {
       let background = UIView()
       background.clipsToBounds = true
-      background.layer.cornerRadius = 10
       return background
     }()
     
@@ -38,20 +40,25 @@ class DishCardContentView: UIView {
         return nil
     }
     
-    init(withDish dish: Dish) {
+    init(withDish dish: Dish, bevelAmount: CGFloat = 10, hasShadow: Bool = true) {
         super.init(frame: .zero)
         let url = URL(string: dish.imageUrl)
         imageView.kf.setImage(with: url)
+        self.bevelAmount = bevelAmount
+        self.hasShadow = hasShadow
         initialize()
     }
     
     private func initialize() {
+        backgroundView.layer.cornerRadius = bevelAmount
         addSubview(backgroundView)
         backgroundView.anchorToSuperview()
         backgroundView.addSubview(imageView)
         imageView.anchorToSuperview()
         applyShadow(radius: 8, opacity: 0.2, offset: CGSize(width: 0, height: 2))
-        backgroundView.layer.insertSublayer(gradientLayer, above: imageView.layer)
+        if hasShadow {
+            backgroundView.layer.insertSublayer(gradientLayer, above: imageView.layer)
+        }
     }
     
     override func draw(_ rect: CGRect) {
