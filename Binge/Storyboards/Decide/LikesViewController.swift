@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SwipeCellKit
 
 class LikesViewController: UIViewController {
     
@@ -70,8 +71,9 @@ extension LikesViewController: UICollectionViewDelegate, UICollectionViewDataSou
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let dish = dishes[indexPath.row]
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DishCell.identifier, for: indexPath) as! DishCell
-        cell.backgroundView = DishCardContentView(withDish: dish, bevelAmount: 10, hasShadow: false)
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DishCell.identifier, for: indexPath) as! SwipeCollectionViewCell
+        cell.delegate = self
+        cell.backgroundView = DishCardContentView(withDish: dish, bevelAmount: 10, hasShadow: true)
         return cell
     }
 }
@@ -101,4 +103,33 @@ extension LikesViewController: UICollectionViewDelegateFlowLayout {
                         minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 20
     }
+}
+
+extension LikesViewController: SwipeCollectionViewCellDelegate {
+    
+    func collectionView(_ collectionView: UICollectionView, editActionsForItemAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
+        guard orientation == .right else { return nil }
+        
+        let deleteAction = SwipeAction(style: .destructive, title: "  👎") { (action, indexPath) in
+            BingeAPI.sharedClient.dishAction(dish: self.dishes[indexPath.row], action: .unlike, success: {
+                self.dishes.remove(at: indexPath.row)
+            }) { (_, message) in
+                guard let message = message else { return }
+                print("\(message)")
+            }
+        }
+        
+        deleteAction.backgroundColor = .clear
+        deleteAction.font = UIFont.systemFont(ofSize: 52)
+        
+        return [deleteAction]
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, editActionsOptionsForItemAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> SwipeOptions {
+        var options = SwipeOptions()
+        options.expansionStyle = .destructive(automaticallyDelete: false)
+        options.transitionStyle = .drag
+        return options
+    }
+    
 }

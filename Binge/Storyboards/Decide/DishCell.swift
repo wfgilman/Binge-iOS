@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import SwipeCellKit
 
-class DishCell: UICollectionViewCell {
+class DishCell: SwipeCollectionViewCell {
     
     static var identifier: String = "DishCell"
     

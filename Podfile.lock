@@ -5,12 +5,14 @@ PODS:
     - Kingfisher/Core (= 5.14.0)
   - Kingfisher/Core (5.14.0)
   - Shuffle-iOS (0.2.3)
+  - SwipeCellKit (2.7.1)
 
 DEPENDENCIES:
   - Alamofire
   - Codextended
   - Kingfisher
   - Shuffle-iOS
+  - SwipeCellKit
 
 SPEC REPOS:
   trunk:
@@ -18,13 +20,15 @@ SPEC REPOS:
     - Codextended
     - Kingfisher
     - Shuffle-iOS
+    - SwipeCellKit
 
 SPEC CHECKSUMS:
   Alamofire: 85e8a02c69d6020a0d734f6054870d7ecb75cf18
   Codextended: f384271b8694376ad766ddbf2a011efbfdcee905
   Kingfisher: 7b64389a43139c903ec434788344c288217c792d
   Shuffle-iOS: c44712781da509c8efbaeb83b8b7b5b637504724
+  SwipeCellKit: 3972254a826da74609926daf59b08d6c72e619ea
 
-PODFILE CHECKSUM: 7ff95dad9cd3fbe6473c01dc3b286e1215f0855a
+PODFILE CHECKSUM: fe3341b53dcc8e127a6359b6125d0f76ccdb5589
 
 COCOAPODS: 1.9.1

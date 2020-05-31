@@ -10,4 +10,5 @@ target 'Binge' do
   pod 'Codextended'
   pod 'Shuffle-iOS'
   pod 'Kingfisher'
+  pod 'SwipeCellKit'
 end
