@@ -50,7 +50,7 @@ class CustomPlaceholder {
         noMatchesData.image = UIImage(systemName: "person.2.fill")
         noMatchesData.title = "Invite a friend"
         noMatchesData.subtitle = "Find out what you're both \nhanckering for"
-        noMatchesData.action = "Invite"
+        noMatchesData.action = "Get started"
         
         let noMatches = Placeholder(data: noMatchesData, style: commonPlaceholderStyle, key: .noResultsKey)
         

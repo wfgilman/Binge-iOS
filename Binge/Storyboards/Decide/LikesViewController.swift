@@ -27,6 +27,7 @@ class LikesViewController: UIViewController {
         table.dataSource = self
         table.register(DishCell.self, forCellReuseIdentifier: DishCell.identifier)
         table.placeholdersProvider = CustomPlaceholder.noLikes
+        table.placeholderDelegate = self
         configureNavigationBar()
         configureListener()
         layoutTableView()
@@ -127,5 +128,15 @@ extension LikesViewController: SwipeTableViewCellDelegate {
         options.transitionStyle = .drag
         return options
     }
+}
+
+extension LikesViewController: PlaceholderDelegate {
+    
+    func view(_ view: Any, actionButtonTappedFor placeholder: Placeholder) {
+        if let tabBar: UITabBarController = tabBarController {
+            tabBar.selectedIndex = 0
+        }
+    }
+    
     
 }
