@@ -9,3 +9,6 @@ A dating app for food
 - Codextended https://github.com/JohnSundell/Codextended
 - Alamofire https://github.com/Alamofire/Alamofire
 - Kingfisher https://github.com/onevcat/Kingfisher
+- SwipeCellKit https://github.com/SwipeCellKit/SwipeCellKit
+- HGPlaceholders https://github.com/HamzaGhazouani/HGPlaceholders
+- AnimatedTextInput https://github.com/jobandtalent/AnimatedTextInput
