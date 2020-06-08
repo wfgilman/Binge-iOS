@@ -1,7 +1,7 @@
 # Binge-iOS
 A dating app for food
 
-Evolution
+### Evolution
 <img src="Design/binge-take1.gif" width="200"><img src="Design/binge-take2.gif" width="200"><img src="Design/binge-take3.gif" width="200">
 
 ### Credits
