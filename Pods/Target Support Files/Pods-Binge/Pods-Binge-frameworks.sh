@@ -198,14 +198,18 @@ fi
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/AnimatedTextInput/AnimatedTextInput.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Codextended/Codextended.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/HGPlaceholders/HGPlaceholders.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Kingfisher/Kingfisher.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Shuffle-iOS/Shuffle_iOS.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/SwipeCellKit/SwipeCellKit.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/AnimatedTextInput/AnimatedTextInput.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Codextended/Codextended.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/HGPlaceholders/HGPlaceholders.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Kingfisher/Kingfisher.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Shuffle-iOS/Shuffle_iOS.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/SwipeCellKit/SwipeCellKit.framework"

@@ -8,25 +8,28 @@
 
 import UIKit
 import SwipeCellKit
+import HGPlaceholders
 
 class LikesViewController: UIViewController {
     
     var dishes = [Dish]() {
         didSet {
-            collection.reloadData()
+            table.reloadData()
         }
     }
-    private let collection = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+    
+    private let table = TableView(frame: .zero, style: .plain)
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        collection.backgroundColor = .white
-        collection.delegate = self
-        collection.dataSource = self
-        collection.register(DishCell.self, forCellWithReuseIdentifier: DishCell.identifier)
+        table.backgroundColor = .white
+        table.delegate = self
+        table.dataSource = self
+        table.register(DishCell.self, forCellReuseIdentifier: DishCell.identifier)
+        table.placeholdersProvider = CustomPlaceholder.noLikes
         configureNavigationBar()
         configureListener()
-        layoutCollectionView()
+        layoutTableView()
         getLikedDishes()
     }
     
@@ -34,7 +37,7 @@ class LikesViewController: UIViewController {
         NotificationCenter.default.addObserver(forName: NSNotification.Name.likedDish, object: nil, queue: .main) { (notification) in
             guard let dish: Dish = notification.object as? Dish else { return }
             self.dishes.append(dish)
-            self.collection.reloadData()
+            self.table.reloadData()
         }
     }
     
@@ -54,72 +57,65 @@ class LikesViewController: UIViewController {
         }
     }
     
-    private func layoutCollectionView() {
-        collection.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(collection)
-        collection.anchor(top: view.safeAreaLayoutGuide.topAnchor,
-                          left: view.safeAreaLayoutGuide.leftAnchor,
-                          bottom: view.safeAreaLayoutGuide.bottomAnchor,
-                          right: view.safeAreaLayoutGuide.rightAnchor)
+    private func layoutTableView() {
+        table.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(table)
+        table.anchor(top: view.safeAreaLayoutGuide.topAnchor,
+                     left: view.safeAreaLayoutGuide.leftAnchor,
+                     bottom: view.safeAreaLayoutGuide.bottomAnchor,
+                     right: view.safeAreaLayoutGuide.rightAnchor,
+                     paddingLeft: 20,
+                     paddingRight: 20)
+        table.rowHeight = view.bounds.height / 4
+        table.separatorStyle = .none
     }
 }
 
-extension LikesViewController: UICollectionViewDelegate, UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        dishes.count
+extension LikesViewController: UITableViewDataSource, UITableViewDelegate {
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return dishes.count
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let dish = dishes[indexPath.row]
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DishCell.identifier, for: indexPath) as! SwipeCollectionViewCell
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 20
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let headerView = UIView()
+        headerView.backgroundColor = .clear
+        return headerView
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let dish = dishes[indexPath.section]
+        let cell = table.dequeueReusableCell(withIdentifier: DishCell.identifier, for: indexPath) as! SwipeTableViewCell
         cell.delegate = self
         cell.backgroundView = DishCardContentView(withDish: dish, bevelAmount: 10, hasShadow: true)
         return cell
+        
     }
 }
 
-extension LikesViewController: UICollectionViewDelegateFlowLayout {
-
-    func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
-                        sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.bounds.width - 40, height: (collectionView.bounds.height - 60) / 3)
-    }
-
-    func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
-                        insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 20, left: 0, bottom: 0, right: 0)
-    }
-
-    func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
-                        minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 20
-    }
-
-    func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
-                        minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 20
-    }
-}
-
-extension LikesViewController: SwipeCollectionViewCellDelegate {
+extension LikesViewController: SwipeTableViewCellDelegate {
     
-    func collectionView(_ collectionView: UICollectionView, editActionsForItemAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
         guard orientation == .right else { return nil }
         
-        let deleteAction = SwipeAction(style: .destructive, title: "  👎") { (action, indexPath) in
-            BingeAPI.sharedClient.dishAction(dish: self.dishes[indexPath.row], action: .unlike, success: {
-                self.dishes.remove(at: indexPath.row)
+        let deleteAction = SwipeAction(style: .destructive, title: "👎") { (action, indexPath) in
+            BingeAPI.sharedClient.dishAction(dish: self.dishes[indexPath.section], action: .unlike, success: {
+                self.dishes.remove(at: indexPath.section)
             }) { (_, message) in
                 guard let message = message else { return }
                 print("\(message)")
             }
         }
         
-        deleteAction.backgroundColor = .clear
+        deleteAction.backgroundColor = .white
         deleteAction.font = UIFont.systemFont(ofSize: 52)
         
         return [deleteAction]

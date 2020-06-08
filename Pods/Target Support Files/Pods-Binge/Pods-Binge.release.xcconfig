@@ -1,9 +1,9 @@
 ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES
-FRAMEWORK_SEARCH_PATHS = $(inherited) "${PODS_CONFIGURATION_BUILD_DIR}/Alamofire" "${PODS_CONFIGURATION_BUILD_DIR}/Codextended" "${PODS_CONFIGURATION_BUILD_DIR}/Kingfisher" "${PODS_CONFIGURATION_BUILD_DIR}/Shuffle-iOS" "${PODS_CONFIGURATION_BUILD_DIR}/SwipeCellKit"
+FRAMEWORK_SEARCH_PATHS = $(inherited) "${PODS_CONFIGURATION_BUILD_DIR}/Alamofire" "${PODS_CONFIGURATION_BUILD_DIR}/AnimatedTextInput" "${PODS_CONFIGURATION_BUILD_DIR}/Codextended" "${PODS_CONFIGURATION_BUILD_DIR}/HGPlaceholders" "${PODS_CONFIGURATION_BUILD_DIR}/Kingfisher" "${PODS_CONFIGURATION_BUILD_DIR}/Shuffle-iOS" "${PODS_CONFIGURATION_BUILD_DIR}/SwipeCellKit"
 GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
-HEADER_SEARCH_PATHS = $(inherited) "${PODS_CONFIGURATION_BUILD_DIR}/Alamofire/Alamofire.framework/Headers" "${PODS_CONFIGURATION_BUILD_DIR}/Codextended/Codextended.framework/Headers" "${PODS_CONFIGURATION_BUILD_DIR}/Kingfisher/Kingfisher.framework/Headers" "${PODS_CONFIGURATION_BUILD_DIR}/Shuffle-iOS/Shuffle_iOS.framework/Headers" "${PODS_CONFIGURATION_BUILD_DIR}/SwipeCellKit/SwipeCellKit.framework/Headers"
+HEADER_SEARCH_PATHS = $(inherited) "${PODS_CONFIGURATION_BUILD_DIR}/Alamofire/Alamofire.framework/Headers" "${PODS_CONFIGURATION_BUILD_DIR}/AnimatedTextInput/AnimatedTextInput.framework/Headers" "${PODS_CONFIGURATION_BUILD_DIR}/Codextended/Codextended.framework/Headers" "${PODS_CONFIGURATION_BUILD_DIR}/HGPlaceholders/HGPlaceholders.framework/Headers" "${PODS_CONFIGURATION_BUILD_DIR}/Kingfisher/Kingfisher.framework/Headers" "${PODS_CONFIGURATION_BUILD_DIR}/Shuffle-iOS/Shuffle_iOS.framework/Headers" "${PODS_CONFIGURATION_BUILD_DIR}/SwipeCellKit/SwipeCellKit.framework/Headers"
 LD_RUNPATH_SEARCH_PATHS = $(inherited) '@executable_path/Frameworks' '@loader_path/Frameworks'
-OTHER_LDFLAGS = $(inherited) -framework "Accelerate" -framework "Alamofire" -framework "CFNetwork" -framework "Codextended" -framework "Kingfisher" -framework "Shuffle_iOS" -framework "SwipeCellKit"
+OTHER_LDFLAGS = $(inherited) -framework "Accelerate" -framework "Alamofire" -framework "AnimatedTextInput" -framework "CFNetwork" -framework "Codextended" -framework "HGPlaceholders" -framework "Kingfisher" -framework "Shuffle_iOS" -framework "SwipeCellKit"
 OTHER_SWIFT_FLAGS = $(inherited) -D COCOAPODS
 PODS_BUILD_DIR = ${BUILD_DIR}
 PODS_CONFIGURATION_BUILD_DIR = ${PODS_BUILD_DIR}/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)

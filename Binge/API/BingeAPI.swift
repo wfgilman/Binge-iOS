@@ -66,8 +66,7 @@ class BingeAPI: NSObject {
     func dishAction(dish: Dish, action: DishAction, success: @escaping () -> (), failure: @escaping (Error, String?) -> ()) {
         let url: URLConvertible = self.baseURL + "/dishes/action"
         let params: Parameters = ["user_id": "bg", "dish_id": dish.id, "restaurant_id": dish.restaurantId, "action": "\(action)"]
-        let header: HTTPHeaders = ["content-type": "application/json"]
-        af?.request(url, method: .post, parameters: params, encoding: JSONEncoding.default, headers: header)
+        af?.request(url, method: .post, parameters: params, encoding: JSONEncoding.default, headers: headers)
             .validate()
             .responseData(completionHandler: { (response) in
             switch response.result {
@@ -78,7 +77,68 @@ class BingeAPI: NSObject {
                 failure(error, message)
             }
         })
-        
+    }
+    
+    func createUser(name: String, phone: String, success: @escaping (User) -> (), failure: @escaping (Error, String?) -> ()) {
+        let url: URLConvertible = self.baseURL + "/users"
+        let params: Parameters = ["first_name": name, "phone": phone, "status": "signed_up"]
+        af?.request(url, method: .post, parameters: params, encoding: JSONEncoding.default, headers: headers)
+            .validate()
+            .responseData(completionHandler: { (response) in
+            switch response.result {
+            case .success(let value):
+                do {
+                    let user = try value.decoded() as User
+                    success(user)
+                } catch {
+                    // Handle failure.
+                }
+                
+            case .failure(let error):
+                let message = self.getErrorMessage(error: error, response: response)
+                failure(error, message)
+            }
+        })
+    }
+    
+    func generateCode(success: @escaping () -> (), failure: @escaping (Error, String?) -> ()) {
+        let url: URLConvertible = self.baseURL + "/users/action"
+        guard let userId: Int = AppVariable.userId else { return }
+        let params: Parameters = ["user_id": userId, "type": "sms"]
+        af?.request(url, method: .post, parameters: params, encoding: JSONEncoding.default, headers: headers)
+            .validate()
+            .responseData(completionHandler: { (response) in
+            switch response.result {
+            case .success:
+                success()
+            case .failure(let error):
+                let message = self.getErrorMessage(error: error, response: response)
+                failure(error, message)
+            }
+        })
+    }
+    
+    func verifyCode(code: String, success: @escaping (Token) -> (), failure: @escaping (Error, String?) -> ()) {
+        let url: URLConvertible = self.baseURL + "/users/action"
+        guard let userId: Int = AppVariable.userId else { return }
+        let params: Parameters = ["user_id": userId, "code": code]
+        af?.request(url, method: .patch, parameters: params, encoding: JSONEncoding.default, headers: headers)
+            .validate()
+            .responseData(completionHandler: { (response) in
+            switch response.result {
+            case .success(let value):
+                do {
+                    let token = try value.decoded() as Token
+                    success(token)
+                } catch {
+                    // Handle failure.
+                }
+                
+            case .failure(let error):
+                let message = self.getErrorMessage(error: error, response: response)
+                failure(error, message)
+            }
+        })
     }
     
     private func getErrorMessage(error: Error, response: DataResponse<Data>) -> String? {

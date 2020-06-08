@@ -11,4 +11,6 @@ target 'Binge' do
   pod 'Shuffle-iOS'
   pod 'Kingfisher'
   pod 'SwipeCellKit'
+  pod 'HGPlaceholders'
+  pod 'AnimatedTextInput'
 end

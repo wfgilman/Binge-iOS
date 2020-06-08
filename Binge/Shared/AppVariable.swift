@@ -9,5 +9,24 @@
 import Foundation
 
 struct AppVariable {
+    
     static let baseURL = "http://localhost:4000/api/v1"
+    
+    static var userId: Int? {
+        get {
+            return UserDefaults.standard.integer(forKey: "userId")
+        }
+        set (newValue) {
+            UserDefaults.standard.set(newValue, forKey: "userId")
+        }
+    }
+    
+    static var accessToken: String? {
+        get {
+            return UserDefaults.standard.string(forKey: "accessToken")
+        }
+        set (newValue) {
+            UserDefaults.standard.set(newValue, forKey: "accessToken")
+        }
+    }
 }

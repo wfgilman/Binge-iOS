@@ -9,7 +9,7 @@
 import Foundation
 import Codextended
 
-struct Dish: Codable {
+class Dish: Codable {
     var id: Int
     var name: String
     var imageUrl: String
@@ -17,7 +17,7 @@ struct Dish: Codable {
     var restaurantName: String
     var doordashUrl: String
     
-    init(from decoder: Decoder) throws {
+    required init(from decoder: Decoder) throws {
         id = try decoder.decode("id")
         name = try decoder.decode("name")
         imageUrl = try decoder.decode("image_url")

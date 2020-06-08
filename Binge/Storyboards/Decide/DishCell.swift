@@ -9,16 +9,17 @@
 import UIKit
 import SwipeCellKit
 
-class DishCell: SwipeCollectionViewCell {
+class DishCell: SwipeTableViewCell {
     
     static var identifier: String = "DishCell"
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
     }
     
     required init?(coder aDecoder: NSCoder) {
-        return nil
+        super.init(coder: aDecoder)
+        
     }
     
     override func prepareForReuse() {

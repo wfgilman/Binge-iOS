@@ -9,6 +9,13 @@
 /* Begin PBXBuildFile section */
 		0C4C0ECA24205CAF8C76CE13 /* Pods_Binge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8E12D4704556F1B02E21169 /* Pods_Binge.framework */; };
 		BE30FC8A248354B4006B037C /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE30FC89248354B4006B037C /* Notification.swift */; };
+		BE30FC8D24875D31006B037C /* Match.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BE30FC8C24875D31006B037C /* Match.storyboard */; };
+		BE30FC9024875D48006B037C /* Onboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BE30FC8F24875D48006B037C /* Onboard.storyboard */; };
+		BE30FC922489EE93006B037C /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE30FC912489EE93006B037C /* SignUpViewController.swift */; };
+		BE30FC942489F3AB006B037C /* MatchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE30FC932489F3AA006B037C /* MatchViewController.swift */; };
+		BE30FC962489F5A3006B037C /* MatchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE30FC952489F5A3006B037C /* MatchCell.swift */; };
+		BE30FC98248A9176006B037C /* CustomPlaceholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE30FC97248A9176006B037C /* CustomPlaceholder.swift */; };
+		BE30FC9A248A946E006B037C /* AppFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE30FC99248A946E006B037C /* AppFont.swift */; };
 		BE5E69BD247772E800B4D937 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE5E69BC247772E800B4D937 /* AppDelegate.swift */; };
 		BE5E69BF247772E800B4D937 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE5E69BE247772E800B4D937 /* SceneDelegate.swift */; };
 		BE5E69C1247772E800B4D937 /* DishViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE5E69C0247772E800B4D937 /* DishViewController.swift */; };
@@ -29,12 +36,25 @@
 		BE5E69F724830D0A00B4D937 /* Decide.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BE5E69F624830D0A00B4D937 /* Decide.storyboard */; };
 		BE5E69F924830D6600B4D937 /* LikesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE5E69F824830D6600B4D937 /* LikesViewController.swift */; };
 		BE5E69FD248320E200B4D937 /* DishCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE5E69FC248320E200B4D937 /* DishCell.swift */; };
+		BECEFBFA248CA46700EB2516 /* UINavigationItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = BECEFBF9248CA46700EB2516 /* UINavigationItem.swift */; };
+		BECEFBFC248CA75500EB2516 /* VerifyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BECEFBFB248CA75500EB2516 /* VerifyViewController.swift */; };
+		BECEFBFE248CADDB00EB2516 /* CustomTextInputStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = BECEFBFD248CADDB00EB2516 /* CustomTextInputStyle.swift */; };
+		BECEFC00248D650800EB2516 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = BECEFBFF248D650800EB2516 /* User.swift */; };
+		BECEFC02248DA91F00EB2516 /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = BECEFC01248DA91F00EB2516 /* Token.swift */; };
+		BECEFC04248DC8D500EB2516 /* InviteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BECEFC03248DC8D500EB2516 /* InviteViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		110525F9D7E73B07372E65B4 /* Pods-Binge.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Binge.release.xcconfig"; path = "Target Support Files/Pods-Binge/Pods-Binge.release.xcconfig"; sourceTree = "<group>"; };
 		AD4E1DF4A66673C39FF89446 /* Pods-Binge.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Binge.debug.xcconfig"; path = "Target Support Files/Pods-Binge/Pods-Binge.debug.xcconfig"; sourceTree = "<group>"; };
 		BE30FC89248354B4006B037C /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
+		BE30FC8C24875D31006B037C /* Match.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Match.storyboard; sourceTree = "<group>"; };
+		BE30FC8F24875D48006B037C /* Onboard.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Onboard.storyboard; sourceTree = "<group>"; };
+		BE30FC912489EE93006B037C /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
+		BE30FC932489F3AA006B037C /* MatchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchViewController.swift; sourceTree = "<group>"; };
+		BE30FC952489F5A3006B037C /* MatchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchCell.swift; sourceTree = "<group>"; };
+		BE30FC97248A9176006B037C /* CustomPlaceholder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPlaceholder.swift; sourceTree = "<group>"; };
+		BE30FC99248A946E006B037C /* AppFont.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppFont.swift; sourceTree = "<group>"; };
 		BE5E69B9247772E800B4D937 /* Binge.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Binge.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE5E69BC247772E800B4D937 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BE5E69BE247772E800B4D937 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -57,6 +77,12 @@
 		BE5E69F624830D0A00B4D937 /* Decide.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Decide.storyboard; sourceTree = "<group>"; };
 		BE5E69F824830D6600B4D937 /* LikesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikesViewController.swift; sourceTree = "<group>"; };
 		BE5E69FC248320E200B4D937 /* DishCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DishCell.swift; sourceTree = "<group>"; };
+		BECEFBF9248CA46700EB2516 /* UINavigationItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UINavigationItem.swift; sourceTree = "<group>"; };
+		BECEFBFB248CA75500EB2516 /* VerifyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifyViewController.swift; sourceTree = "<group>"; };
+		BECEFBFD248CADDB00EB2516 /* CustomTextInputStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextInputStyle.swift; sourceTree = "<group>"; };
+		BECEFBFF248D650800EB2516 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		BECEFC01248DA91F00EB2516 /* Token.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Token.swift; sourceTree = "<group>"; };
+		BECEFC03248DC8D500EB2516 /* InviteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteViewController.swift; sourceTree = "<group>"; };
 		F8E12D4704556F1B02E21169 /* Pods_Binge.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Binge.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -87,6 +113,27 @@
 				110525F9D7E73B07372E65B4 /* Pods-Binge.release.xcconfig */,
 			);
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		BE30FC8B24875D14006B037C /* Match */ = {
+			isa = PBXGroup;
+			children = (
+				BE30FC8C24875D31006B037C /* Match.storyboard */,
+				BE30FC932489F3AA006B037C /* MatchViewController.swift */,
+				BE30FC952489F5A3006B037C /* MatchCell.swift */,
+			);
+			path = Match;
+			sourceTree = "<group>";
+		};
+		BE30FC8E24875D3C006B037C /* Onboard */ = {
+			isa = PBXGroup;
+			children = (
+				BE30FC8F24875D48006B037C /* Onboard.storyboard */,
+				BE30FC912489EE93006B037C /* SignUpViewController.swift */,
+				BECEFBFB248CA75500EB2516 /* VerifyViewController.swift */,
+				BECEFC03248DC8D500EB2516 /* InviteViewController.swift */,
+			);
+			path = Onboard;
 			sourceTree = "<group>";
 		};
 		BE5E69B0247772E800B4D937 = {
@@ -130,6 +177,8 @@
 			children = (
 				BE5E69D22478A33D00B4D937 /* Dish.swift */,
 				BE5E69DD247AF62A00B4D937 /* Error.swift */,
+				BECEFBFF248D650800EB2516 /* User.swift */,
+				BECEFC01248DA91F00EB2516 /* Token.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -146,6 +195,9 @@
 			isa = PBXGroup;
 			children = (
 				BE5E69D72478A45A00B4D937 /* AppVariable.swift */,
+				BE30FC97248A9176006B037C /* CustomPlaceholder.swift */,
+				BE30FC99248A946E006B037C /* AppFont.swift */,
+				BECEFBFD248CADDB00EB2516 /* CustomTextInputStyle.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -153,6 +205,8 @@
 		BE5E69D9247ADF4700B4D937 /* Storyboards */ = {
 			isa = PBXGroup;
 			children = (
+				BE30FC8E24875D3C006B037C /* Onboard */,
+				BE30FC8B24875D14006B037C /* Match */,
 				BE5E69F524830CC200B4D937 /* Decide */,
 				BE5E69DC247ADFED00B4D937 /* Discover */,
 			);
@@ -178,6 +232,7 @@
 				BE5E69EA247B380000B4D937 /* NSAttributedString.swift */,
 				BE5E69EE247B465000B4D937 /* UINavigationBar.swift */,
 				BE30FC89248354B4006B037C /* Notification.swift */,
+				BECEFBF9248CA46700EB2516 /* UINavigationItem.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -254,7 +309,9 @@
 			files = (
 				BE5E69C9247772EA00B4D937 /* LaunchScreen.storyboard in Resources */,
 				BE5E69C6247772EA00B4D937 /* Assets.xcassets in Resources */,
+				BE30FC8D24875D31006B037C /* Match.storyboard in Resources */,
 				BE5E69C4247772E800B4D937 /* Discovery.storyboard in Resources */,
+				BE30FC9024875D48006B037C /* Onboard.storyboard in Resources */,
 				BE5E69F4248309B000B4D937 /* Main.storyboard in Resources */,
 				BE5E69F724830D0A00B4D937 /* Decide.storyboard in Resources */,
 			);
@@ -309,19 +366,30 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BE30FC962489F5A3006B037C /* MatchCell.swift in Sources */,
 				BE5E69C1247772E800B4D937 /* DishViewController.swift in Sources */,
 				BE5E69EF247B465000B4D937 /* UINavigationBar.swift in Sources */,
+				BECEFC00248D650800EB2516 /* User.swift in Sources */,
 				BE5E69D32478A33D00B4D937 /* Dish.swift in Sources */,
+				BE30FC98248A9176006B037C /* CustomPlaceholder.swift in Sources */,
 				BE5E69BD247772E800B4D937 /* AppDelegate.swift in Sources */,
 				BE30FC8A248354B4006B037C /* Notification.swift in Sources */,
+				BE30FC922489EE93006B037C /* SignUpViewController.swift in Sources */,
+				BE30FC942489F3AB006B037C /* MatchViewController.swift in Sources */,
+				BE30FC9A248A946E006B037C /* AppFont.swift in Sources */,
+				BECEFC02248DA91F00EB2516 /* Token.swift in Sources */,
 				BE5E69EB247B380000B4D937 /* NSAttributedString.swift in Sources */,
 				BE5E69E9247B376600B4D937 /* DishCardFooterView.swift in Sources */,
 				BE5E69D52478A40D00B4D937 /* BingeAPI.swift in Sources */,
 				BE5E69F924830D6600B4D937 /* LikesViewController.swift in Sources */,
+				BECEFBFE248CADDB00EB2516 /* CustomTextInputStyle.swift in Sources */,
 				BE5E69BF247772E800B4D937 /* SceneDelegate.swift in Sources */,
+				BECEFC04248DC8D500EB2516 /* InviteViewController.swift in Sources */,
 				BE5E69DE247AF62A00B4D937 /* Error.swift in Sources */,
 				BE5E69ED247B3EF700B4D937 /* DishCardOverlay.swift in Sources */,
+				BECEFBFC248CA75500EB2516 /* VerifyViewController.swift in Sources */,
 				BE5E69E4247AFB1300B4D937 /* DishCardContentView.swift in Sources */,
+				BECEFBFA248CA46700EB2516 /* UINavigationItem.swift in Sources */,
 				BE5E69FD248320E200B4D937 /* DishCell.swift in Sources */,
 				BE5E69E7247B0C2800B4D937 /* UIView.swift in Sources */,
 				BE5E69D82478A45A00B4D937 /* AppVariable.swift in Sources */,

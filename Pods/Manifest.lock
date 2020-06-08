@@ -1,6 +1,8 @@
 PODS:
   - Alamofire (4.9.1)
+  - AnimatedTextInput (0.5.5)
   - Codextended (0.3.0)
+  - HGPlaceholders (0.4.0)
   - Kingfisher (5.14.0):
     - Kingfisher/Core (= 5.14.0)
   - Kingfisher/Core (5.14.0)
@@ -9,7 +11,9 @@ PODS:
 
 DEPENDENCIES:
   - Alamofire
+  - AnimatedTextInput
   - Codextended
+  - HGPlaceholders
   - Kingfisher
   - Shuffle-iOS
   - SwipeCellKit
@@ -17,18 +21,22 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - Alamofire
+    - AnimatedTextInput
     - Codextended
+    - HGPlaceholders
     - Kingfisher
     - Shuffle-iOS
     - SwipeCellKit
 
 SPEC CHECKSUMS:
   Alamofire: 85e8a02c69d6020a0d734f6054870d7ecb75cf18
+  AnimatedTextInput: aadbdfa5a538a03cc9fbea700b43d2bb21a5d132
   Codextended: f384271b8694376ad766ddbf2a011efbfdcee905
+  HGPlaceholders: fd580aaf6050782bf2ee51eb62ed499ded6615b7
   Kingfisher: 7b64389a43139c903ec434788344c288217c792d
   Shuffle-iOS: c44712781da509c8efbaeb83b8b7b5b637504724
   SwipeCellKit: 3972254a826da74609926daf59b08d6c72e619ea
 
-PODFILE CHECKSUM: fe3341b53dcc8e127a6359b6125d0f76ccdb5589
+PODFILE CHECKSUM: fcb1a5af77259ecb5ddaf055d33be93159e02a92
 
 COCOAPODS: 1.9.1
