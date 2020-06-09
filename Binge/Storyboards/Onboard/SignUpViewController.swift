@@ -67,14 +67,15 @@ class SignUpViewController: UIViewController {
     }
     
     @objc private func createUser() {
-        guard let name: String = nameTextField.text else { return }
-        guard let phone: String = phoneTextField.text else { return }
-        BingeAPI.sharedClient.createUser(name: name, phone: phone, success: { (user) in
-            AppVariable.userId = user.id
-            self.performSegue(withIdentifier: "showVerifyViewController", sender: nil)
-        }) { (_, message) in
-            guard let message: String = message else { return }
-            print(message)
-        }
+        self.performSegue(withIdentifier: "showVerifyViewController", sender: nil)
+//        guard let name: String = nameTextField.text else { return }
+//        guard let phone: String = phoneTextField.text else { return }
+//        BingeAPI.sharedClient.createUser(name: name, phone: phone, success: { (user) in
+//            AppVariable.userId = user.id
+//            self.performSegue(withIdentifier: "showVerifyViewController", sender: nil)
+//        }) { (_, message) in
+//            guard let message: String = message else { return }
+//            print(message)
+//        }
     }
 }

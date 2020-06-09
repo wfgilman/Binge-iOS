@@ -32,7 +32,7 @@ class CustomPlaceholder {
         noLikesData.image = UIImage(systemName: "hand.thumbsup.fill")
         noLikesData.title = "No likes yet"
         noLikesData.subtitle = "Swipe right on the Discovery tab \nto narrow down your options"
-        noLikesData.action = "Start swiping"
+        noLikesData.action = "Start Swiping"
         
         let noLikes = Placeholder(data: noLikesData, style: commonPlaceholderStyle, key: .noResultsKey)
         
@@ -50,7 +50,7 @@ class CustomPlaceholder {
         noMatchesData.image = UIImage(systemName: "person.2.fill")
         noMatchesData.title = "Invite a friend"
         noMatchesData.subtitle = "Find out what you're both \nhanckering for"
-        noMatchesData.action = "Get started"
+        noMatchesData.action = "Get Started"
         
         let noMatches = Placeholder(data: noMatchesData, style: commonPlaceholderStyle, key: .noResultsKey)
         

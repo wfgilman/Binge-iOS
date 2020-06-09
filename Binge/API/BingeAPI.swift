@@ -8,6 +8,7 @@
 
 import Foundation
 import Alamofire
+import Contacts
 
 enum DishAction {
     case like
@@ -134,6 +135,28 @@ class BingeAPI: NSObject {
                     // Handle failure.
                 }
                 
+            case .failure(let error):
+                let message = self.getErrorMessage(error: error, response: response)
+                failure(error, message)
+            }
+        })
+    }
+    
+    func inviteUser(contact: CNContact, success: @escaping () -> (), failure: @escaping (Error, String?) -> ()) {
+        let url: URLConvertible = self.baseURL + "/users/invite"
+        guard let phone = contact.phoneNumbers.first else { return }
+        let params: Parameters = [
+            "first_name": contact.givenName,
+            "last_name": contact.familyName,
+            "phone": phone.value.stringValue,
+            "status": "invited"
+        ]
+        af?.request(url, method: .post, parameters: params, encoding: JSONEncoding.default, headers: headers)
+            .validate()
+            .responseData(completionHandler: { (response) in
+            switch response.result {
+            case .success:
+                success()
             case .failure(let error):
                 let message = self.getErrorMessage(error: error, response: response)
                 failure(error, message)

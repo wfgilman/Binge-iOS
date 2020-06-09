@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		0C4C0ECA24205CAF8C76CE13 /* Pods_Binge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8E12D4704556F1B02E21169 /* Pods_Binge.framework */; };
+		BE06F95B248F2DD10047A0BE /* ContactCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE06F95A248F2DD10047A0BE /* ContactCell.swift */; };
+		BE06F95D248F3B2B0047A0BE /* InviteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE06F95C248F3B2B0047A0BE /* InviteViewController.swift */; };
 		BE30FC8A248354B4006B037C /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE30FC89248354B4006B037C /* Notification.swift */; };
 		BE30FC8D24875D31006B037C /* Match.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BE30FC8C24875D31006B037C /* Match.storyboard */; };
 		BE30FC9024875D48006B037C /* Onboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BE30FC8F24875D48006B037C /* Onboard.storyboard */; };
@@ -36,17 +38,22 @@
 		BE5E69F724830D0A00B4D937 /* Decide.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BE5E69F624830D0A00B4D937 /* Decide.storyboard */; };
 		BE5E69F924830D6600B4D937 /* LikesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE5E69F824830D6600B4D937 /* LikesViewController.swift */; };
 		BE5E69FD248320E200B4D937 /* DishCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE5E69FC248320E200B4D937 /* DishCell.swift */; };
+		BE798606248F2022006B57CA /* Invite.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BE798605248F2022006B57CA /* Invite.storyboard */; };
+		BE798608248F2053006B57CA /* ContactsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE798607248F2053006B57CA /* ContactsViewController.swift */; };
+		BE79860A248F2289006B57CA /* ContactAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE798609248F2289006B57CA /* ContactAPI.swift */; };
 		BECEFBFA248CA46700EB2516 /* UINavigationItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = BECEFBF9248CA46700EB2516 /* UINavigationItem.swift */; };
 		BECEFBFC248CA75500EB2516 /* VerifyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BECEFBFB248CA75500EB2516 /* VerifyViewController.swift */; };
 		BECEFBFE248CADDB00EB2516 /* CustomTextInputStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = BECEFBFD248CADDB00EB2516 /* CustomTextInputStyle.swift */; };
 		BECEFC00248D650800EB2516 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = BECEFBFF248D650800EB2516 /* User.swift */; };
 		BECEFC02248DA91F00EB2516 /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = BECEFC01248DA91F00EB2516 /* Token.swift */; };
-		BECEFC04248DC8D500EB2516 /* InviteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BECEFC03248DC8D500EB2516 /* InviteViewController.swift */; };
+		BECEFC04248DC8D500EB2516 /* SuccessViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BECEFC03248DC8D500EB2516 /* SuccessViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		110525F9D7E73B07372E65B4 /* Pods-Binge.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Binge.release.xcconfig"; path = "Target Support Files/Pods-Binge/Pods-Binge.release.xcconfig"; sourceTree = "<group>"; };
 		AD4E1DF4A66673C39FF89446 /* Pods-Binge.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Binge.debug.xcconfig"; path = "Target Support Files/Pods-Binge/Pods-Binge.debug.xcconfig"; sourceTree = "<group>"; };
+		BE06F95A248F2DD10047A0BE /* ContactCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactCell.swift; sourceTree = "<group>"; };
+		BE06F95C248F3B2B0047A0BE /* InviteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteViewController.swift; sourceTree = "<group>"; };
 		BE30FC89248354B4006B037C /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
 		BE30FC8C24875D31006B037C /* Match.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Match.storyboard; sourceTree = "<group>"; };
 		BE30FC8F24875D48006B037C /* Onboard.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Onboard.storyboard; sourceTree = "<group>"; };
@@ -77,12 +84,15 @@
 		BE5E69F624830D0A00B4D937 /* Decide.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Decide.storyboard; sourceTree = "<group>"; };
 		BE5E69F824830D6600B4D937 /* LikesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikesViewController.swift; sourceTree = "<group>"; };
 		BE5E69FC248320E200B4D937 /* DishCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DishCell.swift; sourceTree = "<group>"; };
+		BE798605248F2022006B57CA /* Invite.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Invite.storyboard; sourceTree = "<group>"; };
+		BE798607248F2053006B57CA /* ContactsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsViewController.swift; sourceTree = "<group>"; };
+		BE798609248F2289006B57CA /* ContactAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactAPI.swift; sourceTree = "<group>"; };
 		BECEFBF9248CA46700EB2516 /* UINavigationItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UINavigationItem.swift; sourceTree = "<group>"; };
 		BECEFBFB248CA75500EB2516 /* VerifyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifyViewController.swift; sourceTree = "<group>"; };
 		BECEFBFD248CADDB00EB2516 /* CustomTextInputStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextInputStyle.swift; sourceTree = "<group>"; };
 		BECEFBFF248D650800EB2516 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		BECEFC01248DA91F00EB2516 /* Token.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Token.swift; sourceTree = "<group>"; };
-		BECEFC03248DC8D500EB2516 /* InviteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteViewController.swift; sourceTree = "<group>"; };
+		BECEFC03248DC8D500EB2516 /* SuccessViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuccessViewController.swift; sourceTree = "<group>"; };
 		F8E12D4704556F1B02E21169 /* Pods_Binge.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Binge.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -131,7 +141,7 @@
 				BE30FC8F24875D48006B037C /* Onboard.storyboard */,
 				BE30FC912489EE93006B037C /* SignUpViewController.swift */,
 				BECEFBFB248CA75500EB2516 /* VerifyViewController.swift */,
-				BECEFC03248DC8D500EB2516 /* InviteViewController.swift */,
+				BECEFC03248DC8D500EB2516 /* SuccessViewController.swift */,
 			);
 			path = Onboard;
 			sourceTree = "<group>";
@@ -186,6 +196,7 @@
 		BE5E69D12478A32700B4D937 /* API */ = {
 			isa = PBXGroup;
 			children = (
+				BE798609248F2289006B57CA /* ContactAPI.swift */,
 				BE5E69D42478A40D00B4D937 /* BingeAPI.swift */,
 			);
 			path = API;
@@ -205,6 +216,7 @@
 		BE5E69D9247ADF4700B4D937 /* Storyboards */ = {
 			isa = PBXGroup;
 			children = (
+				BE798604248F2014006B57CA /* Invite */,
 				BE30FC8E24875D3C006B037C /* Onboard */,
 				BE30FC8B24875D14006B037C /* Match */,
 				BE5E69F524830CC200B4D937 /* Decide */,
@@ -245,6 +257,17 @@
 				BE5E69FC248320E200B4D937 /* DishCell.swift */,
 			);
 			path = Decide;
+			sourceTree = "<group>";
+		};
+		BE798604248F2014006B57CA /* Invite */ = {
+			isa = PBXGroup;
+			children = (
+				BE798605248F2022006B57CA /* Invite.storyboard */,
+				BE798607248F2053006B57CA /* ContactsViewController.swift */,
+				BE06F95A248F2DD10047A0BE /* ContactCell.swift */,
+				BE06F95C248F3B2B0047A0BE /* InviteViewController.swift */,
+			);
+			path = Invite;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -314,6 +337,7 @@
 				BE30FC9024875D48006B037C /* Onboard.storyboard in Resources */,
 				BE5E69F4248309B000B4D937 /* Main.storyboard in Resources */,
 				BE5E69F724830D0A00B4D937 /* Decide.storyboard in Resources */,
+				BE798606248F2022006B57CA /* Invite.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -366,13 +390,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BE06F95B248F2DD10047A0BE /* ContactCell.swift in Sources */,
 				BE30FC962489F5A3006B037C /* MatchCell.swift in Sources */,
+				BE798608248F2053006B57CA /* ContactsViewController.swift in Sources */,
 				BE5E69C1247772E800B4D937 /* DishViewController.swift in Sources */,
 				BE5E69EF247B465000B4D937 /* UINavigationBar.swift in Sources */,
 				BECEFC00248D650800EB2516 /* User.swift in Sources */,
 				BE5E69D32478A33D00B4D937 /* Dish.swift in Sources */,
 				BE30FC98248A9176006B037C /* CustomPlaceholder.swift in Sources */,
 				BE5E69BD247772E800B4D937 /* AppDelegate.swift in Sources */,
+				BE79860A248F2289006B57CA /* ContactAPI.swift in Sources */,
 				BE30FC8A248354B4006B037C /* Notification.swift in Sources */,
 				BE30FC922489EE93006B037C /* SignUpViewController.swift in Sources */,
 				BE30FC942489F3AB006B037C /* MatchViewController.swift in Sources */,
@@ -380,11 +407,12 @@
 				BECEFC02248DA91F00EB2516 /* Token.swift in Sources */,
 				BE5E69EB247B380000B4D937 /* NSAttributedString.swift in Sources */,
 				BE5E69E9247B376600B4D937 /* DishCardFooterView.swift in Sources */,
+				BE06F95D248F3B2B0047A0BE /* InviteViewController.swift in Sources */,
 				BE5E69D52478A40D00B4D937 /* BingeAPI.swift in Sources */,
 				BE5E69F924830D6600B4D937 /* LikesViewController.swift in Sources */,
 				BECEFBFE248CADDB00EB2516 /* CustomTextInputStyle.swift in Sources */,
 				BE5E69BF247772E800B4D937 /* SceneDelegate.swift in Sources */,
-				BECEFC04248DC8D500EB2516 /* InviteViewController.swift in Sources */,
+				BECEFC04248DC8D500EB2516 /* SuccessViewController.swift in Sources */,
 				BE5E69DE247AF62A00B4D937 /* Error.swift in Sources */,
 				BE5E69ED247B3EF700B4D937 /* DishCardOverlay.swift in Sources */,
 				BECEFBFC248CA75500EB2516 /* VerifyViewController.swift in Sources */,

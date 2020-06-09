@@ -12,11 +12,8 @@ import HGPlaceholders
 
 class MatchViewController: UIViewController {
     
-    var dishes = [Dish](){
+    private var dishes = [Dish](){
         didSet {
-            if dishes.count == 0 {
-                table.showDefault()
-            }
             table.reloadData()
         }
     }
@@ -39,8 +36,8 @@ class MatchViewController: UIViewController {
          BingeAPI.sharedClient.getLikedDishes(success: { (dishes) in
              self.dishes = dishes
          }) { (_, message) in
-             guard let message = message else { return }
-             print("\(message)")
+            guard let message: String = message else { return }
+             print(message)
          }
      }
     
@@ -119,10 +116,8 @@ extension MatchViewController: SwipeTableViewCellDelegate {
 extension MatchViewController: PlaceholderDelegate {
     
     func view(_ view: Any, actionButtonTappedFor placeholder: Placeholder) {
-        print("called")
         let storyboard = UIStoryboard(name: "Onboard", bundle: nil)
         guard let signupVC = storyboard.instantiateInitialViewController() else { return }
-//        signupVC.modalPresentationStyle = .fullScreen
         self.present(signupVC, animated: true, completion: nil)
     }
 }

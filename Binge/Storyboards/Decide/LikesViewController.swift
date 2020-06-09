@@ -12,7 +12,7 @@ import HGPlaceholders
 
 class LikesViewController: UIViewController {
     
-    var dishes = [Dish]() {
+    private var dishes = [Dish]() {
         didSet {
             table.reloadData()
         }
@@ -46,8 +46,8 @@ class LikesViewController: UIViewController {
         BingeAPI.sharedClient.getLikedDishes(success: { (dishes) in
             self.dishes = dishes
         }) { (_, message) in
-            guard let message = message else { return }
-            print("\(message)")
+            guard let message: String = message else { return }
+            print(message)
         }
     }
     

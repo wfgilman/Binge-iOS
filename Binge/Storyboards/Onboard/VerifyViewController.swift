@@ -23,7 +23,7 @@ class VerifyViewController: UIViewController {
         super.viewDidLoad()
         configureNavigationBar()
         layoutTextFields()
-        generateCode()
+//        generateCode()
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -62,13 +62,15 @@ class VerifyViewController: UIViewController {
     
     @objc private func confirmCode() {
         codeTextField.resignFirstResponder()
-        guard let code: String = codeTextField.text else { return }
-        BingeAPI.sharedClient.verifyCode(code: code, success: { (token) in
-            AppVariable.accessToken = token.accessToken
-        }) { (_, message) in
-            guard let message: String = message else { return }
-            self.codeTextField.show(error: message)
-        }
+        self.performSegue(withIdentifier: "showSuccessViewController", sender: nil)
+//        guard let code: String = codeTextField.text else { return }
+//        BingeAPI.sharedClient.verifyCode(code: code, success: { (token) in
+//            AppVariable.accessToken = token.accessToken
+//            self.performSegue(withIdentifier: "showSuccessViewController", sender: nil)
+//        }) { (_, message) in
+//            guard let message: String = message else { return }
+//            self.codeTextField.show(error: message)
+//        }
     }
 }
 

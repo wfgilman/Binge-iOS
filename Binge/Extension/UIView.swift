@@ -15,10 +15,14 @@ extension UIView {
               left: NSLayoutXAxisAnchor? = nil,
               bottom: NSLayoutYAxisAnchor? = nil,
               right: NSLayoutXAxisAnchor? = nil,
+              centerX: NSLayoutXAxisAnchor? = nil,
+              centerY: NSLayoutYAxisAnchor? = nil,
               paddingTop: CGFloat = 0,
               paddingLeft: CGFloat = 0,
               paddingBottom: CGFloat = 0,
               paddingRight: CGFloat = 0,
+              centerXOffset: CGFloat = 0,
+              centerYOffset: CGFloat = 0,
               width: CGFloat = 0,
               height: CGFloat = 0) -> [NSLayoutConstraint] {
     translatesAutoresizingMaskIntoConstraints = false
@@ -36,6 +40,12 @@ extension UIView {
     }
     if let right = right {
       anchors.append(rightAnchor.constraint(equalTo: right, constant: -paddingRight))
+    }
+    if let centerX = centerX {
+        anchors.append(centerXAnchor.constraint(lessThanOrEqualTo: centerX, constant: centerXOffset))
+    }
+    if let centerY = centerY {
+        anchors.append(centerYAnchor.constraint(lessThanOrEqualTo: centerY, constant: centerYOffset))
     }
     if width > 0 {
       anchors.append(widthAnchor.constraint(equalToConstant: width))
@@ -56,6 +66,7 @@ extension UIView {
                   bottom: superview?.bottomAnchor,
                   right: superview?.rightAnchor)
   }
+
 }
 
 extension UIView {

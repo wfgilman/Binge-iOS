@@ -38,17 +38,17 @@
                     </view>
                     <navigationItem key="navigationItem" id="QYr-Yi-A9b"/>
                     <connections>
-                        <segue destination="16q-je-HLk" kind="show" id="hJ9-ba-f8W"/>
+                        <segue destination="16q-je-HLk" kind="show" identifier="showSuccessViewController" id="hJ9-ba-f8W"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="e4Q-Iq-BlI" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1900" y="15"/>
         </scene>
-        <!--Invite View Controller-->
+        <!--Success View Controller-->
         <scene sceneID="OCN-aD-ChM">
             <objects>
-                <viewController id="16q-je-HLk" customClass="InviteViewController" customModule="Binge" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="16q-je-HLk" customClass="SuccessViewController" customModule="Binge" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="7Hi-ja-RRW">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
