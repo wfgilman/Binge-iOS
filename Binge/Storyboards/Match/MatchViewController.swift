@@ -17,6 +17,15 @@ class MatchViewController: UIViewController {
             table.reloadData()
         }
     }
+    
+    private var friend: User? {
+        didSet {
+            guard let friend = friend else { return }
+            configureNavigationBar(title: "Matching with \(friend.firstName)")
+            configureEmptyState()
+        }
+    }
+    
     private let table = TableView(frame: .zero, style: .plain)
     
     override func viewDidLoad() {
@@ -25,26 +34,51 @@ class MatchViewController: UIViewController {
         table.delegate = self
         table.dataSource = self
         table.register(DishCell.self, forCellReuseIdentifier: DishCell.identifier)
-        table.placeholdersProvider = CustomPlaceholder.noMatches
         table.placeholderDelegate = self
+        configureListener()
         configureNavigationBar()
         layoutTableView()
-//        getLikedDishes()
+        configureEmptyState()
+        getFriend()
     }
     
-    private func getLikedDishes() {
-         BingeAPI.sharedClient.getLikedDishes(success: { (dishes) in
-             self.dishes = dishes
-         }) { (_, message) in
-            guard let message: String = message else { return }
-             print(message)
-         }
-     }
+//    private func getLikedDishes() {
+//         BingeAPI.sharedClient.getLikedDishes(success: { (dishes) in
+//             self.dishes = dishes
+//         }) { (_, message) in
+//            guard let message: String = message else { return }
+//             print(message)
+//         }
+//     }
     
-    private func configureNavigationBar() {
-        navigationItem.title = "Binge"
+    private func configureListener() {
+        NotificationCenter.default.addObserver(forName: .createdUser, object: nil, queue: .main) { (_) in
+            self.configureEmptyState()
+        }
+        NotificationCenter.default.addObserver(forName: .deletedUser, object: nil, queue: .main) { (_) in
+            self.configureNavigationBar()
+            self.configureEmptyState()
+        }
+        NotificationCenter.default.addObserver(forName: .addedFriend, object: nil, queue: .main) { (_) in
+            self.getFriend()
+        }
+    }
+    
+    private func configureNavigationBar(title: String? = nil) {
+        navigationItem.title = title ?? "Binge"
         if let navBar = navigationController?.navigationBar {
              navBar.setup(titleColor: .black, hasBottomBorder: false, isTranslucent: true)
+        }
+    }
+    
+    private func getFriend() {
+        if User.exists() {
+            BingeAPI.sharedClient.getFriend(success: { (friend) in
+                self.friend = friend
+            }) { (_, message) in
+                guard let message: String = message else { return }
+                print(message)
+            }
         }
     }
     
@@ -59,6 +93,15 @@ class MatchViewController: UIViewController {
                      paddingRight: 20)
         table.rowHeight = view.bounds.height / 4
         table.separatorStyle = .none
+    }
+    
+    private func configureEmptyState() {
+        if User.exists() == true && friend != nil {
+            table.placeholdersProvider = CustomPlaceholder.noMatches
+        } else {
+            table.placeholdersProvider = CustomPlaceholder.signupToMatch
+        }
+        table.reloadData()
     }
 }
 
@@ -88,7 +131,6 @@ extension MatchViewController: UITableViewDataSource, UITableViewDelegate {
         cell.delegate = self
         cell.backgroundView = DishCardContentView(withDish: dish, bevelAmount: 10, hasShadow: true)
         return cell
-        
     }
 }
 
@@ -111,13 +153,30 @@ extension MatchViewController: SwipeTableViewCellDelegate {
         
         return [deleteAction]
     }
+
+    func tableView(_ tableView: UITableView, editActionsOptionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> SwipeOptions {
+        var options = SwipeOptions()
+        options.expansionStyle = .destructive(automaticallyDelete: false)
+        options.transitionStyle = .drag
+        return options
+    }
 }
 
 extension MatchViewController: PlaceholderDelegate {
     
     func view(_ view: Any, actionButtonTappedFor placeholder: Placeholder) {
-        let storyboard = UIStoryboard(name: "Onboard", bundle: nil)
-        guard let signupVC = storyboard.instantiateInitialViewController() else { return }
-        self.present(signupVC, animated: true, completion: nil)
+        if User.exists() == true && friend != nil {
+            if let tabBar: UITabBarController = tabBarController {
+                tabBar.selectedIndex = 0
+            }
+        } else if User.exists() == true && friend == nil {
+            let storyboard = UIStoryboard(name: "Invite", bundle: nil)
+            guard let contactsVC = storyboard.instantiateInitialViewController() else { return }
+            self.present(contactsVC, animated: true, completion: nil)
+        } else {
+            let storyboard = UIStoryboard(name: "Onboard", bundle: nil)
+            guard let signupVC = storyboard.instantiateInitialViewController() else { return }
+            self.present(signupVC, animated: true, completion: nil)
+        }
     }
 }

@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0C4C0ECA24205CAF8C76CE13 /* Pods_Binge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8E12D4704556F1B02E21169 /* Pods_Binge.framework */; };
+		BE0069442491B062009820B9 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0069432491B062009820B9 /* String.swift */; };
 		BE06F95B248F2DD10047A0BE /* ContactCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE06F95A248F2DD10047A0BE /* ContactCell.swift */; };
 		BE06F95D248F3B2B0047A0BE /* InviteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE06F95C248F3B2B0047A0BE /* InviteViewController.swift */; };
 		BE30FC8A248354B4006B037C /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE30FC89248354B4006B037C /* Notification.swift */; };
@@ -47,11 +48,14 @@
 		BECEFC00248D650800EB2516 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = BECEFBFF248D650800EB2516 /* User.swift */; };
 		BECEFC02248DA91F00EB2516 /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = BECEFC01248DA91F00EB2516 /* Token.swift */; };
 		BECEFC04248DC8D500EB2516 /* SuccessViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BECEFC03248DC8D500EB2516 /* SuccessViewController.swift */; };
+		BEFEEA4324926FC2008E2725 /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BEFEEA4224926FC2008E2725 /* Settings.storyboard */; };
+		BEFEEA4524926FE6008E2725 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEFEEA4424926FE6008E2725 /* SettingsViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		110525F9D7E73B07372E65B4 /* Pods-Binge.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Binge.release.xcconfig"; path = "Target Support Files/Pods-Binge/Pods-Binge.release.xcconfig"; sourceTree = "<group>"; };
 		AD4E1DF4A66673C39FF89446 /* Pods-Binge.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Binge.debug.xcconfig"; path = "Target Support Files/Pods-Binge/Pods-Binge.debug.xcconfig"; sourceTree = "<group>"; };
+		BE0069432491B062009820B9 /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		BE06F95A248F2DD10047A0BE /* ContactCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactCell.swift; sourceTree = "<group>"; };
 		BE06F95C248F3B2B0047A0BE /* InviteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteViewController.swift; sourceTree = "<group>"; };
 		BE30FC89248354B4006B037C /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
@@ -93,6 +97,8 @@
 		BECEFBFF248D650800EB2516 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		BECEFC01248DA91F00EB2516 /* Token.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Token.swift; sourceTree = "<group>"; };
 		BECEFC03248DC8D500EB2516 /* SuccessViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuccessViewController.swift; sourceTree = "<group>"; };
+		BEFEEA4224926FC2008E2725 /* Settings.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Settings.storyboard; sourceTree = "<group>"; };
+		BEFEEA4424926FE6008E2725 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		F8E12D4704556F1B02E21169 /* Pods_Binge.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Binge.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -216,6 +222,7 @@
 		BE5E69D9247ADF4700B4D937 /* Storyboards */ = {
 			isa = PBXGroup;
 			children = (
+				BEFEEA4124926FA7008E2725 /* Settings */,
 				BE798604248F2014006B57CA /* Invite */,
 				BE30FC8E24875D3C006B037C /* Onboard */,
 				BE30FC8B24875D14006B037C /* Match */,
@@ -245,6 +252,7 @@
 				BE5E69EE247B465000B4D937 /* UINavigationBar.swift */,
 				BE30FC89248354B4006B037C /* Notification.swift */,
 				BECEFBF9248CA46700EB2516 /* UINavigationItem.swift */,
+				BE0069432491B062009820B9 /* String.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -268,6 +276,15 @@
 				BE06F95C248F3B2B0047A0BE /* InviteViewController.swift */,
 			);
 			path = Invite;
+			sourceTree = "<group>";
+		};
+		BEFEEA4124926FA7008E2725 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				BEFEEA4224926FC2008E2725 /* Settings.storyboard */,
+				BEFEEA4424926FE6008E2725 /* SettingsViewController.swift */,
+			);
+			path = Settings;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -336,6 +353,7 @@
 				BE5E69C4247772E800B4D937 /* Discovery.storyboard in Resources */,
 				BE30FC9024875D48006B037C /* Onboard.storyboard in Resources */,
 				BE5E69F4248309B000B4D937 /* Main.storyboard in Resources */,
+				BEFEEA4324926FC2008E2725 /* Settings.storyboard in Resources */,
 				BE5E69F724830D0A00B4D937 /* Decide.storyboard in Resources */,
 				BE798606248F2022006B57CA /* Invite.storyboard in Resources */,
 			);
@@ -392,6 +410,7 @@
 			files = (
 				BE06F95B248F2DD10047A0BE /* ContactCell.swift in Sources */,
 				BE30FC962489F5A3006B037C /* MatchCell.swift in Sources */,
+				BEFEEA4524926FE6008E2725 /* SettingsViewController.swift in Sources */,
 				BE798608248F2053006B57CA /* ContactsViewController.swift in Sources */,
 				BE5E69C1247772E800B4D937 /* DishViewController.swift in Sources */,
 				BE5E69EF247B465000B4D937 /* UINavigationBar.swift in Sources */,
@@ -420,6 +439,7 @@
 				BECEFBFA248CA46700EB2516 /* UINavigationItem.swift in Sources */,
 				BE5E69FD248320E200B4D937 /* DishCell.swift in Sources */,
 				BE5E69E7247B0C2800B4D937 /* UIView.swift in Sources */,
+				BE0069442491B062009820B9 /* String.swift in Sources */,
 				BE5E69D82478A45A00B4D937 /* AppVariable.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -10,4 +10,7 @@ import Foundation
 
 extension Notification.Name {
     static let likedDish = Notification.Name("likedDish")
+    static let createdUser = Notification.Name("createdUser")
+    static let deletedUser = Notification.Name("deletedUser")
+    static let addedFriend = Notification.Name("addedFriend")
 }

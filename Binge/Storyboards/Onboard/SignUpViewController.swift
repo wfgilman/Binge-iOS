@@ -28,6 +28,7 @@ class SignUpViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        phoneTextField.delegate = self
         configureNavigationBar()
         layoutTextFields()
     }
@@ -39,6 +40,13 @@ class SignUpViewController: UIViewController {
         }
         if touch.view != phoneTextField {
             phoneTextField.resignFirstResponder()
+        }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.destination is VerifyViewController {
+            let verifyVC = segue.destination as! VerifyViewController
+            verifyVC.user = sender as? User
         }
     }
     
@@ -67,15 +75,23 @@ class SignUpViewController: UIViewController {
     }
     
     @objc private func createUser() {
-        self.performSegue(withIdentifier: "showVerifyViewController", sender: nil)
-//        guard let name: String = nameTextField.text else { return }
-//        guard let phone: String = phoneTextField.text else { return }
-//        BingeAPI.sharedClient.createUser(name: name, phone: phone, success: { (user) in
-//            AppVariable.userId = user.id
-//            self.performSegue(withIdentifier: "showVerifyViewController", sender: nil)
-//        }) { (_, message) in
-//            guard let message: String = message else { return }
-//            print(message)
-//        }
+        guard let name: String = nameTextField.text else { return }
+        guard let phone: String = phoneTextField.text else { return }
+        BingeAPI.sharedClient.createUser(name: name, phone: phone, success: { (user) in
+            self.performSegue(withIdentifier: "showVerifyViewController", sender: user)
+        }) { (_, message) in
+            guard let message: String = message else { return }
+            print(message)
+        }
+    }
+}
+
+extension SignUpViewController: AnimatedTextInputDelegate {
+    
+    func animatedTextInput(animatedTextInput: AnimatedTextInput, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
+        guard let phone = phoneTextField.text else { return false }
+        let newPhone = (phone as NSString).replacingCharacters(in: range, with: string)
+        phoneTextField.text = newPhone.formatPhoneNumber()
+        return false
     }
 }

@@ -18,7 +18,7 @@ enum DishAction {
 class BingeAPI: NSObject {
     static let sharedClient = BingeAPI(baseURL: AppVariable.baseURL)
     var baseURL: String
-    let headers = ["content-type": "application/json"]
+    var headers = ["content-type": "application/json"]
     var af: Alamofire.SessionManager?
     
     init(baseURL: String) {
@@ -29,7 +29,6 @@ class BingeAPI: NSObject {
         self.af = Alamofire.SessionManager(configuration: configuration)
     }
     
-    
     func getDishes(success: @escaping ([Dish]) -> (), failure: @escaping (Error, String?) -> ()) {
         af?.request(self.baseURL + "/dishes").validate().responseData(completionHandler: { (response) in
             switch response.result {
@@ -39,10 +38,12 @@ class BingeAPI: NSObject {
                     success(dishes)
                 } catch {
                     // Handle failure.
+                    print("decoding Dishes failed")
                 }
             case .failure(let error):
-                let message = self.getErrorMessage(error: error, response: response)
-                failure(error, message)
+                let err = self.getError(response: response)
+                self.handleFailure(error: err)
+                failure(error, err.message)
             }
         })
     }
@@ -56,10 +57,12 @@ class BingeAPI: NSObject {
                     success(dishes)
                 } catch {
                     // Handle failure.
+                    print("decoding Dishes failed")
                 }
             case .failure(let error):
-                let message = self.getErrorMessage(error: error, response: response)
-                failure(error, message)
+                let err = self.getError(response: response)
+                self.handleFailure(error: err)
+                failure(error, err.message)
             }
         })
     }
@@ -70,111 +73,225 @@ class BingeAPI: NSObject {
         af?.request(url, method: .post, parameters: params, encoding: JSONEncoding.default, headers: headers)
             .validate()
             .responseData(completionHandler: { (response) in
-            switch response.result {
-            case .success:
-                success()
-            case .failure(let error):
-                let message = self.getErrorMessage(error: error, response: response)
-                failure(error, message)
-            }
+                switch response.result {
+                case .success:
+                    success()
+                case .failure(let error):
+                    let err = self.getError(response: response)
+                    self.handleFailure(error: err)
+                    failure(error, err.message)
+                }
         })
     }
     
     func createUser(name: String, phone: String, success: @escaping (User) -> (), failure: @escaping (Error, String?) -> ()) {
         let url: URLConvertible = self.baseURL + "/users"
-        let params: Parameters = ["first_name": name, "phone": phone, "status": "signed_up"]
+        let params: Parameters = [
+            "first_name": name,
+            "phone": phone.cleanPhoneNumber(),
+            "status": "signed_up"
+        ]
         af?.request(url, method: .post, parameters: params, encoding: JSONEncoding.default, headers: headers)
             .validate()
             .responseData(completionHandler: { (response) in
-            switch response.result {
-            case .success(let value):
-                do {
-                    let user = try value.decoded() as User
-                    success(user)
-                } catch {
-                    // Handle failure.
+                switch response.result {
+                case .success(let value):
+                    do {
+                        let user = try value.decoded() as User
+                        success(user)
+                    } catch {
+                        // Handle failure.
+                        print("decoding User failed")
+                    }
+                case .failure(let error):
+                    let err = self.getError(response: response)
+                    self.handleFailure(error: err)
+                    failure(error, err.message)
+            }
+        })
+    }
+    
+    func generateCode(user: User, success: @escaping () -> (), failure: @escaping (Error, String?) -> ()) {
+        let url: URLConvertible = self.baseURL + "/users/action"
+        let params: Parameters = ["user_id": user.id, "type": "sms"]
+        af?.request(url, method: .post, parameters: params, encoding: JSONEncoding.default, headers: headers)
+            .validate()
+            .responseData(completionHandler: { (response) in
+                switch response.result {
+                case .success:
+                    success()
+                case .failure(let error):
+                    let err = self.getError(response: response)
+                    self.handleFailure(error: err)
+                    failure(error, err.message)
                 }
-                
-            case .failure(let error):
-                let message = self.getErrorMessage(error: error, response: response)
-                failure(error, message)
-            }
         })
     }
     
-    func generateCode(success: @escaping () -> (), failure: @escaping (Error, String?) -> ()) {
+    func verifyCode(user: User, code: String, success: @escaping (Token) -> (), failure: @escaping (Error, String?) -> ()) {
         let url: URLConvertible = self.baseURL + "/users/action"
-        guard let userId: Int = AppVariable.userId else { return }
-        let params: Parameters = ["user_id": userId, "type": "sms"]
-        af?.request(url, method: .post, parameters: params, encoding: JSONEncoding.default, headers: headers)
-            .validate()
-            .responseData(completionHandler: { (response) in
-            switch response.result {
-            case .success:
-                success()
-            case .failure(let error):
-                let message = self.getErrorMessage(error: error, response: response)
-                failure(error, message)
-            }
-        })
-    }
-    
-    func verifyCode(code: String, success: @escaping (Token) -> (), failure: @escaping (Error, String?) -> ()) {
-        let url: URLConvertible = self.baseURL + "/users/action"
-        guard let userId: Int = AppVariable.userId else { return }
-        let params: Parameters = ["user_id": userId, "code": code]
+        let params: Parameters = ["user_id": user.id, "code": code]
         af?.request(url, method: .patch, parameters: params, encoding: JSONEncoding.default, headers: headers)
             .validate()
             .responseData(completionHandler: { (response) in
             switch response.result {
-            case .success(let value):
-                do {
-                    let token = try value.decoded() as Token
-                    success(token)
-                } catch {
-                    // Handle failure.
-                }
-                
-            case .failure(let error):
-                let message = self.getErrorMessage(error: error, response: response)
-                failure(error, message)
+                case .success(let value):
+                    do {
+                        let token = try value.decoded() as Token
+                        success(token)
+                    } catch {
+                        // Handle failure.
+                        print("decoding Token failed")
+                    }
+                case .failure(let error):
+                    let err = self.getError(response: response)
+                    self.handleFailure(error: err)
+                    failure(error, err.message)
             }
         })
     }
     
     func inviteUser(contact: CNContact, success: @escaping () -> (), failure: @escaping (Error, String?) -> ()) {
         let url: URLConvertible = self.baseURL + "/users/invite"
+        let headers = getAuthHeaders()
         guard let phone = contact.phoneNumbers.first else { return }
         let params: Parameters = [
             "first_name": contact.givenName,
             "last_name": contact.familyName,
-            "phone": phone.value.stringValue,
+            "phone": phone.value.stringValue.cleanPhoneNumber(),
             "status": "invited"
         ]
         af?.request(url, method: .post, parameters: params, encoding: JSONEncoding.default, headers: headers)
             .validate()
             .responseData(completionHandler: { (response) in
-            switch response.result {
-            case .success:
-                success()
-            case .failure(let error):
-                let message = self.getErrorMessage(error: error, response: response)
-                failure(error, message)
-            }
+                switch response.result {
+                case .success:
+                    success()
+                case .failure(let error):
+                    let err = self.getError(response: response)
+                    self.handleFailure(error: err)
+                    failure(error, err.message)
+                }
         })
     }
     
-    private func getErrorMessage(error: Error, response: DataResponse<Data>) -> String? {
+    func getUser(success: @escaping (User) -> (), failure: @escaping (Error, String?) -> ()) {
+        let url: URLConvertible = self.baseURL + "/users"
+        let headers = getAuthHeaders()
+        af?.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: headers)
+            .validate()
+            .responseData(completionHandler: { (response) in
+                switch response.result {
+                case .success(let value):
+                    do {
+                        let user = try value.decoded() as User
+                        success(user)
+                    } catch {
+                        // Handle failure.
+                        print("decoding User failed")
+                    }
+                case .failure(let error):
+                    let err = self.getError(response: response)
+                    self.handleFailure(error: err)
+                    failure(error, err.message)
+                }
+            })
+    }
+    
+    func deleteUser(success: @escaping () -> (), failure: @escaping (Error, String?) -> ()) {
+        let url: URLConvertible = self.baseURL + "/users"
+        let headers = getAuthHeaders()
+        af?.request(url, method: .delete, parameters: nil, encoding: JSONEncoding.default, headers: headers)
+        .validate()
+            .responseData(completionHandler: { (response) in
+                switch response.result {
+                case .success:
+                    success()
+                case .failure(let error):
+                    let err = self.getError(response: response)
+                    self.handleFailure(error: err)
+                    failure(error, err.message)
+                }
+            })
+    }
+    
+    func getFriend(success: @escaping (User?) -> (), failure: @escaping (Error, String?) -> ()) {
+        let url: URLConvertible = self.baseURL + "/users/friends?active=true"
+        let headers = getAuthHeaders()
+        af?.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: headers)
+            .validate()
+            .responseData(completionHandler: { (response) in
+                switch response.result {
+                case .success(let value):
+                    do {
+                        let user = try value.decoded() as User
+                        success(user)
+                    } catch {
+                        // Handle failure.
+                        print("decoding Friend failed")
+                        success(nil)
+                    }
+                case .failure(let error):
+                    let err = self.getError(response: response)
+                    self.handleFailure(error: err)
+                    failure(error, err.message)
+                }
+            })
+    }
+    
+    func getFriends(success: @escaping ([User]) -> (), failure: @escaping (Error, String?) -> ()) {
+        let url: URLConvertible = self.baseURL + "/users/friends"
+        let headers = getAuthHeaders()
+        af?.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: headers)
+            .validate()
+            .responseData(completionHandler: { (response) in
+                switch response.result {
+                case .success(let value):
+                    do {
+                        let users = try value.decoded() as [User]
+                        success(users)
+                    } catch {
+                        // Handle failure.
+                        print("decoding Friends failed")
+                    }
+                case .failure(let error):
+                    let err = self.getError(response: response)
+                    self.handleFailure(error: err)
+                    failure(error, err.message)
+                }
+            })
+    }
+    
+    private func getAuthHeaders() -> [String : String] {
+        var headers = self.headers
+        guard let token: String = AppVariable.accessToken else {
+            return headers
+        }
+        headers["authorization"] = "Bearer " + token
+        return headers
+    }
+    
+    private func handleFailure(error: ApiError) {
+        switch error.code {
+        case "authentication_error":
+            print("deleted User")
+            User.delete()
+        default:
+            print("other error")
+        }
+    }
+    
+    private func getError(response: DataResponse<Data>) -> ApiError {
         if let data = response.data {
             do {
                 let err = try data.decoded() as ApiError
-                print(err)
-                return err.message
+                return err
             } catch {
                 // Handle error.
+                print("decoding ApiError failed")
+                return ApiError(code: "decode_error", message: "Failed to decode API error.")
             }
         }
-        return "An error occurred."
+        return ApiError(code: "unknown_error", message: "No response from server.")
     }
 }
-//

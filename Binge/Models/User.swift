@@ -9,20 +9,44 @@
 import Foundation
 import Codextended
 
+enum UserStatus: String {
+    case new
+    case signedUp
+    case verified
+}
+
 class User: Codable {
     var id: Int
     var firstName: String
     var lastName: String?
     var phone: String
     var email: String?
-    var matchUser: User?
-    
+    var status: String
+
     required init(from decoder: Decoder) throws {
         id = try decoder.decode("id")
         firstName = try decoder.decode("first_name")
         lastName = try decoder.decode("last_name")
         phone = try decoder.decode("phone")
         email = try decoder.decode("email")
-        matchUser = try decoder.decode("match_user")
+        status = try decoder.decode("status")
+    }
+    
+    class func create(with token: Token) {
+        AppVariable.accessToken = token.accessToken
+        print("\(token.accessToken)")
+        NotificationCenter.default.post(name: .createdUser, object: nil)
+    }
+    
+    class func delete() {
+        AppVariable.accessToken = nil
+        NotificationCenter.default.post(name: .deletedUser, object: nil)
+    }
+    
+    class func exists() -> Bool {
+        if AppVariable.accessToken == nil {
+            return false
+        }
+        return true
     }
 }

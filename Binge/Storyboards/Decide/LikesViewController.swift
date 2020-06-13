@@ -122,7 +122,7 @@ extension LikesViewController: SwipeTableViewCellDelegate {
         return [deleteAction]
     }
     
-    func collectionView(_ collectionView: UICollectionView, editActionsOptionsForItemAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> SwipeOptions {
+    func tableView(_ tableView: UITableView, editActionsOptionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> SwipeOptions {
         var options = SwipeOptions()
         options.expansionStyle = .destructive(automaticallyDelete: false)
         options.transitionStyle = .drag

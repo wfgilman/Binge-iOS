@@ -68,7 +68,7 @@ class SuccessViewController: UIViewController {
         view.addSubview(inviteButton)
         inviteButton.anchor(top: inviteLabel.bottomAnchor,
                             centerX: view.safeAreaLayoutGuide.centerXAnchor,
-                            paddingTop: 16,
+                            paddingTop: 20,
                             width: view.safeAreaLayoutGuide.layoutFrame.width / 3,
                             height: 44)
     }

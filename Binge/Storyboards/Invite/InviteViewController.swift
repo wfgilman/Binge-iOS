@@ -82,7 +82,8 @@ class InviteViewController: UIViewController {
      
      @objc private func sendInvitation() {
         BingeAPI.sharedClient.inviteUser(contact: contact, success: {
-            // Request notifications
+            // Request notifications from user.
+            NotificationCenter.default.post(name: .addedFriend, object: nil)
             self.dismiss(animated: true, completion: nil)
         }) { (_, message) in
             guard let message: String = message else { return }

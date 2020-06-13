@@ -31,7 +31,7 @@ class CustomPlaceholder {
         var noLikesData: PlaceholderData = .noResults
         noLikesData.image = UIImage(systemName: "hand.thumbsup.fill")
         noLikesData.title = "No likes yet"
-        noLikesData.subtitle = "Swipe right on the Discovery tab \nto narrow down your options"
+        noLikesData.subtitle = "Swipe right on the Discover tab \nto narrow down your options."
         noLikesData.action = "Start Swiping"
         
         let noLikes = Placeholder(data: noLikesData, style: commonPlaceholderStyle, key: .noResultsKey)
@@ -46,15 +46,51 @@ class CustomPlaceholder {
         let error = Placeholder(data: .error, style: commonPlaceholderStyle, key: .errorKey)
         let noConn = Placeholder(data: .noConnection, style: commonPlaceholderStyle, key: .noConnectionKey)
         
-        var noMatchesData: PlaceholderData = .noResults
-        noMatchesData.image = UIImage(systemName: "person.2.fill")
-        noMatchesData.title = "Invite a friend"
-        noMatchesData.subtitle = "Find out what you're both \nhanckering for"
-        noMatchesData.action = "Get Started"
+        var noResultsData: PlaceholderData = .noResults
+        noResultsData.image = UIImage(systemName: "person.2.fill")
+        noResultsData.title = "No love yet"
+        noResultsData.subtitle = "Start swiping to start matching 😍"
+        noResultsData.action = "Visit Discover"
         
-        let noMatches = Placeholder(data: noMatchesData, style: commonPlaceholderStyle, key: .noResultsKey)
+        let noResults = Placeholder(data: noResultsData, style: commonPlaceholderStyle, key: .noResultsKey)
         
-        let placeholdersProvider = PlaceholdersProvider(loading: loading, error: error, noResults: noMatches, noConnection: noConn)
+        let placeholdersProvider = PlaceholdersProvider(loading: loading, error: error, noResults: noResults, noConnection: noConn)
+        
+        return placeholdersProvider
+    }()
+    
+    static var signupToMatch: PlaceholdersProvider = {
+        let loading = Placeholder(data: .loading, style: commonPlaceholderStyle, key: .loadingKey)
+        let error = Placeholder(data: .error, style: commonPlaceholderStyle, key: .errorKey)
+        let noConn = Placeholder(data: .noConnection, style: commonPlaceholderStyle, key: .noConnectionKey)
+        
+        var noResultsData: PlaceholderData = .noResults
+        noResultsData.image = UIImage(systemName: "person.2.fill")
+        noResultsData.title = "Invite a friend"
+        noResultsData.subtitle = "Find out what you're both \nhanckering for 🤤"
+        noResultsData.action = "Get Started"
+        
+        let noResults = Placeholder(data: noResultsData, style: commonPlaceholderStyle, key: .noResultsKey)
+        
+        let placeholdersProvider = PlaceholdersProvider(loading: loading, error: error, noResults: noResults, noConnection: noConn)
+        
+        return placeholdersProvider
+    }()
+    
+    static var createAccount: PlaceholdersProvider = {
+        let loading = Placeholder(data: .loading, style: commonPlaceholderStyle, key: .loadingKey)
+        let error = Placeholder(data: .error, style: commonPlaceholderStyle, key: .errorKey)
+        let noConn = Placeholder(data: .noConnection, style: commonPlaceholderStyle, key: .noConnectionKey)
+        
+        var noResultsData: PlaceholderData = .noResults
+        noResultsData.image = UIImage(systemName: "person.fill")
+        noResultsData.title = "Access food features"
+        noResultsData.subtitle = "Sign up to filter your feed \nand match with friends."
+        noResultsData.action = "Get Started"
+        
+        let noResults = Placeholder(data: noResultsData, style: commonPlaceholderStyle, key: .noResultsKey)
+        
+        let placeholdersProvider = PlaceholdersProvider(loading: loading, error: error, noResults: noResults, noConnection: noConn)
         
         return placeholdersProvider
     }()

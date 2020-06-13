@@ -10,7 +10,7 @@
         <scene sceneID="FRl-gL-VKr">
             <objects>
                 <viewControllerPlaceholder storyboardName="Discovery" id="rLD-TS-0em" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Discovery" id="525-BJ-50b"/>
+                    <tabBarItem key="tabBarItem" title="Discovery" image="magnifyingglass" catalog="system" id="525-BJ-50b"/>
                     <navigationItem key="navigationItem" id="ljG-TE-j6Q"/>
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lW2-yq-VPu" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -30,6 +30,7 @@
                         <segue destination="rLD-TS-0em" kind="relationship" relationship="viewControllers" id="n4u-Bj-lwd"/>
                         <segue destination="mpA-8q-BiQ" kind="relationship" relationship="viewControllers" id="2rT-Tc-zvW"/>
                         <segue destination="3mY-2m-RvJ" kind="relationship" relationship="viewControllers" id="Rcv-JK-7F4"/>
+                        <segue destination="xAV-X0-fK9" kind="relationship" relationship="viewControllers" id="gRO-l5-SFC"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kSn-VO-ADf" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -56,8 +57,20 @@
             </objects>
             <point key="canvasLocation" x="-216" y="-398"/>
         </scene>
+        <!--Settings-->
+        <scene sceneID="Fo6-os-QSA">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Settings" id="xAV-X0-fK9" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Me" image="person" catalog="system" id="0Qn-Wg-qWo"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="lxP-Ps-DTP" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-259" y="-312"/>
+        </scene>
     </scenes>
     <resources>
+        <image name="magnifyingglass" catalog="system" width="128" height="115"/>
+        <image name="person" catalog="system" width="128" height="117"/>
         <image name="person.2" catalog="system" width="128" height="81"/>
         <image name="rectangle.grid.1x2" catalog="system" width="128" height="101"/>
     </resources>

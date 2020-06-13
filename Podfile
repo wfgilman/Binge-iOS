@@ -13,4 +13,5 @@ target 'Binge' do
   pod 'SwipeCellKit'
   pod 'HGPlaceholders'
   pod 'AnimatedTextInput'
+  pod 'Eureka'
 end
