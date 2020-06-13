@@ -2,7 +2,7 @@
 A dating app for food
 
 ### Evolution
-<img src="Design/binge-take1.gif" width="200"><img src="Design/binge-take2.gif" width="200"><img src="Design/binge-take3.gif" width="200">
+<img src="Design/binge-take1.gif" width="200"><img src="Design/binge-take2.gif" width="200"><img src="Design/binge-take3.gif" width="200"><img src="Design/binge-take4.gif" width="200">
 
 ### Credits
 - Shuffle https://github.com/mac-gallagher/Shuffle
@@ -12,3 +12,4 @@ A dating app for food
 - SwipeCellKit https://github.com/SwipeCellKit/SwipeCellKit
 - HGPlaceholders https://github.com/HamzaGhazouani/HGPlaceholders
 - AnimatedTextInput https://github.com/jobandtalent/AnimatedTextInput
+- Eureka https://github.com/xmartlabs/Eureka
