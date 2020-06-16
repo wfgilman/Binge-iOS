@@ -62,6 +62,9 @@ class MatchViewController: UIViewController {
         NotificationCenter.default.addObserver(forName: .addedFriend, object: nil, queue: .main) { (_) in
             self.getFriend()
         }
+        NotificationCenter.default.addObserver(forName: .changedFriend, object: nil, queue: .main) { (_) in
+            self.getFriend()
+        }
     }
     
     private func configureNavigationBar(title: String? = nil) {

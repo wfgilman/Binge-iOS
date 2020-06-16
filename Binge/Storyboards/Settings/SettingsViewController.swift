@@ -21,15 +21,32 @@ class SettingsViewController: FormViewController {
     
     private var friend: User? {
         didSet {
-            if let friendRow: ButtonRow = form.rowBy(tag: "friend") {
-                friendRow.title = friend?.firstName ?? "Invite a Friend"
-                friendRow.baseCell.tintColor = .purple
-                friendRow.reload()
+            guard let friend = friend else { return }
+            fillFormFriendFields(friend: friend)
+        }
+    }
+    
+    private var friends = [User]() {
+        didSet {
+            if let friendsRow: PushRow<Friend> = form.rowBy(tag: "friends") {
+                friendsRow.options = friends.map({ (friend) -> Friend in
+                    Friend(id: friend.id, firstName: friend.firstName)
+                })
+                friendsRow.reload()
             }
         }
     }
     
-    private var friends = [User]()
+    private struct Friend: Equatable {
+        let id: Int
+        let firstName: String
+        
+        static func ==(lhs: Friend, rhs: Friend) -> Bool {
+            return lhs.id == rhs.id
+        }
+    }
+    
+    private var params = Dictionary<String, String>()
     
     private let table = TableView(frame: .zero, style: .plain)
     
@@ -61,39 +78,78 @@ class SettingsViewController: FormViewController {
     
     private func configureNavigationBar() {
         navigationItem.title = "Binge"
+        navigationItem.addTextButton(side: .Right, text: "Save", color: .black, target: self, action: #selector(updateProfile))
         if let navBar = navigationController?.navigationBar {
              navBar.setup(titleColor: .black, hasBottomBorder: true, isTranslucent: false)
         }
     }
     
     private func layoutForm() {
-        form +++ Section("Match 😍")
-        <<< ButtonRow() { row in
-            row.tag = "friend"
+        form +++ Section("Friend 😍")
+        <<< PushRow<Friend>("friends") { row in
+            row.title = "Matching with"
+            row.options = []
+            row.hidden = true
+            row.displayValueFor = { row in
+                return row?.firstName
+            }
+        }
+        .onPresent({ (_, selectionController) in
+            selectionController.enableDeselection = false
+        })
+        .onChange({ (row) in
+            guard let friend = row.value else { return }
+            // Calling NotificationCenter here seems to cancel the callback 🤷‍♂️
+            self.params["friend_id"] = "\(friend.id)"
+            self.updateProfile()
+        })
+        <<< ButtonRow("friendInvite") { row in
+            row.hidden = false
+            row.title = "Invite a Friend"
         }.onCellSelection({ (_, _) in
             let storyboard = UIStoryboard(name: "Invite", bundle: nil)
             guard let contactsVC = storyboard.instantiateInitialViewController() else { return }
             self.present(contactsVC, animated: true, completion: nil)
         })
         +++ Section("Profile")
-        <<< TextRow() { row in
-            row.tag = "firstName"
+        <<< TextRow("firstName") { row in
             row.title = "First Name"
+            row.add(rule: RuleRequired())
+            row.add(rule: RuleMinLength(minLength: 2))
+            row.validationOptions = .validatesOnChange
         }
-        <<< TextRow() { row in
-            row.tag = "lastName"
+        .cellUpdate({ (cell, row) in
+            if !row.isValid {
+                cell.titleLabel?.textColor = .systemRed
+            } else {
+                self.params["first_name"] = row.value
+            }
+        })
+        <<< TextRow("lastName") { row in
             row.title = "Last Name"
         }
-        <<< PhoneRow() { row in
-            row.tag = "phone"
+        .cellUpdate({ (_, row) in
+            if (row.value != nil) && (row.value != "") {
+                self.params["last_name"] = row.value
+            }
+        })
+        <<< PhoneRow("phone") { row in
             row.title = "Phone"
+            row.baseCell.isUserInteractionEnabled = false
         }
-        <<< EmailRow() { row in
-            row.tag = "email"
+        <<< EmailRow("email") { row in
             row.title = "Email"
+            row.add(rule: RuleEmail())
+            row.validationOptions = .validatesOnChange
         }
-        +++ Section("")
-        <<< ButtonRow() { row in
+        .cellUpdate({ (cell, row) in
+            if !row.isValid {
+                cell.titleLabel?.textColor = .systemRed
+            } else {
+                self.params["email"] = row.value
+            }
+        })
+        +++ ButtonRow("deleteAccount") { row in
             row.title = "Delete Account"
             row.baseCell.tintColor = .red
         }
@@ -153,13 +209,33 @@ class SettingsViewController: FormViewController {
         }
     }
     
+    
+    @objc private func updateProfile() {
+        BingeAPI.sharedClient.updateUser(params: params, success: {
+            if self.params["friend_id"] != nil {
+                NotificationCenter.default.post(name: .changedFriend, object: nil)
+            }
+        }) { (_, message) in
+            guard let message: String = message else { return }
+            print(message)
+        }
+    }
+    
     private func deleteUser() {
         BingeAPI.sharedClient.deleteUser(success: {
-            print("User deleted")
             User.delete()
         }) { (_, message) in
             guard let message: String = message else { return }
             print(message)
+        }
+    }
+    
+    private func fillFormFriendFields(friend: User) {
+        if let friendRow: PushRow<Friend> = form.rowBy(tag: "friends") {
+            friendRow.value = Friend(id: friend.id, firstName: friend.firstName)
+            friendRow.hidden = false
+            friendRow.evaluateHidden()
+            friendRow.reload()
         }
     }
     
@@ -181,7 +257,6 @@ class SettingsViewController: FormViewController {
             emailRow.reload()
         }
     }
-    
 }
 
 extension SettingsViewController: PlaceholderDelegate {

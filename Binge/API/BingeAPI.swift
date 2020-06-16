@@ -198,6 +198,24 @@ class BingeAPI: NSObject {
             })
     }
     
+    func updateUser(params: Dictionary<String, String>, success: @escaping () -> (), failure: @escaping (Error, String?) -> ()) {
+        let url: URLConvertible = self.baseURL + "/users"
+        let headers = getAuthHeaders()
+        let params: Parameters = params
+        af?.request(url, method: .patch, parameters: params, encoding: JSONEncoding.default, headers: headers)
+            .validate()
+            .responseData(completionHandler: { (response) in
+                switch response.result {
+                case .success:
+                    success()
+                case .failure(let error):
+                    let err = self.getError(response: response)
+                    self.handleFailure(error: err)
+                    failure(error, err.message)
+                }
+            })
+    }
+    
     func deleteUser(success: @escaping () -> (), failure: @escaping (Error, String?) -> ()) {
         let url: URLConvertible = self.baseURL + "/users"
         let headers = getAuthHeaders()

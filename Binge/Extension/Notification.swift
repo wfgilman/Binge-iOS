@@ -13,4 +13,5 @@ extension Notification.Name {
     static let createdUser = Notification.Name("createdUser")
     static let deletedUser = Notification.Name("deletedUser")
     static let addedFriend = Notification.Name("addedFriend")
+    static let changedFriend = Notification.Name("changedFriend")
 }
