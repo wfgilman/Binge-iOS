@@ -13,6 +13,7 @@ class Dish: Codable {
     var id: Int
     var name: String
     var imageUrl: String
+    var match: Bool
     var restaurantId: Int
     var restaurantName: String
     var doordashUrl: String
@@ -21,6 +22,7 @@ class Dish: Codable {
         id = try decoder.decode("id")
         name = try decoder.decode("name")
         imageUrl = try decoder.decode("image_url")
+        match = try decoder.decode("match")
         restaurantId = try decoder.decode("restaurant_id")
         restaurantName = try decoder.decode("restaurant_name")
         doordashUrl = try decoder.decode("doordash_url")

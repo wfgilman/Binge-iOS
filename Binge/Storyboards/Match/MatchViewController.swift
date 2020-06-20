@@ -40,16 +40,19 @@ class MatchViewController: UIViewController {
         layoutTableView()
         configureEmptyState()
         getFriend()
+        getMatchedDishes()
     }
     
-//    private func getLikedDishes() {
-//         BingeAPI.sharedClient.getLikedDishes(success: { (dishes) in
-//             self.dishes = dishes
-//         }) { (_, message) in
-//            guard let message: String = message else { return }
-//             print(message)
-//         }
-//     }
+    private func getMatchedDishes() {
+        if User.exists() == true {
+            BingeAPI.sharedClient.getDishes(filter: .match, success: { (dishes) in
+                self.dishes.append(contentsOf: dishes)
+            }) { (_, message) in
+                guard let message: String = message else { return }
+                 print(message)
+            }
+        }
+     }
     
     private func configureListener() {
         NotificationCenter.default.addObserver(forName: .createdUser, object: nil, queue: .main) { (_) in
@@ -63,7 +66,21 @@ class MatchViewController: UIViewController {
             self.getFriend()
         }
         NotificationCenter.default.addObserver(forName: .changedFriend, object: nil, queue: .main) { (_) in
+            self.dishes = []
             self.getFriend()
+            self.getMatchedDishes()
+        }
+        NotificationCenter.default.addObserver(forName: .matchedDish, object: nil, queue: .main) { (notification) in
+            guard let dish: Dish = notification.object as? Dish else { return }
+            self.dishes.append(dish)
+            self.table.reloadData()
+        }
+        NotificationCenter.default.addObserver(forName: .unlikedDish, object: nil, queue: .main) { (notification) in
+            guard let dish: Dish = notification.object as? Dish else { return }
+            self.dishes.removeAll { (d) -> Bool in
+                d.id == dish.id
+            }
+            self.table.reloadData()
         }
     }
     
@@ -87,6 +104,7 @@ class MatchViewController: UIViewController {
     
     private func layoutTableView() {
         table.translatesAutoresizingMaskIntoConstraints = false
+        table.showsVerticalScrollIndicator = false
         view.addSubview(table)
         table.anchor(top: view.safeAreaLayoutGuide.topAnchor,
                      left: view.safeAreaLayoutGuide.leftAnchor,
@@ -143,8 +161,10 @@ extension MatchViewController: SwipeTableViewCellDelegate {
         guard orientation == .right else { return nil }
         
         let deleteAction = SwipeAction(style: .destructive, title: "👎") { (action, indexPath) in
-            BingeAPI.sharedClient.dishAction(dish: self.dishes[indexPath.section], action: .unlike, success: {
+            let dish = self.dishes[indexPath.section]
+            BingeAPI.sharedClient.dishAction(dish: dish, action: .unlike, success: {
                 self.dishes.remove(at: indexPath.section)
+                NotificationCenter.default.post(name: .unlikedDish, object: dish)
             }) { (_, message) in
                 guard let message = message else { return }
                 print("\(message)")

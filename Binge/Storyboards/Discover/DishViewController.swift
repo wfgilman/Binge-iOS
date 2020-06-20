@@ -29,7 +29,8 @@ class DishViewController: UIViewController {
     }
 
     private func getDishes() {
-        BingeAPI.sharedClient.getDishes(success: { (dishes) in
+        let filter: DishFilter = User.exists() == true ? .none : .noauth
+        BingeAPI.sharedClient.getDishes(filter: filter, success: { (dishes) in
             self.dishes = dishes
         }) { (_, message) in
             guard let message = message else { return }
@@ -68,7 +69,7 @@ class DishViewController: UIViewController {
     }
     
     @objc private func handleShift(_ sender: UIButton) {
-        dishCardStack.shift(withDistance: sender.tag == 1 ? -1 : 1, animated: true)
+        dishCardStack.undoLastSwipe(animated: true)
     }
 }
 
@@ -101,17 +102,30 @@ extension DishViewController: SwipeCardStackDelegate, SwipeCardStackDataSource {
             }
         case .right:
             let dish = dishes[index]
-            BingeAPI.sharedClient.dishAction(dish: dish, action: .like, success: {
-                NotificationCenter.default.post(name: NSNotification.Name.likedDish, object: dish)
-            }) { (_, message) in
-                guard let message = message else { return }
-                print("\(message)")
+            NotificationCenter.default.post(name: .likedDish, object: dish)
+            if User.exists() == true {
+                self.post(dish, action: .like)
+            }
+            if dish.match == true {
+                // Do visual effect to notify user
+                print("you matched!")
+                NotificationCenter.default.post(name: .matchedDish, object: dish)
             }
         case .left:
             print("nothing yet")
         case .down:
             print("down swiping not allowed")
         }
+    }
+    
+    private func post(_ dish: Dish, action: DishAction) {
+        BingeAPI.sharedClient.dishAction(dish: dish, action: action, success: {
+            // Nothing to see here.
+        }) { (_, message) in
+            guard let message = message else { return }
+            print("\(message)")
+        }
+
     }
     
 }

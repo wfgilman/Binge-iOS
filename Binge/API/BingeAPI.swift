@@ -10,6 +10,13 @@ import Foundation
 import Alamofire
 import Contacts
 
+enum DishFilter {
+    case noauth
+    case none
+    case like
+    case match
+}
+
 enum DishAction {
     case like
     case unlike
@@ -29,8 +36,10 @@ class BingeAPI: NSObject {
         self.af = Alamofire.SessionManager(configuration: configuration)
     }
     
-    func getDishes(success: @escaping ([Dish]) -> (), failure: @escaping (Error, String?) -> ()) {
-        af?.request(self.baseURL + "/dishes").validate().responseData(completionHandler: { (response) in
+    func getDishes(filter: DishFilter, success: @escaping ([Dish]) -> (), failure: @escaping (Error, String?) -> ()) {
+        let headers = getAuthHeaders()
+        let url = buildURL(filter: filter)
+        af?.request(url, method: .get, headers: headers).validate().responseData(completionHandler: { (response) in
             switch response.result {
             case .success(let value):
                 do {
@@ -48,28 +57,23 @@ class BingeAPI: NSObject {
         })
     }
     
-    func getLikedDishes(success: @escaping ([Dish]) -> (), failure: @escaping (Error, String?) -> ()) {
-        af?.request(self.baseURL + "/dishes?filter=likes").validate().responseData(completionHandler: { (response) in
-            switch response.result {
-            case .success(let value):
-                do {
-                    let dishes = try value.decoded() as [Dish]
-                    success(dishes)
-                } catch {
-                    // Handle failure.
-                    print("decoding Dishes failed")
-                }
-            case .failure(let error):
-                let err = self.getError(response: response)
-                self.handleFailure(error: err)
-                failure(error, err.message)
-            }
-        })
+    private func buildURL(filter: DishFilter) -> String {
+        switch filter {
+        case .noauth:
+            return self.baseURL + "/dishes"
+        case .none:
+            return self.baseURL + "/users/dishes"
+        case .like:
+            return self.baseURL + "/users/dishes?filter=likes"
+        case .match:
+            return self.baseURL + "/users/dishes?filter=matches"
+        }
     }
     
     func dishAction(dish: Dish, action: DishAction, success: @escaping () -> (), failure: @escaping (Error, String?) -> ()) {
-        let url: URLConvertible = self.baseURL + "/dishes/action"
-        let params: Parameters = ["user_id": "bg", "dish_id": dish.id, "restaurant_id": dish.restaurantId, "action": "\(action)"]
+        let url: URLConvertible = self.baseURL + "/users/dishes/action"
+        let headers = getAuthHeaders()
+        let params: Parameters = ["dish_id": dish.id, "restaurant_id": dish.restaurantId, "action": "\(action)"]
         af?.request(url, method: .post, parameters: params, encoding: JSONEncoding.default, headers: headers)
             .validate()
             .responseData(completionHandler: { (response) in

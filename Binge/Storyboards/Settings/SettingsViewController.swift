@@ -65,10 +65,12 @@ class SettingsViewController: FormViewController {
     private func configureListener() {
         NotificationCenter.default.addObserver(forName: .deletedUser, object: nil, queue: .main) { (_) in
             self.showCorrectView()
+            self.configureNavigationBar()
         }
         NotificationCenter.default.addObserver(forName: .createdUser, object: nil, queue: .main) { (_) in
             self.loadFormData()
             self.showCorrectView()
+            self.configureNavigationBar()
         }
         NotificationCenter.default.addObserver(forName: .addedFriend, object: nil, queue: .main) { (_) in
             self.getFriend()
@@ -78,9 +80,11 @@ class SettingsViewController: FormViewController {
     
     private func configureNavigationBar() {
         navigationItem.title = "Binge"
-        navigationItem.addTextButton(side: .Right, text: "Save", color: .black, target: self, action: #selector(updateProfile))
         if let navBar = navigationController?.navigationBar {
              navBar.setup(titleColor: .black, hasBottomBorder: true, isTranslucent: false)
+        }
+        if User.exists() == true {
+            navigationItem.addTextButton(side: .Right, text: "Save", color: .black, target: self, action: #selector(updateProfile))
         }
     }
     
