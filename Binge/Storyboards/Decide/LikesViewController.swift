@@ -14,38 +14,49 @@ class LikesViewController: UIViewController {
     
     private var dishes = [Dish]() {
         didSet {
-            table.reloadData()
+            table.reload()
         }
     }
     
-    private let table = TableView(frame: .zero, style: .plain)
+    private lazy var table: TableView = {
+        let tableView = TableView(frame: .zero, style: .plain)
+        tableView.backgroundColor = .white
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.register(DishCell.self, forCellReuseIdentifier: DishCell.identifier)
+        tableView.placeholdersProvider = CustomPlaceholder.noLikes
+        tableView.placeholderDelegate = self
+        return tableView
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        table.backgroundColor = .white
-        table.delegate = self
-        table.dataSource = self
-        table.register(DishCell.self, forCellReuseIdentifier: DishCell.identifier)
-        table.placeholdersProvider = CustomPlaceholder.noLikes
-        table.placeholderDelegate = self
         configureNavigationBar()
         configureListener()
         layoutTableView()
-        getLikedDishes()
+        initializeData()
     }
     
     private func configureListener() {
         NotificationCenter.default.addObserver(forName: .likedDish, object: nil, queue: .main) { (notification) in
             guard let dish: Dish = notification.object as? Dish else { return }
             self.dishes.append(dish)
-            self.table.reloadData()
+            self.table.reload()
         }
         NotificationCenter.default.addObserver(forName: .unlikedDish, object: nil, queue: .main) { (notification) in
             guard let dish: Dish = notification.object as? Dish else { return }
             self.dishes.removeAll { (d) -> Bool in
                 d.id == dish.id
             }
-            self.table.reloadData()
+            self.table.reload()
+        }
+    }
+    
+    private func initializeData() {
+        if DataLoader.shared.likedDishes.count > 0 {
+            self.dishes.append(contentsOf: DataLoader.shared.likedDishes)
+        } else {
+            getLikedDishes()
         }
     }
     

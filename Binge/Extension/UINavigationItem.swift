@@ -30,4 +30,8 @@ extension UINavigationItem {
             self.leftBarButtonItem = button
         }
     }
+    
+    func addBackButton() {
+        self.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+    }
 }

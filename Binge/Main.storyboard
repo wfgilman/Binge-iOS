@@ -17,10 +17,10 @@
             </objects>
             <point key="canvasLocation" x="-251" y="-672"/>
         </scene>
-        <!--Tab Bar Controller-->
+        <!--Main Tab Bar Controller-->
         <scene sceneID="v96-MJ-rv6">
             <objects>
-                <tabBarController storyboardIdentifier="TabBarController" id="Hf1-FV-0Bm" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="TabBarController" id="Hf1-FV-0Bm" customClass="MainTabBarController" customModule="Binge" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="lak-eJ-EyL">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>

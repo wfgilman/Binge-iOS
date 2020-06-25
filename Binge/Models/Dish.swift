@@ -16,7 +16,11 @@ class Dish: Codable {
     var match: Bool
     var restaurantId: Int
     var restaurantName: String
+    var restaurantMatch: Bool
     var doordashUrl: String
+    var uberEatsUrl: String?
+    var websiteUrl: String?
+    var phone: String?
     
     required init(from decoder: Decoder) throws {
         id = try decoder.decode("id")
@@ -25,7 +29,11 @@ class Dish: Codable {
         match = try decoder.decode("match")
         restaurantId = try decoder.decode("restaurant_id")
         restaurantName = try decoder.decode("restaurant_name")
+        restaurantMatch = try decoder.decode("restaurant_match")
         doordashUrl = try decoder.decode("doordash_url")
+        uberEatsUrl = try decoder.decode("ubereats_url")
+        websiteUrl = try decoder.decode("website_url")
+        phone = try decoder.decode("phone")
     }
 }
 

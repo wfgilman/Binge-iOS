@@ -50,6 +50,11 @@
 		BECEFC04248DC8D500EB2516 /* SuccessViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BECEFC03248DC8D500EB2516 /* SuccessViewController.swift */; };
 		BEFEEA4324926FC2008E2725 /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BEFEEA4224926FC2008E2725 /* Settings.storyboard */; };
 		BEFEEA4524926FE6008E2725 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEFEEA4424926FE6008E2725 /* SettingsViewController.swift */; };
+		BEFEEA4B24A1B0FD008E2725 /* UITabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEFEEA4A24A1B0FD008E2725 /* UITabBarController.swift */; };
+		BEFEEA4D24A1B66A008E2725 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEFEEA4C24A1B66A008E2725 /* MainTabBarController.swift */; };
+		BEFEEA4F24A24B99008E2725 /* UITableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEFEEA4E24A24B99008E2725 /* UITableView.swift */; };
+		BEFEEA5324A3983C008E2725 /* CustomActionSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEFEEA5224A3983C008E2725 /* CustomActionSheet.swift */; };
+		BEFEEA5524A45DAB008E2725 /* DataLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEFEEA5424A45DAB008E2725 /* DataLoader.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -99,6 +104,11 @@
 		BECEFC03248DC8D500EB2516 /* SuccessViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuccessViewController.swift; sourceTree = "<group>"; };
 		BEFEEA4224926FC2008E2725 /* Settings.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Settings.storyboard; sourceTree = "<group>"; };
 		BEFEEA4424926FE6008E2725 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		BEFEEA4A24A1B0FD008E2725 /* UITabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITabBarController.swift; sourceTree = "<group>"; };
+		BEFEEA4C24A1B66A008E2725 /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
+		BEFEEA4E24A24B99008E2725 /* UITableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITableView.swift; sourceTree = "<group>"; };
+		BEFEEA5224A3983C008E2725 /* CustomActionSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomActionSheet.swift; sourceTree = "<group>"; };
+		BEFEEA5424A45DAB008E2725 /* DataLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataLoader.swift; sourceTree = "<group>"; };
 		F8E12D4704556F1B02E21169 /* Pods_Binge.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Binge.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -184,6 +194,7 @@
 				BE5E69C7247772EA00B4D937 /* LaunchScreen.storyboard */,
 				BE5E69CA247772EA00B4D937 /* Info.plist */,
 				BE5E69F3248309B000B4D937 /* Main.storyboard */,
+				BEFEEA4C24A1B66A008E2725 /* MainTabBarController.swift */,
 			);
 			path = Binge;
 			sourceTree = "<group>";
@@ -215,6 +226,8 @@
 				BE30FC97248A9176006B037C /* CustomPlaceholder.swift */,
 				BE30FC99248A946E006B037C /* AppFont.swift */,
 				BECEFBFD248CADDB00EB2516 /* CustomTextInputStyle.swift */,
+				BEFEEA5224A3983C008E2725 /* CustomActionSheet.swift */,
+				BEFEEA5424A45DAB008E2725 /* DataLoader.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -253,6 +266,8 @@
 				BE30FC89248354B4006B037C /* Notification.swift */,
 				BECEFBF9248CA46700EB2516 /* UINavigationItem.swift */,
 				BE0069432491B062009820B9 /* String.swift */,
+				BEFEEA4A24A1B0FD008E2725 /* UITabBarController.swift */,
+				BEFEEA4E24A24B99008E2725 /* UITableView.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -410,9 +425,11 @@
 			files = (
 				BE06F95B248F2DD10047A0BE /* ContactCell.swift in Sources */,
 				BE30FC962489F5A3006B037C /* MatchCell.swift in Sources */,
+				BEFEEA5324A3983C008E2725 /* CustomActionSheet.swift in Sources */,
 				BEFEEA4524926FE6008E2725 /* SettingsViewController.swift in Sources */,
 				BE798608248F2053006B57CA /* ContactsViewController.swift in Sources */,
 				BE5E69C1247772E800B4D937 /* DishViewController.swift in Sources */,
+				BEFEEA4F24A24B99008E2725 /* UITableView.swift in Sources */,
 				BE5E69EF247B465000B4D937 /* UINavigationBar.swift in Sources */,
 				BECEFC00248D650800EB2516 /* User.swift in Sources */,
 				BE5E69D32478A33D00B4D937 /* Dish.swift in Sources */,
@@ -425,6 +442,8 @@
 				BE30FC9A248A946E006B037C /* AppFont.swift in Sources */,
 				BECEFC02248DA91F00EB2516 /* Token.swift in Sources */,
 				BE5E69EB247B380000B4D937 /* NSAttributedString.swift in Sources */,
+				BEFEEA4D24A1B66A008E2725 /* MainTabBarController.swift in Sources */,
+				BEFEEA4B24A1B0FD008E2725 /* UITabBarController.swift in Sources */,
 				BE5E69E9247B376600B4D937 /* DishCardFooterView.swift in Sources */,
 				BE06F95D248F3B2B0047A0BE /* InviteViewController.swift in Sources */,
 				BE5E69D52478A40D00B4D937 /* BingeAPI.swift in Sources */,
@@ -432,6 +451,7 @@
 				BECEFBFE248CADDB00EB2516 /* CustomTextInputStyle.swift in Sources */,
 				BE5E69BF247772E800B4D937 /* SceneDelegate.swift in Sources */,
 				BECEFC04248DC8D500EB2516 /* SuccessViewController.swift in Sources */,
+				BEFEEA5524A45DAB008E2725 /* DataLoader.swift in Sources */,
 				BE5E69DE247AF62A00B4D937 /* Error.swift in Sources */,
 				BE5E69ED247B3EF700B4D937 /* DishCardOverlay.swift in Sources */,
 				BECEFBFC248CA75500EB2516 /* VerifyViewController.swift in Sources */,

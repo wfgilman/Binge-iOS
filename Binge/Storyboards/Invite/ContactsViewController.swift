@@ -17,13 +17,16 @@ class ContactsViewController: UIViewController {
         }
     }
     
-    private let table = UITableView(frame: .zero, style: .plain)
+    private lazy var table: UITableView = {
+        let tableView = UITableView(frame: .zero, style: .plain)
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.register(ContactCell.self, forCellReuseIdentifier: ContactCell.identifier)
+        return tableView
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        table.delegate = self
-        table.dataSource = self
-        table.register(ContactCell.self, forCellReuseIdentifier: ContactCell.identifier)
         configureNavigationBar()
         layoutTableView()
         getContacts()
@@ -47,6 +50,7 @@ class ContactsViewController: UIViewController {
     
     private func configureNavigationBar() {
         navigationItem.title = "Invite a friend"
+        navigationItem.addBackButton()
     }
     
     private func layoutTableView() {

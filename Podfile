@@ -14,4 +14,5 @@ target 'Binge' do
   pod 'HGPlaceholders'
   pod 'AnimatedTextInput'
   pod 'Eureka'
+  pod 'SPAlert'
 end

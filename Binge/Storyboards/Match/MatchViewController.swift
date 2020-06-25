@@ -14,7 +14,7 @@ class MatchViewController: UIViewController {
     
     private var dishes = [Dish](){
         didSet {
-            table.reloadData()
+            table.reload()
         }
     }
     
@@ -26,33 +26,24 @@ class MatchViewController: UIViewController {
         }
     }
     
-    private let table = TableView(frame: .zero, style: .plain)
+    private lazy var table: TableView = {
+        let tableView = TableView(frame: .zero, style: .plain)
+        tableView.backgroundColor = .white
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.register(DishCell.self, forCellReuseIdentifier: DishCell.identifier)
+        tableView.placeholderDelegate = self
+        return tableView
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        table.backgroundColor = .white
-        table.delegate = self
-        table.dataSource = self
-        table.register(DishCell.self, forCellReuseIdentifier: DishCell.identifier)
-        table.placeholderDelegate = self
         configureListener()
         configureNavigationBar()
         layoutTableView()
         configureEmptyState()
-        getFriend()
-        getMatchedDishes()
+        initializeData()
     }
-    
-    private func getMatchedDishes() {
-        if User.exists() == true {
-            BingeAPI.sharedClient.getDishes(filter: .match, success: { (dishes) in
-                self.dishes.append(contentsOf: dishes)
-            }) { (_, message) in
-                guard let message: String = message else { return }
-                 print(message)
-            }
-        }
-     }
     
     private func configureListener() {
         NotificationCenter.default.addObserver(forName: .createdUser, object: nil, queue: .main) { (_) in
@@ -73,14 +64,14 @@ class MatchViewController: UIViewController {
         NotificationCenter.default.addObserver(forName: .matchedDish, object: nil, queue: .main) { (notification) in
             guard let dish: Dish = notification.object as? Dish else { return }
             self.dishes.append(dish)
-            self.table.reloadData()
+            self.table.reload()
         }
         NotificationCenter.default.addObserver(forName: .unlikedDish, object: nil, queue: .main) { (notification) in
             guard let dish: Dish = notification.object as? Dish else { return }
             self.dishes.removeAll { (d) -> Bool in
                 d.id == dish.id
             }
-            self.table.reloadData()
+            self.table.reload()
         }
     }
     
@@ -88,6 +79,30 @@ class MatchViewController: UIViewController {
         navigationItem.title = title ?? "Binge"
         if let navBar = navigationController?.navigationBar {
              navBar.setup(titleColor: .black, hasBottomBorder: false, isTranslucent: true)
+        }
+    }
+    
+    private func initializeData() {
+        if DataLoader.shared.matchedDishes.count > 0 {
+            self.dishes.append(contentsOf: DataLoader.shared.matchedDishes)
+        } else {
+            getMatchedDishes()
+        }
+        if let friend = DataLoader.shared.friend {
+            self.friend = friend
+        } else {
+            getFriend()
+        }
+    }
+    
+    private func getMatchedDishes() {
+        if User.exists() == true {
+            BingeAPI.sharedClient.getDishes(filter: .match, success: { (dishes) in
+                self.dishes.append(contentsOf: dishes)
+            }) { (_, message) in
+                guard let message: String = message else { return }
+                 print(message)
+            }
         }
     }
     
@@ -122,7 +137,7 @@ class MatchViewController: UIViewController {
         } else {
             table.placeholdersProvider = CustomPlaceholder.signupToMatch
         }
-        table.reloadData()
+        table.reload()
     }
 }
 
@@ -151,7 +166,25 @@ extension MatchViewController: UITableViewDataSource, UITableViewDelegate {
         let cell = table.dequeueReusableCell(withIdentifier: DishCell.identifier, for: indexPath) as! SwipeTableViewCell
         cell.delegate = self
         cell.backgroundView = DishCardContentView(withDish: dish, bevelAmount: 10, hasShadow: true)
+        let matchLabel = matchTypeLabel(dish: dish)
+        cell.addSubview(matchLabel)
+        matchLabel.anchor(top: cell.safeAreaLayoutGuide.topAnchor,
+                          right: cell.safeAreaLayoutGuide.rightAnchor,
+                          paddingTop: 8,
+                          paddingRight: 8)
         return cell
+    }
+    
+    private func matchTypeLabel(dish: Dish) -> UIView {
+        var title: String
+        if dish.match == true {
+            title = "DISH"
+        } else if dish.restaurantMatch == true {
+            title = "RESTAURANT"
+        } else {
+            return UIView()
+        }
+        return DishCardOverlayLabelView(withTitle: title, color: .green, rotation: 0)
     }
 }
 

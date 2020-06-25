@@ -48,17 +48,20 @@ class SettingsViewController: FormViewController {
     
     private var params = Dictionary<String, String>()
     
-    private let table = TableView(frame: .zero, style: .plain)
+    private lazy var table: TableView = {
+        let tableView = TableView(frame: .zero, style: .plain)
+        tableView.placeholderDelegate = self
+        tableView.placeholdersProvider = CustomPlaceholder.createAccount
+        return tableView
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         configureListener()
         configureNavigationBar()
         layoutForm()
-        table.placeholderDelegate = self
-        table.placeholdersProvider = CustomPlaceholder.createAccount
         layoutTable()
-        loadFormData()
+        initializeFormData()
         showCorrectView()
     }
     
@@ -178,6 +181,26 @@ class SettingsViewController: FormViewController {
         }
     }
     
+    private func initializeFormData() {
+        if User.exists() == true {
+            if let user = DataLoader.shared.user {
+                self.user = user
+            } else {
+                getUser()
+            }
+            if let friend = DataLoader.shared.friend {
+                self.friend = friend
+            } else {
+                getFriend()
+            }
+            if DataLoader.shared.friends.count > 0 {
+                self.friends = DataLoader.shared.friends
+            } else {
+                getFriends()
+            }
+        }
+    }
+    
     private func loadFormData() {
         if User.exists() == true {
             getUser()
@@ -189,6 +212,7 @@ class SettingsViewController: FormViewController {
     private func getUser() {
         BingeAPI.sharedClient.getUser(success: { (user) in
             self.user = user
+            print("loaded user from SettingsVC")
         }) { (_, message) in
             guard let message: String = message else { return }
             print(message)
@@ -198,6 +222,7 @@ class SettingsViewController: FormViewController {
     private func getFriend() {
         BingeAPI.sharedClient.getFriend(success: { (friend) in
             self.friend = friend
+            print("loaded friend from SettingsVC")
         }) { (_, message) in
             guard let message: String = message else { return }
             print(message)
@@ -207,6 +232,7 @@ class SettingsViewController: FormViewController {
     private func getFriends() {
         BingeAPI.sharedClient.getFriends(success: { (friends) in
             self.friends = friends
+            print("loaded friends from SettingsVC")
         }) { (_, message) in
             guard let message: String = message else { return }
             print(message)

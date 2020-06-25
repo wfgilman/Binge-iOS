@@ -30,45 +30,39 @@ class DishCardOverlay: UIView {
     }
 
     private func createLeftOverlay() {
-        let leftTextView = UILabel(frame: .zero)
-        leftTextView.text = "👎"
-        leftTextView.font = UIFont.systemFont(ofSize: 72)
+        let leftTextView = DishCardOverlayLabelView(withTitle: "MEH 😒", color: .red, rotation: .pi / 10)
         addSubview(leftTextView)
         leftTextView.anchor(top: topAnchor,
                             right: rightAnchor,
-                            paddingTop: 32,
-                            paddingRight: 32)
+                            paddingTop: 44,
+                            paddingRight: 16)
     }
 
     private func createUpOverlay() {
-        let upTextView = UILabel(frame: .zero)
-        upTextView.text = "💸"
-        upTextView.font = UIFont.systemFont(ofSize: 72)
+        let upTextView = DishCardOverlayLabelView(withTitle: "LET'S EAT", color: .blue, rotation: -.pi / 20)
         addSubview(upTextView)
         upTextView.anchor(bottom: bottomAnchor, paddingBottom: 20)
         upTextView.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
     }
     
     private func createRightOverlay() {
-        let rightTextView = UILabel(frame: .zero)
-        rightTextView.text = "🤤"
-        rightTextView.font = UIFont.systemFont(ofSize: 72)
+        let rightTextView = DishCardOverlayLabelView(withTitle: "YUM 🤤", color: .green, rotation: -.pi / 10)
         addSubview(rightTextView)
         rightTextView.anchor(top: topAnchor,
                            left: leftAnchor,
-                           paddingTop: 32,
-                           paddingLeft: 32)
+                           paddingTop: 44,
+                           paddingLeft: 14)
     }
 }
 
-private class DishCardOverlayLabelView: UIView {
-  
+class DishCardOverlayLabelView: UIView {
+
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
         return label
     }()
-    
+
     required init?(coder aDecoder: NSCoder) {
         return nil
     }

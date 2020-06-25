@@ -8,6 +8,7 @@
 
 import UIKit
 import Shuffle_iOS
+import SPAlert
 
 class DishViewController: UIViewController {
     
@@ -16,16 +17,30 @@ class DishViewController: UIViewController {
             dishCardStack.reloadData()
         }
     }
-    private let dishCardStack = SwipeCardStack()
+    
+    private lazy var dishCardStack: SwipeCardStack = {
+        let stack = SwipeCardStack()
+        stack.delegate = self
+        stack.dataSource = self
+        return stack
+    }()
+    
+    private let actionSheet = CustomActionSheet()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        dishCardStack.delegate = self
-        dishCardStack.dataSource = self
         configureNavigationBar()
         layoutCardStackView()
         configureBackgroundGradient()
-        getDishes()
+        initializeData()
+    }
+    
+    private func initializeData() {
+        if DataLoader.shared.dishes.count > 0 {
+            self.dishes = DataLoader.shared.dishes
+        } else {
+            getDishes()
+        }
     }
 
     private func getDishes() {
@@ -97,9 +112,8 @@ extension DishViewController: SwipeCardStackDelegate, SwipeCardStackDataSource {
         switch direction {
         case .up:
             let dish = dishes[index]
-            if let url = URL(string: dish.doordashUrl) {
-                UIApplication.shared.open(url)
-            }
+            let alert = self.actionSheet.new(dish: dish)
+            self.present(alert, animated: true, completion: nil)
         case .right:
             let dish = dishes[index]
             NotificationCenter.default.post(name: .likedDish, object: dish)
@@ -107,14 +121,19 @@ extension DishViewController: SwipeCardStackDelegate, SwipeCardStackDataSource {
                 self.post(dish, action: .like)
             }
             if dish.match == true {
-                // Do visual effect to notify user
-                print("you matched!")
+                SPAlert.present(title: "You matched this dish!", preset: .heart)
+                tabBarController?.incrementBadgeCount(position: 2)
                 NotificationCenter.default.post(name: .matchedDish, object: dish)
+                return
             }
-        case .left:
-            print("nothing yet")
-        case .down:
-            print("down swiping not allowed")
+            if dish.restaurantMatch == true {
+                SPAlert.present(title: "You matched this restaurant!", preset: .star)
+                tabBarController?.incrementBadgeCount(position: 2)
+                NotificationCenter.default.post(name: .matchedDish, object: dish)
+                return
+            }
+        default:
+            break
         }
     }
     
@@ -125,7 +144,5 @@ extension DishViewController: SwipeCardStackDelegate, SwipeCardStackDataSource {
             guard let message = message else { return }
             print("\(message)")
         }
-
     }
-    
 }
