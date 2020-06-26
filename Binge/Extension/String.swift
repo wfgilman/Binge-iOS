@@ -11,7 +11,8 @@ import UIKit
 extension String {
     
     func cleanPhoneNumber() -> String {
-        return self.components(separatedBy: CharacterSet.decimalDigits.inverted).joined()
+        let phone = self.components(separatedBy: CharacterSet.decimalDigits.inverted).joined()
+        return String(phone.suffix(10))
     }
     
     func formatPhoneNumber() -> String {
