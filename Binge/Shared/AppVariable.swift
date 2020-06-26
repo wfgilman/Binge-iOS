@@ -10,7 +10,8 @@ import Foundation
 
 struct AppVariable {
     
-    static let baseURL = "http://localhost:4000/api/v1"
+//    static let baseURL = "http://localhost:4000/api/v1"
+    static let baseURL = "https://binge.gigalixirapp.com/api/v1"
     
     static var userId: Int? {
         get {
