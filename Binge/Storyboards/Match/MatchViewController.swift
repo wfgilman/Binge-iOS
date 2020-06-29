@@ -63,8 +63,10 @@ class MatchViewController: UIViewController {
         }
         NotificationCenter.default.addObserver(forName: .matchedDish, object: nil, queue: .main) { (notification) in
             guard let dish: Dish = notification.object as? Dish else { return }
-            self.dishes.append(dish)
-            self.table.reload()
+            if self.dishes.first(where: { (d) -> Bool in d.id == dish.id }) == nil {
+                self.dishes.append(dish)
+                self.table.reload()
+            }
         }
         NotificationCenter.default.addObserver(forName: .unlikedDish, object: nil, queue: .main) { (notification) in
             guard let dish: Dish = notification.object as? Dish else { return }
