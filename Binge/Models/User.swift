@@ -9,12 +9,6 @@
 import Foundation
 import Codextended
 
-enum UserStatus: String {
-    case new
-    case signedUp
-    case verified
-}
-
 class User: Codable {
     var id: Int
     var firstName: String
@@ -22,6 +16,7 @@ class User: Codable {
     var phone: String
     var email: String?
     var status: String
+    var friendId: Int?
 
     required init(from decoder: Decoder) throws {
         id = try decoder.decode("id")
@@ -30,6 +25,7 @@ class User: Codable {
         phone = try decoder.decode("phone")
         email = try decoder.decode("email")
         status = try decoder.decode("status")
+        friendId = try decoder.decode("friend_id")
     }
     
     class func create(with token: Token) {

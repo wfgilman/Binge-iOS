@@ -30,7 +30,7 @@ class SettingsViewController: FormViewController {
         didSet {
             if let friendsRow: PushRow<Friend> = form.rowBy(tag: "friends") {
                 friendsRow.options = friends.map({ (friend) -> Friend in
-                    Friend(id: friend.id, firstName: friend.firstName)
+                    Friend(id: friend.id, firstName: friend.firstName, status: friend.status, friendId: friend.friendId)
                 })
                 friendsRow.reload()
             }
@@ -40,6 +40,8 @@ class SettingsViewController: FormViewController {
     private struct Friend: Equatable {
         let id: Int
         let firstName: String
+        let status: String
+        let friendId: Int?
         
         static func ==(lhs: Friend, rhs: Friend) -> Bool {
             return lhs.id == rhs.id
@@ -82,7 +84,7 @@ class SettingsViewController: FormViewController {
     }
     
     private func configureNavigationBar() {
-        navigationItem.title = "Binge"
+        navigationItem.title = "Settings"
         if let navBar = navigationController?.navigationBar {
              navBar.setup(titleColor: .black, hasBottomBorder: true, isTranslucent: false)
         }
@@ -92,17 +94,26 @@ class SettingsViewController: FormViewController {
     }
     
     private func layoutForm() {
-        form +++ Section("Friend 😍")
+        form +++ Section("FRIENDS 😍")
         <<< PushRow<Friend>("friends") { row in
-            row.title = "Matching with"
+            row.title = "Dining with"
             row.options = []
             row.hidden = true
             row.displayValueFor = { row in
                 return row?.firstName
             }
         }
-        .onPresent({ (_, selectionController) in
+        .onPresent({ (pushController, selectionController) in
             selectionController.enableDeselection = false
+            selectionController.selectableRowCellUpdate = { cell, row in
+                let friendsRow: PushRow<Friend> = pushController.form.rowBy(tag: "friends") as! PushRow<SettingsViewController.Friend>
+                guard let friends = friendsRow.options else { return }
+                guard let index = row.indexPath?.row else { return }
+                let friend: Friend = friends[index]
+                let label = self.friendLabel(friend: friend)
+                cell.contentView.addSubview(label)
+                label.anchor(right: cell.safeAreaLayoutGuide.rightAnchor, centerY: cell.contentView.centerYAnchor, paddingRight: 48)
+            }
         })
         .onChange({ (row) in
             guard let friend = row.value else { return }
@@ -112,13 +123,13 @@ class SettingsViewController: FormViewController {
         })
         <<< ButtonRow("friendInvite") { row in
             row.hidden = false
-            row.title = "Invite a Friend"
+            row.title = "Dine with a Friend"
         }.onCellSelection({ (_, _) in
             let storyboard = UIStoryboard(name: "Invite", bundle: nil)
             guard let contactsVC = storyboard.instantiateInitialViewController() else { return }
             self.present(contactsVC, animated: true, completion: nil)
         })
-        +++ Section("Profile")
+        +++ Section("PROFILE")
         <<< TextRow("firstName") { row in
             row.title = "First Name"
             row.add(rule: RuleRequired())
@@ -163,6 +174,22 @@ class SettingsViewController: FormViewController {
         .onCellSelection({ (_, _) in
             self.deleteUser()
         })
+    }
+    
+    private func friendLabel(friend: Friend) -> UILabel {
+        let label = UILabel(frame: .zero)
+        label.font = UIFont.systemFont(ofSize: 15)
+        if friend.status == "invited" {
+            label.textColor = .lightGray
+            label.text = "Invited"
+            return label
+        } else if friend.friendId == self.user?.id && friend.status == "verified" {
+            label.textColor = .blue
+            label.text = "Matching You"
+            return label
+        } else {
+            return label
+        }
     }
     
     private func layoutTable() {
@@ -212,7 +239,6 @@ class SettingsViewController: FormViewController {
     private func getUser() {
         BingeAPI.sharedClient.getUser(success: { (user) in
             self.user = user
-            print("loaded user from SettingsVC")
         }) { (_, message) in
             guard let message: String = message else { return }
             print(message)
@@ -222,7 +248,6 @@ class SettingsViewController: FormViewController {
     private func getFriend() {
         BingeAPI.sharedClient.getFriend(success: { (friend) in
             self.friend = friend
-            print("loaded friend from SettingsVC")
         }) { (_, message) in
             guard let message: String = message else { return }
             print(message)
@@ -232,7 +257,6 @@ class SettingsViewController: FormViewController {
     private func getFriends() {
         BingeAPI.sharedClient.getFriends(success: { (friends) in
             self.friends = friends
-            print("loaded friends from SettingsVC")
         }) { (_, message) in
             guard let message: String = message else { return }
             print(message)
@@ -262,10 +286,12 @@ class SettingsViewController: FormViewController {
     
     private func fillFormFriendFields(friend: User) {
         if let friendRow: PushRow<Friend> = form.rowBy(tag: "friends") {
-            friendRow.value = Friend(id: friend.id, firstName: friend.firstName)
+            friendRow.value = Friend(id: friend.id, firstName: friend.firstName, status: friend.status, friendId: friend.friendId)
             friendRow.hidden = false
             friendRow.evaluateHidden()
             friendRow.reload()
+            let friendInviteRow: ButtonRow = form.rowBy(tag: "friendInvite") as! ButtonRow
+            friendInviteRow.title = "Add Someone New"
         }
     }
     

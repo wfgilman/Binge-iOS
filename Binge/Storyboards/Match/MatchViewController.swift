@@ -21,7 +21,7 @@ class MatchViewController: UIViewController {
     private var friend: User? {
         didSet {
             guard let friend = friend else { return }
-            configureNavigationBar(title: "Matching with \(friend.firstName)")
+            configureNavigationBar(title: "Dining with \(friend.firstName)")
             configureEmptyState()
         }
     }

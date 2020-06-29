@@ -54,7 +54,7 @@ class InviteViewController: UIViewController {
     }
     
     private func configureNavigationBar() {
-        navigationItem.title = "Invite a friend"
+        navigationItem.title = "Invite a Friend"
      }
      
      private func layoutContent() {

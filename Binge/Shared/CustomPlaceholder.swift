@@ -66,7 +66,7 @@ class CustomPlaceholder {
         
         var noResultsData: PlaceholderData = .noResults
         noResultsData.image = UIImage(systemName: "person.2.fill")
-        noResultsData.title = "Invite a friend"
+        noResultsData.title = "Dine with a friend"
         noResultsData.subtitle = "Find out what you're both \nhanckering for 🤤"
         noResultsData.action = "Get Started"
         
@@ -86,7 +86,7 @@ class CustomPlaceholder {
         noResultsData.image = UIImage(systemName: "person.fill")
         noResultsData.title = "Access food features"
         noResultsData.subtitle = "Sign up to filter your \"feed\" \nand match with friends."
-        noResultsData.action = "Get Started"
+        noResultsData.action = "Create an Account"
         
         let noResults = Placeholder(data: noResultsData, style: commonPlaceholderStyle, key: .noResultsKey)
         
