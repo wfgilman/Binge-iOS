@@ -11,6 +11,13 @@ import AnimatedTextInput
 
 class SignUpViewController: UIViewController {
     
+    private let instructionLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 19)
+        label.text = "Create your account"
+        return label
+    }()
+    
     private let nameTextField: AnimatedTextInput = {
         let nameField = AnimatedTextInput()
         nameField.style = CustomTextInputStyle()
@@ -18,6 +25,7 @@ class SignUpViewController: UIViewController {
         nameField.placeHolderText = "Name"
         return nameField
     }()
+    
     private let phoneTextField: AnimatedTextInput = {
         let phoneField = AnimatedTextInput()
         phoneField.style = CustomTextInputStyle()
@@ -36,9 +44,11 @@ class SignUpViewController: UIViewController {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let touch: UITouch = touches.first else { return }
         if touch.view != nameTextField {
+            nameTextField.clearError()
             nameTextField.resignFirstResponder()
         }
         if touch.view != phoneTextField {
+            phoneTextField.clearError()
             phoneTextField.resignFirstResponder()
         }
     }
@@ -56,11 +66,15 @@ class SignUpViewController: UIViewController {
     }
     
     private func layoutTextFields() {
+        view.addSubview(instructionLabel)
+        instructionLabel.anchor(top: view.safeAreaLayoutGuide.topAnchor,
+                                centerX: view.safeAreaLayoutGuide.centerXAnchor,
+                                paddingTop: 40)
         view.addSubview(nameTextField)
-        nameTextField.anchor(top: view.safeAreaLayoutGuide.topAnchor,
+        nameTextField.anchor(top: instructionLabel.topAnchor,
                              left: view.safeAreaLayoutGuide.leftAnchor,
                              right: view.safeAreaLayoutGuide.rightAnchor,
-                             paddingTop: 60,
+                             paddingTop: 44,
                              paddingLeft: 20,
                              paddingRight: 20,
                              height: 44)
@@ -74,14 +88,32 @@ class SignUpViewController: UIViewController {
                              height: 44)
     }
     
+    private func validateFields() -> Bool {
+        guard let name = nameTextField.text else { return false }
+        if name.count < 2 {
+            nameTextField.show(error: "Name must be at least 2 characters.")
+            return false
+        }
+        
+        guard let phone = phoneTextField.text else { return false }
+        if phone.cleanPhoneNumber().count < 10 {
+            phoneTextField.show(error: "Phone Number must be 10 digits.")
+            return false
+        }
+        
+        return true
+    }
+    
     @objc private func createUser() {
         guard let name: String = nameTextField.text else { return }
         guard let phone: String = phoneTextField.text else { return }
-        BingeAPI.sharedClient.createUser(name: name, phone: phone, success: { (user) in
-            self.performSegue(withIdentifier: "showVerifyViewController", sender: user)
-        }) { (_, message) in
-            guard let message: String = message else { return }
-            print(message)
+        if validateFields() == true {
+            BingeAPI.sharedClient.createUser(name: name, phone: phone, success: { (user) in
+                self.performSegue(withIdentifier: "showVerifyViewController", sender: user)
+            }) { (_, message) in
+                guard let message: String = message else { return }
+                print(message)
+            }
         }
     }
 }

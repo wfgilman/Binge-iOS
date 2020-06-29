@@ -17,6 +17,13 @@ class VerifyViewController: UIViewController {
         }
     }
     
+    private let instructionLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 19)
+        label.text = "Verify your phone number"
+        return label
+    }()
+    
     private let codeTextField: AnimatedTextInput = {
         let codeField = AnimatedTextInput()
         codeField.style = CustomTextInputStyle()
@@ -30,7 +37,7 @@ class VerifyViewController: UIViewController {
         button.layer.borderWidth = 0.0
         button.setTitle("Resend code", for: .normal)
         button.setTitleColor(.purple, for: .normal)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 13)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 15)
         button.backgroundColor = .white
         button.addTarget(self, action: #selector(sendVerificationCode), for: .touchUpInside)
         return button
@@ -45,6 +52,7 @@ class VerifyViewController: UIViewController {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let touch: UITouch = touches.first else { return }
         if touch.view != codeTextField {
+            codeTextField.clearError()
             codeTextField.resignFirstResponder()
         }
     }
@@ -56,8 +64,12 @@ class VerifyViewController: UIViewController {
     }
     
     private func layoutTextFields() {
+        view.addSubview(instructionLabel)
+        instructionLabel.anchor(top: view.safeAreaLayoutGuide.topAnchor,
+                                centerX: view.safeAreaLayoutGuide.centerXAnchor,
+                                paddingTop: 40)
         view.addSubview(codeTextField)
-        codeTextField.anchor(top: view.safeAreaLayoutGuide.topAnchor,
+        codeTextField.anchor(top: instructionLabel.topAnchor,
                             left: view.safeAreaLayoutGuide.leftAnchor,
                             right: view.safeAreaLayoutGuide.rightAnchor,
                             paddingTop: 60,
@@ -90,13 +102,24 @@ class VerifyViewController: UIViewController {
         codeTextField.resignFirstResponder()
         guard let code: String = codeTextField.text else { return }
         guard let user: User = self.user else { return }
-        BingeAPI.sharedClient.verifyCode(user: user, code: code, success: { (token) in
-            User.create(with: token)
-            self.performSegue(withIdentifier: "showSuccessViewController", sender: nil)
-        }) { (_, message) in
-            guard let message: String = message else { return }
-            self.codeTextField.show(error: message)
+        if validateCode() == true {
+            BingeAPI.sharedClient.verifyCode(user: user, code: code, success: { (token) in
+                User.create(with: token)
+                self.performSegue(withIdentifier: "showSuccessViewController", sender: nil)
+            }) { (_, message) in
+                guard let message: String = message else { return }
+                self.codeTextField.show(error: message)
+            }
         }
+    }
+    
+    private func validateCode() -> Bool {
+        guard let code = codeTextField.text else { return false }
+        if code.count != 6 {
+            codeTextField.show(error: "Code must be 6 characters.")
+            return false
+        }
+        return true
     }
 }
 
