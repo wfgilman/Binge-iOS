@@ -24,12 +24,33 @@ class ContactAPI: NSObject {
                     request.sortOrder = .givenName
                     do {
                         try self.store.enumerateContacts(with: request, usingBlock: { (contact, stop) in
-                            if contact.phoneNumbers.count > 0 {
+                            if contact.phoneNumbers.count > 0 && contact.givenName.count > 0 {
                                 contacts.append(contact)
                             }
                         })
                     } catch {
                         failure("Failed to get contacts.")
+                    }
+                    success(contacts)
+                }
+            }
+        }) { (error) in
+            failure(error)
+        }
+    }
+    
+    func searchContacts(name: String, success: @escaping ([CNContact]) -> (), failure: @escaping (String?) -> ()) {
+        var contacts = [CNContact]()
+        checkAccess(success: { (granted) in
+            if granted == true {
+                DispatchQueue.main.async {
+                    let predicate: NSPredicate = CNContact.predicateForContacts(matchingName: name)
+                    let keys = [CNContactGivenNameKey, CNContactFamilyNameKey, CNContactPhoneNumbersKey] as [CNKeyDescriptor]
+                    do {
+                        let results = try self.store.unifiedContacts(matching: predicate, keysToFetch: keys)
+                        contacts.append(contentsOf: results)
+                    } catch {
+                        failure("Failed to search contacts.")
                     }
                     success(contacts)
                 }
