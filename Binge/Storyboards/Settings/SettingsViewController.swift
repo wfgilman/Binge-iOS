@@ -167,6 +167,14 @@ class SettingsViewController: FormViewController {
                 self.params["email"] = row.value
             }
         })
+        +++ ButtonRow("shareBinge") { row in
+            row.title = "Share Binge"
+            row.baseCell.tintColor = .black
+        }
+        .onCellSelection({ (_, _) in
+            let activity = UIActivityViewController(activityItems: [AppVariable.shareText], applicationActivities: nil)
+            self.present(activity, animated: true, completion: nil)
+        })
         +++ ButtonRow("deleteAccount") { row in
             row.title = "Delete Account"
             row.baseCell.tintColor = .red

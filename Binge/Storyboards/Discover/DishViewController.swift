@@ -54,17 +54,17 @@ class DishViewController: UIViewController {
     }
     
     private func configureNavigationBar() {
-        let backButton = UIBarButtonItem(title: "Undo",
-                                       style: .plain,
-                                       target: self,
-                                       action: #selector(handleShift))
-        backButton.tag = 1
-        backButton.tintColor = .lightGray
-        navigationItem.leftBarButtonItem = backButton
+        navigationItem.addTextButton(side: .Left, text: "Undo", color: .lightGray, target: self, action: #selector(handleShift(_:)))
+        navigationItem.addTextButton(side: .Right, text: "Share", color: .black, target: self, action: #selector(shareBinge))
         navigationItem.title = "Binge"
         if let navBar = navigationController?.navigationBar {
              navBar.setup(titleColor: .black, hasBottomBorder: false, isTranslucent: true)
         }
+    }
+    
+    @objc private func shareBinge() {
+        let activity = UIActivityViewController(activityItems: [AppVariable.shareText], applicationActivities: nil)
+        self.present(activity, animated: true, completion: nil)
     }
     
     private func layoutCardStackView() {

@@ -13,6 +13,8 @@ struct AppVariable {
 //    static let baseURL = "http://localhost:4000/api/v1"
     static let baseURL = "https://binge.gigalixirapp.com/api/v1"
     
+    static let shareText = "Check out Binge...discover, decide and dine with friends!"
+    
     static var userId: Int? {
         get {
             return UserDefaults.standard.integer(forKey: "userId")
