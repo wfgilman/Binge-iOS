@@ -78,7 +78,7 @@ class ContactsViewController: UIViewController {
                      left: view.safeAreaLayoutGuide.leftAnchor,
                      bottom: view.safeAreaLayoutGuide.bottomAnchor,
                      right: view.safeAreaLayoutGuide.rightAnchor)
-        table.rowHeight = 72
+        table.rowHeight = 56
         table.tableFooterView = UIView()
     }
 }
