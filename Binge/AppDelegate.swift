@@ -36,6 +36,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
     }
 
-
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        let tokenParts = deviceToken.map { data in String(format: "%02.2hhx", data) }
+        let token = tokenParts.joined()
+        AppVariable.deviceToken = token
+        BingeAPI.sharedClient.updateUser(params: ["device_token": token, "push_enabled": "true"], success: {
+            NotificationCenter.default.post(name: .updatedUser, object: nil)
+        }) { (_, message) in
+            guard let message: String = message else { return }
+            print(message)
+        }
+    }
+    
+    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
+        print("Failed to register: \(error)")
+    }
 }
 

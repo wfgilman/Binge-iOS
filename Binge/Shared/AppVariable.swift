@@ -32,4 +32,13 @@ struct AppVariable {
             UserDefaults.standard.set(newValue, forKey: "accessToken")
         }
     }
+    
+    static var deviceToken: String? {
+        get {
+            return UserDefaults.standard.string(forKey: "deviceToken")
+        }
+        set (newValue) {
+            UserDefaults.standard.set(newValue, forKey: "deviceToken")
+        }
+    }
 }

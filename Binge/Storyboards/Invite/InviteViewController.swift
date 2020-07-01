@@ -82,7 +82,7 @@ class InviteViewController: UIViewController {
      
      @objc private func sendInvitation() {
         BingeAPI.sharedClient.inviteUser(contact: contact, success: {
-            // Request notifications from user.
+            PushAPI.shared.requestAuth()
             NotificationCenter.default.post(name: .addedFriend, object: nil)
             self.dismiss(animated: true, completion: nil)
         }) { (_, message) in

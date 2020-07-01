@@ -20,6 +20,7 @@ enum DishFilter {
 enum DishAction {
     case like
     case unlike
+    case match
 }
 
 class BingeAPI: NSObject {
@@ -73,7 +74,10 @@ class BingeAPI: NSObject {
     func dishAction(dish: Dish, action: DishAction, success: @escaping () -> (), failure: @escaping (Error, String?) -> ()) {
         let url: URLConvertible = self.baseURL + "/users/dishes/action"
         let headers = getAuthHeaders()
-        let params: Parameters = ["dish_id": dish.id, "restaurant_id": dish.restaurantId, "action": "\(action)"]
+        var params: Parameters = ["dish_id": dish.id, "restaurant_id": dish.restaurantId, "action": "\(action)"]
+        if action == .match && dish.match == false && dish.restaurantMatch == true {
+            params["restaurant"] = true
+        }
         af?.request(url, method: .post, parameters: params, encoding: JSONEncoding.default, headers: headers)
             .validate()
             .responseData(completionHandler: { (response) in

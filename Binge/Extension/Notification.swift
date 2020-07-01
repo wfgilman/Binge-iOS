@@ -13,6 +13,7 @@ extension Notification.Name {
     static let unlikedDish = Notification.Name("unlikedDish")
     static let matchedDish = Notification.Name("matchedDish")
     static let createdUser = Notification.Name("createdUser")
+    static let updatedUser = Notification.Name("updatedUser")
     static let deletedUser = Notification.Name("deletedUser")
     static let addedFriend = Notification.Name("addedFriend")
     static let changedFriend = Notification.Name("changedFriend")

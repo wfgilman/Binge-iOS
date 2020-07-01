@@ -77,6 +77,9 @@ class SettingsViewController: FormViewController {
             self.showCorrectView()
             self.configureNavigationBar()
         }
+        NotificationCenter.default.addObserver(forName: .updatedUser, object: nil, queue: .main) { (_) in
+            self.getUser()
+        }
         NotificationCenter.default.addObserver(forName: .addedFriend, object: nil, queue: .main) { (_) in
             self.getFriend()
             self.getFriends()
@@ -94,7 +97,8 @@ class SettingsViewController: FormViewController {
     }
     
     private func layoutForm() {
-        form +++ Section("FRIENDS 😍")
+        form
+        +++ Section("FRIENDS 😍")
         <<< PushRow<Friend>("friends") { row in
             row.title = "Dining with"
             row.options = []
@@ -121,14 +125,17 @@ class SettingsViewController: FormViewController {
             self.params["friend_id"] = "\(friend.id)"
             self.updateProfile()
         })
+            
         <<< ButtonRow("friendInvite") { row in
             row.hidden = false
             row.title = "Dine with a Friend"
-        }.onCellSelection({ (_, _) in
+        }
+        .onCellSelection({ (_, _) in
             let storyboard = UIStoryboard(name: "Invite", bundle: nil)
             guard let contactsVC = storyboard.instantiateInitialViewController() else { return }
             self.present(contactsVC, animated: true, completion: nil)
         })
+            
         +++ Section("PROFILE")
         <<< TextRow("firstName") { row in
             row.title = "First Name"
@@ -137,36 +144,56 @@ class SettingsViewController: FormViewController {
             row.validationOptions = .validatesOnChange
         }
         .cellUpdate({ (cell, row) in
-            if !row.isValid {
+            if row.isValid == false {
                 cell.titleLabel?.textColor = .systemRed
             } else {
                 self.params["first_name"] = row.value
             }
         })
+            
         <<< TextRow("lastName") { row in
             row.title = "Last Name"
+            row.add(rule: RuleMinLength(minLength: 1))
+            row.validationOptions = .validatesOnChange
         }
-        .cellUpdate({ (_, row) in
-            if (row.value != nil) && (row.value != "") {
+        .cellUpdate({ (cell, row) in
+            if row.isValid == false {
+                cell.titleLabel?.textColor = .systemRed
+            } else {
                 self.params["last_name"] = row.value
             }
         })
+            
         <<< PhoneRow("phone") { row in
             row.title = "Phone"
             row.baseCell.isUserInteractionEnabled = false
         }
+        .cellUpdate({ (cell, _) in
+            cell.textField.textColor = .lightGray
+        })
+            
         <<< EmailRow("email") { row in
             row.title = "Email"
             row.add(rule: RuleEmail())
             row.validationOptions = .validatesOnChange
         }
         .cellUpdate({ (cell, row) in
-            if !row.isValid {
+            if row.isValid == false {
                 cell.titleLabel?.textColor = .systemRed
             } else {
                 self.params["email"] = row.value
             }
         })
+            
+        +++ Section("NOTIFICATIONS")
+        <<< SwitchRow("pushNotification") { row in
+            row.title = "New Matches"
+        }
+        .onChange({ (row) in
+            guard let value: Bool = row.value else { return }
+            self.params["push_enabled"] = "\(value)"
+        })
+            
         +++ ButtonRow("shareBinge") { row in
             row.title = "Share Binge"
             row.baseCell.tintColor = .black
@@ -175,6 +202,7 @@ class SettingsViewController: FormViewController {
             let activity = UIActivityViewController(activityItems: [AppVariable.shareText], applicationActivities: nil)
             self.present(activity, animated: true, completion: nil)
         })
+            
         +++ ButtonRow("deleteAccount") { row in
             row.title = "Delete Account"
             row.baseCell.tintColor = .red
@@ -277,6 +305,7 @@ class SettingsViewController: FormViewController {
             if self.params["friend_id"] != nil {
                 NotificationCenter.default.post(name: .changedFriend, object: nil)
             }
+            self.params = [:]
         }) { (_, message) in
             guard let message: String = message else { return }
             print(message)
@@ -319,6 +348,10 @@ class SettingsViewController: FormViewController {
         if let emailRow: EmailRow = form.rowBy(tag: "email") {
             emailRow.value = user.email
             emailRow.reload()
+        }
+        if let pushNotificationRow: SwitchRow = form.rowBy(tag: "pushNotification") {
+            pushNotificationRow.value = user.pushEnabled
+            pushNotificationRow.reload()
         }
     }
 }

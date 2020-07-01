@@ -55,6 +55,7 @@
 		BEFEEA4F24A24B99008E2725 /* UITableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEFEEA4E24A24B99008E2725 /* UITableView.swift */; };
 		BEFEEA5324A3983C008E2725 /* CustomActionSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEFEEA5224A3983C008E2725 /* CustomActionSheet.swift */; };
 		BEFEEA5524A45DAB008E2725 /* DataLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEFEEA5424A45DAB008E2725 /* DataLoader.swift */; };
+		BEFEEA5924AAF46D008E2725 /* PushAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEFEEA5824AAF46D008E2725 /* PushAPI.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -109,6 +110,7 @@
 		BEFEEA4E24A24B99008E2725 /* UITableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITableView.swift; sourceTree = "<group>"; };
 		BEFEEA5224A3983C008E2725 /* CustomActionSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomActionSheet.swift; sourceTree = "<group>"; };
 		BEFEEA5424A45DAB008E2725 /* DataLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataLoader.swift; sourceTree = "<group>"; };
+		BEFEEA5824AAF46D008E2725 /* PushAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushAPI.swift; sourceTree = "<group>"; };
 		F8E12D4704556F1B02E21169 /* Pods_Binge.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Binge.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -215,6 +217,7 @@
 			children = (
 				BE798609248F2289006B57CA /* ContactAPI.swift */,
 				BE5E69D42478A40D00B4D937 /* BingeAPI.swift */,
+				BEFEEA5824AAF46D008E2725 /* PushAPI.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -452,6 +455,7 @@
 				BE5E69BF247772E800B4D937 /* SceneDelegate.swift in Sources */,
 				BECEFC04248DC8D500EB2516 /* SuccessViewController.swift in Sources */,
 				BEFEEA5524A45DAB008E2725 /* DataLoader.swift in Sources */,
+				BEFEEA5924AAF46D008E2725 /* PushAPI.swift in Sources */,
 				BE5E69DE247AF62A00B4D937 /* Error.swift in Sources */,
 				BE5E69ED247B3EF700B4D937 /* DishCardOverlay.swift in Sources */,
 				BECEFBFC248CA75500EB2516 /* VerifyViewController.swift in Sources */,

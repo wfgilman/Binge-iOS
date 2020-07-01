@@ -123,12 +123,14 @@ extension DishViewController: SwipeCardStackDelegate, SwipeCardStackDataSource {
             if dish.match == true {
                 SPAlert.present(title: "You matched this dish!", preset: .heart)
                 tabBarController?.incrementBadgeCount(position: 2)
+                PushAPI.shared.send(dish: dish)
                 NotificationCenter.default.post(name: .matchedDish, object: dish)
                 return
             }
             if dish.restaurantMatch == true {
                 SPAlert.present(title: "You matched this restaurant!", preset: .star)
                 tabBarController?.incrementBadgeCount(position: 2)
+                PushAPI.shared.send(dish: dish)
                 NotificationCenter.default.post(name: .matchedDish, object: dish)
                 return
             }

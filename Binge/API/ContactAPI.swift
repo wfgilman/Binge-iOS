@@ -67,7 +67,7 @@ class ContactAPI: NSObject {
             success(true)
         case .denied, .notDetermined:
             let store = CNContactStore()
-            store.requestAccess(for: .contacts) { (granted, error) in
+            store.requestAccess(for: .contacts) { (granted, _) in
                 if granted == true {
                     success(true)
                 } else {
