@@ -36,6 +36,12 @@ class MatchViewController: UIViewController {
         return tableView
     }()
     
+    private lazy var refresh: UIRefreshControl = {
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(reloadMatchedDishes), for: .valueChanged)
+        return refreshControl
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureListener()
@@ -108,6 +114,19 @@ class MatchViewController: UIViewController {
         }
     }
     
+    @objc private func reloadMatchedDishes() {
+        if User.exists() == true {
+            BingeAPI.sharedClient.getDishes(filter: .match, success: { (dishes) in
+                self.dishes = dishes
+                self.refresh.endRefreshing()
+            }) { (_, message) in
+                self.refresh.endRefreshing()
+                guard let message: String = message else { return }
+                print(message)
+            }
+        }
+    }
+    
     private func getFriend() {
         if User.exists() {
             BingeAPI.sharedClient.getFriend(success: { (friend) in
@@ -131,6 +150,7 @@ class MatchViewController: UIViewController {
                      paddingRight: 20)
         table.rowHeight = view.bounds.height / 4
         table.separatorStyle = .none
+        table.insertSubview(refresh, at: 0)
     }
     
     private func configureEmptyState() {

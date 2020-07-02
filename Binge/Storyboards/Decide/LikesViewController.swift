@@ -29,6 +29,12 @@ class LikesViewController: UIViewController {
         return tableView
     }()
     
+    private lazy var refresh: UIRefreshControl = {
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(reloadLikedDishes), for: .valueChanged)
+        return refreshControl
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureNavigationBar()
@@ -73,6 +79,19 @@ class LikesViewController: UIViewController {
         }
     }
     
+    @objc private func reloadLikedDishes() {
+        if User.exists() == true {
+            BingeAPI.sharedClient.getDishes(filter: .like, success: { (dishes) in
+                self.dishes = dishes
+                self.refresh.endRefreshing()
+            }) { (_, message) in
+                self.refresh.endRefreshing()
+                guard let message: String = message else { return }
+                print(message)
+            }
+        }
+    }
+    
     private func configureNavigationBar() {
         navigationItem.title = "Binge"
         if let navBar = navigationController?.navigationBar {
@@ -92,6 +111,7 @@ class LikesViewController: UIViewController {
                      paddingRight: 20)
         table.rowHeight = view.bounds.height / 4
         table.separatorStyle = .none
+        table.insertSubview(refresh, at: 0)
     }
 }
 

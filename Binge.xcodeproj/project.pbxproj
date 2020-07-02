@@ -111,6 +111,7 @@
 		BEFEEA5224A3983C008E2725 /* CustomActionSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomActionSheet.swift; sourceTree = "<group>"; };
 		BEFEEA5424A45DAB008E2725 /* DataLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataLoader.swift; sourceTree = "<group>"; };
 		BEFEEA5824AAF46D008E2725 /* PushAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushAPI.swift; sourceTree = "<group>"; };
+		BEFEEA5A24ACE94E008E2725 /* Binge.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Binge.entitlements; sourceTree = "<group>"; };
 		F8E12D4704556F1B02E21169 /* Pods_Binge.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Binge.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -185,6 +186,7 @@
 		BE5E69BB247772E800B4D937 /* Binge */ = {
 			isa = PBXGroup;
 			children = (
+				BEFEEA5A24ACE94E008E2725 /* Binge.entitlements */,
 				BE5E69E5247B0C1200B4D937 /* Extension */,
 				BE5E69D9247ADF4700B4D937 /* Storyboards */,
 				BE5E69D62478A44B00B4D937 /* Shared */,
@@ -609,8 +611,9 @@
 			baseConfigurationReference = AD4E1DF4A66673C39FF89446 /* Pods-Binge.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Binge/Binge.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 9;
 				DEVELOPMENT_TEAM = QQ7F8UFQ5X;
 				INFOPLIST_FILE = Binge/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -629,8 +632,9 @@
 			baseConfigurationReference = 110525F9D7E73B07372E65B4 /* Pods-Binge.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Binge/Binge.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 9;
 				DEVELOPMENT_TEAM = QQ7F8UFQ5X;
 				INFOPLIST_FILE = Binge/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
