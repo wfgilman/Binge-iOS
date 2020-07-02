@@ -48,8 +48,6 @@ class SettingsViewController: FormViewController {
         }
     }
     
-    private var params = Dictionary<String, String>()
-    
     private lazy var table: TableView = {
         let tableView = TableView(frame: .zero, style: .plain)
         tableView.placeholderDelegate = self
@@ -91,9 +89,6 @@ class SettingsViewController: FormViewController {
         if let navBar = navigationController?.navigationBar {
              navBar.setup(titleColor: .black, hasBottomBorder: true, isTranslucent: false)
         }
-        if User.exists() == true {
-            navigationItem.addTextButton(side: .Right, text: "Save", color: .black, target: self, action: #selector(updateProfile))
-        }
     }
     
     private func layoutForm() {
@@ -122,8 +117,8 @@ class SettingsViewController: FormViewController {
         .onChange({ (row) in
             guard let friend = row.value else { return }
             // Calling NotificationCenter here seems to cancel the callback 🤷‍♂️
-            self.params["friend_id"] = "\(friend.id)"
-            self.updateProfile()
+            let params: Dictionary<String, String> = ["friend_id": "\(friend.id)"]
+            self.updateProfile(params)
         })
             
         <<< ButtonRow("friendInvite") { row in
@@ -146,8 +141,13 @@ class SettingsViewController: FormViewController {
         .cellUpdate({ (cell, row) in
             if row.isValid == false {
                 cell.titleLabel?.textColor = .systemRed
-            } else {
-                self.params["first_name"] = row.value
+            }
+        })
+        .onCellHighlightChanged({ (_, row) in
+            if row.isHighlighted == false && row.isValid == true {
+                guard let value: String = row.value else { return }
+                let params: Dictionary<String, String> = ["first_name": value]
+                self.updateProfile(params)
             }
         })
             
@@ -159,8 +159,13 @@ class SettingsViewController: FormViewController {
         .cellUpdate({ (cell, row) in
             if row.isValid == false {
                 cell.titleLabel?.textColor = .systemRed
-            } else {
-                self.params["last_name"] = row.value
+            }
+        })
+        .onCellHighlightChanged({ (_, row) in
+            if row.isHighlighted == false && row.isValid == true {
+                guard let value: String = row.value else { return }
+                let params: Dictionary<String, String> = ["last_name": value]
+                self.updateProfile(params)
             }
         })
             
@@ -180,8 +185,13 @@ class SettingsViewController: FormViewController {
         .cellUpdate({ (cell, row) in
             if row.isValid == false {
                 cell.titleLabel?.textColor = .systemRed
-            } else {
-                self.params["email"] = row.value
+            }
+        })
+        .onCellHighlightChanged({ (_, row) in
+            if row.isHighlighted == false && row.isValid == true {
+                guard let value: String = row.value else { return }
+                let params: Dictionary<String, String> = ["email": value]
+                self.updateProfile(params)
             }
         })
             
@@ -191,7 +201,8 @@ class SettingsViewController: FormViewController {
         }
         .onChange({ (row) in
             guard let value: Bool = row.value else { return }
-            self.params["push_enabled"] = "\(value)"
+            let params: Dictionary<String, String> = ["push_enabled": "\(value)"]
+            self.updateProfile(params)
         })
             
         +++ ButtonRow("shareBinge") { row in
@@ -300,12 +311,11 @@ class SettingsViewController: FormViewController {
     }
     
     
-    @objc private func updateProfile() {
+    @objc private func updateProfile(_ params: Dictionary<String,String>) {
         BingeAPI.sharedClient.updateUser(params: params, success: {
-            if self.params["friend_id"] != nil {
+            if params["friend_id"] != nil {
                 NotificationCenter.default.post(name: .changedFriend, object: nil)
             }
-            self.params = [:]
         }) { (_, message) in
             guard let message: String = message else { return }
             print(message)
