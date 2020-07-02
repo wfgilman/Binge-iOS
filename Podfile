@@ -15,4 +15,5 @@ target 'Binge' do
   pod 'AnimatedTextInput'
   pod 'Eureka'
   pod 'SPAlert'
+  pod 'NotificationBannerSwift'
 end

@@ -8,6 +8,7 @@
 
 import UIKit
 import Contacts
+import NotificationBannerSwift
 
 class InviteViewController: UIViewController {
     
@@ -87,7 +88,8 @@ class InviteViewController: UIViewController {
             self.dismiss(animated: true, completion: nil)
         }) { (_, message) in
             guard let message: String = message else { return }
-            print(message)
+            let banner = NotificationBanner(title: message, style: .danger)
+            banner.show()
         }
      }
 }
