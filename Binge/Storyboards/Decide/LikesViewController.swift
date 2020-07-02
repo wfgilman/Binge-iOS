@@ -93,7 +93,7 @@ class LikesViewController: UIViewController {
     }
     
     private func configureNavigationBar() {
-        navigationItem.title = "Binge"
+        navigationItem.title = "Liked Dishes"
         if let navBar = navigationController?.navigationBar {
              navBar.setup(titleColor: .black, hasBottomBorder: false, isTranslucent: true)
         }

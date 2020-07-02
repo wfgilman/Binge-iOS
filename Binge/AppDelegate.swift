@@ -13,13 +13,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+    func application(_ application: UIApplication,
+                     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.makeKeyAndVisible()
         
         DataLoader.shared.loadAll()
+        
+        // If opened from a Push notification, take user to Match tab.
+        let notificationOption = launchOptions?[.remoteNotification]
+        if let _ = notificationOption as? [String: AnyObject] {
+            (window?.rootViewController as? UITabBarController)?.selectedIndex = 2
+        }
 
         return true
+    }
+    
+    func application(_ application: UIApplication,
+                     didReceiveRemoteNotification userInfo: [AnyHashable: Any],
+                     fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        (window?.rootViewController as? UITabBarController)?.selectedIndex = 2
     }
 
     // MARK: UISceneSession Lifecycle
