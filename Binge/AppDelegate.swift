@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import UserNotifications
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -22,18 +23,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         DataLoader.shared.loadAll()
         
         // If opened from a Push notification, take user to Match tab.
-        let notificationOption = launchOptions?[.remoteNotification]
-        if let _ = notificationOption as? [String: AnyObject] {
+        if launchOptions?[.remoteNotification] != nil {
             (window?.rootViewController as? UITabBarController)?.selectedIndex = 2
         }
 
         return true
-    }
-    
-    func application(_ application: UIApplication,
-                     didReceiveRemoteNotification userInfo: [AnyHashable: Any],
-                     fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-        (window?.rootViewController as? UITabBarController)?.selectedIndex = 2
     }
 
     // MARK: UISceneSession Lifecycle
@@ -67,3 +61,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 }
 
+extension AppDelegate: UNUserNotificationCenterDelegate {
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter,
+                                willPresent notification: UNNotification,
+                                withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        completionHandler([.alert, .sound])
+    }
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter,
+                                didReceive response: UNNotificationResponse,
+                                withCompletionHandler completionHandler: @escaping () -> Void) {
+        
+        (window?.rootViewController as? UITabBarController)?.selectedIndex = 2
+        
+        completionHandler()
+    }
+}
