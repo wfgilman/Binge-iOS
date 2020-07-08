@@ -41,13 +41,34 @@ class ContactsViewController: UIViewController {
         super.viewDidLoad()
         configureNavigationBar()
         layoutTableView()
-        getContacts()
+        initializeData()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.destination is InviteViewController {
             let inviteVC = segue.destination as! InviteViewController
             inviteVC.contact = sender as? CNContact
+        }
+    }
+    
+    private func initializeData() {
+        let client = ContactAPI.sharedClient
+        client.checkAccess { (granted) in
+            if granted == false {
+                let alert = UIAlertController(title: "Access to Contacts",
+                                              message: "Allow Binge access to contacts in Settings to invite a friend.",
+                                              preferredStyle: .alert)
+                let settings = UIAlertAction(title: "Settings", style: .default) { (_) in
+                    client.requestAccess()
+                }
+                let cancel = UIAlertAction(title: "Cancel", style: .default, handler: nil)
+                alert.addAction(settings)
+                alert.addAction(cancel)
+                alert.preferredAction = settings
+                self.present(alert, animated: true, completion: nil)
+            } else {
+                self.getContacts()
+            }
         }
     }
     

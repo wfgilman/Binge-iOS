@@ -16,8 +16,14 @@ class PushAPI {
     private init() { }
     
     func requestAuth() {
-        checkAccess { (_) in
-            // Do nothing.
+        checkAccess { (granted) in
+            if granted == false {
+                if let bundleIdentifier = Bundle.main.bundleIdentifier, let appSettings = URL(string: UIApplication.openSettingsURLString + bundleIdentifier) {
+                    if UIApplication.shared.canOpenURL(appSettings) {
+                        DispatchQueue.main.async { UIApplication.shared.open(appSettings) }
+                    }
+                }
+            }
         }
     }
     
@@ -34,11 +40,11 @@ class PushAPI {
         }
     }
     
-    private func checkAccess(completion: @escaping (_ granted: Bool) -> ()) {
+    func checkAccess(completion: @escaping (_ granted: Bool) -> ()) {
         let client = UNUserNotificationCenter.current()
         client.getNotificationSettings { (settings) in
             switch settings.authorizationStatus {
-            case .denied, .notDetermined:
+            case .notDetermined:
                 client.requestAuthorization(options: [.alert, .sound, .badge]) { (granted, _) in
                     if granted == true {
                         DispatchQueue.main.async {
@@ -57,6 +63,8 @@ class PushAPI {
                     }
                 }
                 completion(true)
+            case .denied:
+                completion(false)
             default:
                 completion(false)
             }

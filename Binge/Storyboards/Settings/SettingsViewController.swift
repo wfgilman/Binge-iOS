@@ -201,8 +201,14 @@ class SettingsViewController: FormViewController {
         }
         .onChange({ (row) in
             guard let value: Bool = row.value else { return }
-            let params: Dictionary<String, String> = ["push_enabled": "\(value)"]
-            self.updateProfile(params)
+            self.setNotification(value) { (revert) in
+                if revert == true {
+                    DispatchQueue.main.async {
+                        row.value = false
+                        row.reload()
+                    }
+                }
+            }
         })
             
         +++ ButtonRow("shareBinge") { row in
@@ -311,7 +317,7 @@ class SettingsViewController: FormViewController {
     }
     
     
-    @objc private func updateProfile(_ params: Dictionary<String,String>) {
+    private func updateProfile(_ params: Dictionary<String,String>) {
         BingeAPI.sharedClient.updateUser(params: params, success: {
             if params["friend_id"] != nil {
                 NotificationCenter.default.post(name: .changedFriend, object: nil)
@@ -319,6 +325,36 @@ class SettingsViewController: FormViewController {
         }) { (_, message) in
             guard let message: String = message else { return }
             print(message)
+        }
+    }
+    
+    private func setNotification(_ value: Bool, completion: @escaping (_ revert: Bool) -> ()) {
+        let params: Dictionary<String, String> = ["push_enabled": "\(value)"]
+        if value == true {
+            PushAPI.shared.checkAccess(completion: { (granted) in
+                if granted == false {
+                    DispatchQueue.main.async {
+                        let alert = UIAlertController(title: "Enable Push Notifications",
+                                                      message: "Enable Binge push notifications in Settings to alert you with new matches.",
+                                                      preferredStyle: .alert)
+                        let settings = UIAlertAction(title: "Settings", style: .default) { (_) in
+                            PushAPI.shared.requestAuth()
+                        }
+                        let cancel = UIAlertAction(title: "Cancel", style: .default, handler: nil)
+                        alert.addAction(settings)
+                        alert.addAction(cancel)
+                        alert.preferredAction = settings
+                        self.present(alert, animated: true, completion: nil)
+                    }
+                    completion(true)
+                } else {
+                    self.updateProfile(params)
+                    completion(false)
+                }
+            })
+        } else {
+            self.updateProfile(params)
+            completion(false)
         }
     }
     

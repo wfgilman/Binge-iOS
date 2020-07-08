@@ -15,7 +15,7 @@ class ContactAPI: NSObject {
     
     func getContacts(success: @escaping ([CNContact]) -> (), failure: @escaping (String?) -> ()) {
         var contacts = [CNContact]()
-        checkAccess(success: { (granted) in
+        checkAccess(completion: { (granted) in
             if granted == true {
                 DispatchQueue.main.async {
                     let keys = [CNContactGivenNameKey, CNContactFamilyNameKey, CNContactPhoneNumbersKey] as [CNKeyDescriptor]
@@ -34,14 +34,12 @@ class ContactAPI: NSObject {
                     success(contacts)
                 }
             }
-        }) { (error) in
-            failure(error)
-        }
+        })
     }
     
     func searchContacts(name: String, success: @escaping ([CNContact]) -> (), failure: @escaping (String?) -> ()) {
         var contacts = [CNContact]()
-        checkAccess(success: { (granted) in
+        checkAccess(completion: { (granted) in
             if granted == true {
                 DispatchQueue.main.async {
                     let predicate: NSPredicate = CNContact.predicateForContacts(matchingName: name)
@@ -55,27 +53,35 @@ class ContactAPI: NSObject {
                     success(contacts)
                 }
             }
-        }) { (error) in
-            failure(error)
+        })
+    }
+    
+    func requestAccess() {
+        checkAccess { (granted) in
+            if granted == false {
+                if let bundleIdentifier = Bundle.main.bundleIdentifier, let appSettings = URL(string: UIApplication.openSettingsURLString + bundleIdentifier) {
+                    if UIApplication.shared.canOpenURL(appSettings) {
+                        DispatchQueue.main.async { UIApplication.shared.open(appSettings) }
+                    }
+                }
+            }
         }
     }
     
-    private func checkAccess(success: @escaping (_ granted: Bool) -> (), failure: @escaping (_ error: String) -> ()) {
+    func checkAccess(completion: @escaping (_ granted: Bool) -> ()) {
         let status = CNContactStore.authorizationStatus(for: .contacts)
         switch status {
         case .authorized:
-            success(true)
-        case .denied, .notDetermined:
+            completion(true)
+        case .notDetermined:
             let store = CNContactStore()
             store.requestAccess(for: .contacts) { (granted, _) in
-                if granted == true {
-                    success(true)
-                } else {
-                    failure("User denied access to contacts.")
-                }
+                completion(granted)
             }
+        case .denied:
+            completion(false)
         default:
-            success(false)
+            completion(false)
         }
     }
 }
