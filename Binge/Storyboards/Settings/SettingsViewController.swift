@@ -182,6 +182,10 @@ class SettingsViewController: FormViewController {
             row.add(rule: RuleEmail())
             row.validationOptions = .validatesOnChange
         }
+        .onChange({ (row) in
+            row.value = row.value?.trimmingCharacters(in: .whitespacesAndNewlines)
+            row.updateCell()
+        })
         .cellUpdate({ (cell, row) in
             if row.isValid == false {
                 cell.titleLabel?.textColor = .systemRed
