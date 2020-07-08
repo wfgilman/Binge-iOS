@@ -119,6 +119,8 @@ extension DishViewController: SwipeCardStackDelegate, SwipeCardStackDataSource {
             NotificationCenter.default.post(name: .likedDish, object: dish)
             if User.exists() == true {
                 self.post(dish, action: .like)
+            } else {
+                DataLoader.shared.likedDishes.append(dish)
             }
             if dish.match == true {
                 SPAlert.present(title: "You matched this dish!", preset: .heart)
