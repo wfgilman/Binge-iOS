@@ -112,41 +112,45 @@ extension DishViewController: SwipeCardStackDelegate, SwipeCardStackDataSource {
         switch direction {
         case .up:
             let dish = dishes[index]
+            didLikeDish(dish)
             let alert = self.actionSheet.new(dish: dish)
             self.present(alert, animated: true, completion: nil)
         case .right:
             let dish = dishes[index]
-            NotificationCenter.default.post(name: .likedDish, object: dish)
-            if User.exists() == true {
-                self.post(dish, action: .like)
-            } else {
-                DataLoader.shared.likedDishes.append(dish)
-            }
-            if dish.match == true {
-                SPAlert.present(title: "You matched this dish!", preset: .heart)
-                tabBarController?.incrementBadgeCount(position: 2)
-                PushAPI.shared.send(dish: dish)
-                NotificationCenter.default.post(name: .matchedDish, object: dish)
-                return
-            }
-            if dish.restaurantMatch == true {
-                SPAlert.present(title: "You matched this restaurant!", preset: .star)
-                tabBarController?.incrementBadgeCount(position: 2)
-                PushAPI.shared.send(dish: dish)
-                NotificationCenter.default.post(name: .matchedDish, object: dish)
-                return
-            }
+            didLikeDish(dish)
         default:
             break
         }
     }
     
-    private func post(_ dish: Dish, action: DishAction) {
-        BingeAPI.sharedClient.dishAction(dish: dish, action: action, success: {
-            // Nothing to see here.
-        }) { (_, message) in
-            guard let message = message else { return }
-            print("\(message)")
+    private func didLikeDish(_ dish: Dish) {
+        NotificationCenter.default.post(name: .likedDish, object: dish)
+        
+        if User.exists() == true {
+            BingeAPI.sharedClient.dishAction(dish: dish, action: .like, success: {
+                // Nothing to see here.
+            }) { (_, message) in
+                guard let message = message else { return }
+                print("\(message)")
+            }
+        } else {
+            DataLoader.shared.likedDishes.append(dish)
+        }
+        
+        if dish.match == true {
+            SPAlert.present(title: "You matched this dish!", preset: .heart)
+            tabBarController?.incrementBadgeCount(position: 2)
+            PushAPI.shared.send(dish: dish)
+            NotificationCenter.default.post(name: .matchedDish, object: dish)
+            return
+        }
+        
+        if dish.restaurantMatch == true {
+            SPAlert.present(title: "You matched this restaurant!", preset: .star)
+            tabBarController?.incrementBadgeCount(position: 2)
+            PushAPI.shared.send(dish: dish)
+            NotificationCenter.default.post(name: .matchedDish, object: dish)
+            return
         }
     }
 }
