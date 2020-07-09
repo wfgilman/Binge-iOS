@@ -53,7 +53,7 @@
 		BEFEEA4B24A1B0FD008E2725 /* UITabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEFEEA4A24A1B0FD008E2725 /* UITabBarController.swift */; };
 		BEFEEA4D24A1B66A008E2725 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEFEEA4C24A1B66A008E2725 /* MainTabBarController.swift */; };
 		BEFEEA4F24A24B99008E2725 /* UITableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEFEEA4E24A24B99008E2725 /* UITableView.swift */; };
-		BEFEEA5324A3983C008E2725 /* CustomActionSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEFEEA5224A3983C008E2725 /* CustomActionSheet.swift */; };
+		BEFEEA5324A3983C008E2725 /* CustomAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEFEEA5224A3983C008E2725 /* CustomAlertController.swift */; };
 		BEFEEA5524A45DAB008E2725 /* DataLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEFEEA5424A45DAB008E2725 /* DataLoader.swift */; };
 		BEFEEA5924AAF46D008E2725 /* PushAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEFEEA5824AAF46D008E2725 /* PushAPI.swift */; };
 /* End PBXBuildFile section */
@@ -108,7 +108,7 @@
 		BEFEEA4A24A1B0FD008E2725 /* UITabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITabBarController.swift; sourceTree = "<group>"; };
 		BEFEEA4C24A1B66A008E2725 /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
 		BEFEEA4E24A24B99008E2725 /* UITableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITableView.swift; sourceTree = "<group>"; };
-		BEFEEA5224A3983C008E2725 /* CustomActionSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomActionSheet.swift; sourceTree = "<group>"; };
+		BEFEEA5224A3983C008E2725 /* CustomAlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAlertController.swift; sourceTree = "<group>"; };
 		BEFEEA5424A45DAB008E2725 /* DataLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataLoader.swift; sourceTree = "<group>"; };
 		BEFEEA5824AAF46D008E2725 /* PushAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushAPI.swift; sourceTree = "<group>"; };
 		BEFEEA5A24ACE94E008E2725 /* Binge.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Binge.entitlements; sourceTree = "<group>"; };
@@ -231,7 +231,7 @@
 				BE30FC97248A9176006B037C /* CustomPlaceholder.swift */,
 				BE30FC99248A946E006B037C /* AppFont.swift */,
 				BECEFBFD248CADDB00EB2516 /* CustomTextInputStyle.swift */,
-				BEFEEA5224A3983C008E2725 /* CustomActionSheet.swift */,
+				BEFEEA5224A3983C008E2725 /* CustomAlertController.swift */,
 				BEFEEA5424A45DAB008E2725 /* DataLoader.swift */,
 			);
 			path = Shared;
@@ -430,7 +430,7 @@
 			files = (
 				BE06F95B248F2DD10047A0BE /* ContactCell.swift in Sources */,
 				BE30FC962489F5A3006B037C /* MatchCell.swift in Sources */,
-				BEFEEA5324A3983C008E2725 /* CustomActionSheet.swift in Sources */,
+				BEFEEA5324A3983C008E2725 /* CustomAlertController.swift in Sources */,
 				BEFEEA4524926FE6008E2725 /* SettingsViewController.swift in Sources */,
 				BE798608248F2053006B57CA /* ContactsViewController.swift in Sources */,
 				BE5E69C1247772E800B4D937 /* DishViewController.swift in Sources */,

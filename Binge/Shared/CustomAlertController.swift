@@ -8,9 +8,9 @@
 
 import UIKit
 
-class CustomActionSheet {
+class CustomAlertController {
     
-    func new(dish: Dish) -> UIAlertController {
+    func order(dish: Dish) -> UIAlertController {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
         let doordash = UIAlertAction(title: "Doordash", style: .default) { (_) in
@@ -49,6 +49,24 @@ class CustomActionSheet {
         
         let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         alert.addAction(cancel)
+        return alert
+    }
+    
+    func openSettings(title: String, message: String) -> UIAlertController {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        
+        let settings = UIAlertAction(title: "Settings", style: .default) { (_) in
+            if let bundleIdentifier = Bundle.main.bundleIdentifier, let appSettings = URL(string: UIApplication.openSettingsURLString + bundleIdentifier) {
+                if UIApplication.shared.canOpenURL(appSettings) {
+                    DispatchQueue.main.async { UIApplication.shared.open(appSettings) }
+                }
+            }
+        }
+        
+        let cancel = UIAlertAction(title: "Cancel", style: .default, handler: nil)
+        alert.addAction(settings)
+        alert.addAction(cancel)
+        alert.preferredAction = settings
         return alert
     }
 }

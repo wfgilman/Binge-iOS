@@ -37,6 +37,8 @@ class SettingsViewController: FormViewController {
         }
     }
     
+    private let alert = CustomAlertController()
+    
     private struct Friend: Equatable {
         let id: Int
         let firstName: String
@@ -338,16 +340,8 @@ class SettingsViewController: FormViewController {
             PushAPI.shared.checkAccess(completion: { (granted) in
                 if granted == false {
                     DispatchQueue.main.async {
-                        let alert = UIAlertController(title: "Enable Push Notifications",
-                                                      message: "Enable Binge push notifications in Settings to alert you with new matches.",
-                                                      preferredStyle: .alert)
-                        let settings = UIAlertAction(title: "Settings", style: .default) { (_) in
-                            PushAPI.shared.requestAuth()
-                        }
-                        let cancel = UIAlertAction(title: "Cancel", style: .default, handler: nil)
-                        alert.addAction(settings)
-                        alert.addAction(cancel)
-                        alert.preferredAction = settings
+                        let alert = self.alert.openSettings(title: "Enable Push Notifications",
+                                                            message: "Enable Binge push notifications in Settings to alert you with new matches.")
                         self.present(alert, animated: true, completion: nil)
                     }
                     completion(true)

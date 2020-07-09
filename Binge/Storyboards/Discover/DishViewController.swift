@@ -25,7 +25,7 @@ class DishViewController: UIViewController {
         return stack
     }()
     
-    private let actionSheet = CustomActionSheet()
+    private let actionSheet = CustomAlertController()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -113,7 +113,7 @@ extension DishViewController: SwipeCardStackDelegate, SwipeCardStackDataSource {
         case .up:
             let dish = dishes[index]
             didLikeDish(dish)
-            let alert = self.actionSheet.new(dish: dish)
+            let alert = self.actionSheet.order(dish: dish)
             self.present(alert, animated: true, completion: nil)
         case .right:
             let dish = dishes[index]

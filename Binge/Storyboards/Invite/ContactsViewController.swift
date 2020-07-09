@@ -19,6 +19,8 @@ class ContactsViewController: UIViewController {
         }
     }
     
+    private let alert = CustomAlertController()
+    
     private lazy var table: UITableView = {
         let tableView = UITableView(frame: .zero, style: .plain)
         tableView.delegate = self
@@ -55,16 +57,8 @@ class ContactsViewController: UIViewController {
         let client = ContactAPI.sharedClient
         client.checkAccess { (granted) in
             if granted == false {
-                let alert = UIAlertController(title: "Access to Contacts",
-                                              message: "Allow Binge access to contacts in Settings to invite a friend.",
-                                              preferredStyle: .alert)
-                let settings = UIAlertAction(title: "Settings", style: .default) { (_) in
-                    client.requestAccess()
-                }
-                let cancel = UIAlertAction(title: "Cancel", style: .default, handler: nil)
-                alert.addAction(settings)
-                alert.addAction(cancel)
-                alert.preferredAction = settings
+                let alert = self.alert.openSettings(title: "Access to Contacts",
+                                                    message: "Allow Binge access to contacts in Settings to invite a friend.")
                 self.present(alert, animated: true, completion: nil)
             } else {
                 self.getContacts()
