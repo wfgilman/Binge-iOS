@@ -57,9 +57,11 @@ class ContactsViewController: UIViewController {
         let client = ContactAPI.sharedClient
         client.checkAccess { (granted) in
             if granted == false {
-                let alert = self.alert.openSettings(title: "Access to Contacts",
-                                                    message: "Allow Binge access to contacts in Settings to invite a friend.")
-                self.present(alert, animated: true, completion: nil)
+                DispatchQueue.main.async {
+                    let alert = self.alert.openSettings(title: "Access to Contacts",
+                                                        message: "Allow Binge access to contacts in Settings to invite a friend.")
+                    self.present(alert, animated: true, completion: nil)
+                }
             } else {
                 self.getContacts()
             }
