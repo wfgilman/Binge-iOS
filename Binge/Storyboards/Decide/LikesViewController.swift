@@ -69,7 +69,7 @@ class LikesViewController: UIViewController {
     }
     
     private func getLikedDishes() {
-        if User.exists() == true {
+        if AppVariable.validUser == true {
             BingeAPI.sharedClient.getDishes(filter: .like, success: { (dishes) in
                 self.dishes.append(contentsOf: dishes)
             }) { (_, message) in
@@ -80,7 +80,7 @@ class LikesViewController: UIViewController {
     }
     
     @objc private func reloadLikedDishes() {
-        if User.exists() == true {
+        if AppVariable.validUser == true {
             BingeAPI.sharedClient.getDishes(filter: .like, success: { (dishes) in
                 self.dishes = dishes
                 self.refresh.endRefreshing()

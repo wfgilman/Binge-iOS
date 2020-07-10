@@ -44,7 +44,7 @@ class DishViewController: UIViewController {
     }
 
     private func getDishes() {
-        let filter: DishFilter = User.exists() == true ? .none : .noauth
+        let filter: DishFilter = (AppVariable.validUser == true) ? .none : .noauth
         BingeAPI.sharedClient.getDishes(filter: filter, success: { (dishes) in
             self.dishes = dishes
         }) { (_, message) in
@@ -126,7 +126,7 @@ extension DishViewController: SwipeCardStackDelegate, SwipeCardStackDataSource {
     private func didLikeDish(_ dish: Dish) {
         NotificationCenter.default.post(name: .likedDish, object: dish)
         
-        if User.exists() == true {
+        if AppVariable.validUser == true {
             BingeAPI.sharedClient.dishAction(dish: dish, action: .like, success: {
                 // Nothing to see here.
             }) { (_, message) in

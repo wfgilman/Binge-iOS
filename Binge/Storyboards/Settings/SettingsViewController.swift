@@ -260,7 +260,7 @@ class SettingsViewController: FormViewController {
     }
     
     private func showCorrectView() {
-        if User.exists() == true {
+        if AppVariable.validUser == true {
             view.sendSubviewToBack(table)
         } else {
             view.bringSubviewToFront(table)
@@ -268,7 +268,7 @@ class SettingsViewController: FormViewController {
     }
     
     private func initializeFormData() {
-        if User.exists() == true {
+        if AppVariable.validUser == true {
             if let user = DataLoader.shared.user {
                 self.user = user
             } else {
@@ -288,7 +288,7 @@ class SettingsViewController: FormViewController {
     }
     
     private func loadFormData() {
-        if User.exists() == true {
+        if AppVariable.validUser == true {
             getUser()
             getFriend()
             getFriends()

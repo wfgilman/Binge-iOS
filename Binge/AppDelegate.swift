@@ -20,7 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.makeKeyAndVisible()
         
-        DataLoader.shared.loadAll()
+        DataLoader.shared.initialize()
         
         // If opened from a Push notification, take user to Match tab.
         if launchOptions?[.remoteNotification] != nil {

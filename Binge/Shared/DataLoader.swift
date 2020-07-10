@@ -19,10 +19,29 @@ class DataLoader {
     var friend: User?
     var friends = [User]()
     
+    private var validUser: Bool = false {
+        didSet {
+            AppVariable.validUser = validUser
+            loadAll(validUser: validUser)
+        }
+    }
+    
     private init() { }
     
-    func loadAll() {
-        let filter: DishFilter = (User.exists() == true) ? .none : .noauth
+    func initialize() {
+        if AppVariable.accessToken != nil {
+            BingeAPI.sharedClient.getUser(success: { (_) in
+                self.validUser = true
+            }) { (_, _) in
+                self.validUser = false
+            }
+        } else {
+            self.validUser = false
+        }
+    }
+    
+    private func loadAll(validUser: Bool) {
+        let filter: DishFilter = (validUser == true) ? .none : .noauth
         BingeAPI.sharedClient.getDishes(filter: filter, success: { (dishes) in
             self.dishes = dishes
             print("loaded dishes: \(dishes.count)")
@@ -30,7 +49,7 @@ class DataLoader {
             print(String(describing: message))
         }
         
-        if User.exists() == true {
+        if validUser == true {
             BingeAPI.sharedClient.getDishes(filter: .like, success: { (dishes) in
                 self.likedDishes = dishes
                 print("loaded liked dishes: \(dishes.count)")

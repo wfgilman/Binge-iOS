@@ -41,4 +41,13 @@ struct AppVariable {
             UserDefaults.standard.set(newValue, forKey: "deviceToken")
         }
     }
+    
+    static var validUser: Bool {
+        get {
+            return UserDefaults.standard.bool(forKey: "validUser") || false
+        }
+        set (newValue) {
+            UserDefaults.standard.set(newValue, forKey: "validUser")
+        }
+    }
 }

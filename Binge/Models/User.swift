@@ -32,20 +32,14 @@ class User: Codable {
     
     class func create(with token: Token) {
         AppVariable.accessToken = token.accessToken
+        AppVariable.validUser = true
         print("Access Token: \(token.accessToken)")
         NotificationCenter.default.post(name: .createdUser, object: nil)
     }
     
     class func delete() {
         AppVariable.accessToken = nil
-        AppVariable.deviceToken = nil
+        AppVariable.validUser = false
         NotificationCenter.default.post(name: .deletedUser, object: nil)
-    }
-    
-    class func exists() -> Bool {
-        if AppVariable.accessToken == nil {
-            return false
-        }
-        return true
     }
 }

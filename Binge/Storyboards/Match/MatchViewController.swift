@@ -104,7 +104,7 @@ class MatchViewController: UIViewController {
     }
     
     private func getMatchedDishes() {
-        if User.exists() == true {
+        if AppVariable.validUser == true {
             BingeAPI.sharedClient.getDishes(filter: .match, success: { (dishes) in
                 self.dishes.append(contentsOf: dishes)
             }) { (_, message) in
@@ -115,7 +115,7 @@ class MatchViewController: UIViewController {
     }
     
     @objc private func reloadMatchedDishes() {
-        if User.exists() == true {
+        if AppVariable.validUser == true {
             BingeAPI.sharedClient.getDishes(filter: .match, success: { (dishes) in
                 self.dishes = dishes
                 self.refresh.endRefreshing()
@@ -128,7 +128,7 @@ class MatchViewController: UIViewController {
     }
     
     private func getFriend() {
-        if User.exists() {
+        if AppVariable.validUser == true {
             BingeAPI.sharedClient.getFriend(success: { (friend) in
                 self.friend = friend
             }) { (_, message) in
@@ -154,7 +154,7 @@ class MatchViewController: UIViewController {
     }
     
     private func configureEmptyState() {
-        if User.exists() == true && friend != nil {
+        if AppVariable.validUser == true && friend != nil {
             table.placeholdersProvider = CustomPlaceholder.noMatches
         } else {
             table.placeholdersProvider = CustomPlaceholder.signupToMatch
@@ -243,11 +243,11 @@ extension MatchViewController: SwipeTableViewCellDelegate {
 extension MatchViewController: PlaceholderDelegate {
     
     func view(_ view: Any, actionButtonTappedFor placeholder: Placeholder) {
-        if User.exists() == true && friend != nil {
+        if AppVariable.validUser == true && friend != nil {
             if let tabBar: UITabBarController = tabBarController {
                 tabBar.selectedIndex = 0
             }
-        } else if User.exists() == true && friend == nil {
+        } else if AppVariable.validUser == true && friend == nil {
             let storyboard = UIStoryboard(name: "Invite", bundle: nil)
             guard let contactsVC = storyboard.instantiateInitialViewController() else { return }
             self.present(contactsVC, animated: true, completion: nil)
