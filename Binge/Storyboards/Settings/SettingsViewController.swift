@@ -173,9 +173,10 @@ class SettingsViewController: FormViewController {
             
         <<< PhoneRow("phone") { row in
             row.title = "Phone"
-            row.baseCell.isUserInteractionEnabled = false
+            row.disabled = true
         }
         .cellUpdate({ (cell, _) in
+            cell.titleLabel?.textColor = .black
             cell.textField.textColor = .lightGray
         })
             
