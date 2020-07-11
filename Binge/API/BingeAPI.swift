@@ -159,7 +159,7 @@ class BingeAPI: NSObject {
         })
     }
     
-    func inviteUser(contact: CNContact, success: @escaping () -> (), failure: @escaping (Error, String?) -> ()) {
+    func inviteUser(contact: CNMutableContact, success: @escaping () -> (), failure: @escaping (Error, String?) -> ()) {
         let url: URLConvertible = self.baseURL + "/users/invite"
         let headers = getAuthHeaders()
         guard let phone = contact.phoneNumbers.first else { return }

@@ -26,6 +26,7 @@ class ContactsViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(ContactCell.self, forCellReuseIdentifier: ContactCell.identifier)
+        tableView.register(NewContactCell.self, forCellReuseIdentifier: NewContactCell.identifier)
         return tableView
     }()
     
@@ -102,20 +103,40 @@ class ContactsViewController: UIViewController {
 
 extension ContactsViewController: UITableViewDelegate, UITableViewDataSource {
     
+    func numberOfSections(in tableView: UITableView) -> Int {
+        if filteredContacts.count == 0 {
+            return 2
+        }
+        return 1
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return filteredContacts.count
+        if section == 0 {
+            return filteredContacts.count
+        }
+        return 1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let contact = filteredContacts[indexPath.row]
-        let cell = table.dequeueReusableCell(withIdentifier: ContactCell.identifier, for: indexPath) as! ContactCell
-        cell.contact = contact
-        return cell
+        if indexPath.section == 0 {
+            let contact = filteredContacts[indexPath.row]
+            let cell = table.dequeueReusableCell(withIdentifier: ContactCell.identifier, for: indexPath) as! ContactCell
+            cell.contact = contact
+            return cell
+        } else {
+            let cell = table.dequeueReusableCell(withIdentifier: NewContactCell.identifier, for: indexPath) as! NewContactCell
+            return cell
+        }
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         table.deselectRow(at: indexPath, animated: true)
-        let contact = filteredContacts[indexPath.row]
+        var contact: CNContact?
+        if indexPath.section == 0 {
+            contact = filteredContacts[indexPath.row]
+        } else {
+            contact = nil
+        }
         performSegue(withIdentifier: "showInviteViewController", sender: contact)
     }
     
