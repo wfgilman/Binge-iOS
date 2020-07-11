@@ -288,6 +288,29 @@ class BingeAPI: NSObject {
             })
     }
     
+    func getFriendLikes(success: @escaping ([Like]) -> (), failure: @escaping (Error, String?) -> ()) {
+        let url: URLConvertible = self.baseURL + "/users/friends/likes?active_friend=true"
+        let headers = getAuthHeaders()
+        af?.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: headers)
+        .validate()
+            .responseData(completionHandler: { (response) in
+                switch response.result {
+                case .success(let value):
+                    do {
+                        let likes = try value.decoded() as [Like]
+                        success(likes)
+                    } catch {
+                        // Handle failure.
+                        print("decoding Likes failed")
+                    }
+                case .failure(let error):
+                    let err = self.getError(response: response)
+                    self.handleFailure(error: err)
+                    failure(error, err.message)
+                }
+            })
+    }
+    
     private func getAuthHeaders() -> [String : String] {
         var headers = self.headers
         guard let token: String = AppVariable.accessToken else {

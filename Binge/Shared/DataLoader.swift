@@ -18,6 +18,7 @@ class DataLoader {
     var user: User?
     var friend: User?
     var friends = [User]()
+    var likes = [Like]()
     
     private var validUser: Bool = false {
         didSet {
@@ -50,6 +51,13 @@ class DataLoader {
         }
         
         if validUser == true {
+            BingeAPI.sharedClient.getFriendLikes(success: { (likes) in
+                self.likes = likes
+                print("loaded likes: \(likes.count)")
+            }) { (_, message) in
+                print(String(describing: message))
+            }
+            
             BingeAPI.sharedClient.getDishes(filter: .like, success: { (dishes) in
                 self.likedDishes = dishes
                 print("loaded liked dishes: \(dishes.count)")

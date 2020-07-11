@@ -10,6 +10,12 @@ import UIKit
 import Shuffle_iOS
 import SPAlert
 
+enum MatchType {
+    case none
+    case dish
+    case restaurant
+}
+
 class DishViewController: UIViewController {
     
     var dishes = [Dish]() {
@@ -17,6 +23,8 @@ class DishViewController: UIViewController {
             dishCardStack.reloadData()
         }
     }
+    
+    private var likes = [Like]()
     
     private lazy var dishCardStack: SwipeCardStack = {
         let stack = SwipeCardStack()
@@ -29,10 +37,17 @@ class DishViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        configureListener()
         configureNavigationBar()
         layoutCardStackView()
         configureBackgroundGradient()
         initializeData()
+    }
+    
+    private func configureListener() {
+        NotificationCenter.default.addObserver(forName: .changedFriend, object: nil, queue: .main) { (_) in
+            self.getFriendLikes()
+        }
     }
     
     private func initializeData() {
@@ -41,12 +56,29 @@ class DishViewController: UIViewController {
         } else {
             getDishes()
         }
+        
+        if AppVariable.validUser == true {
+            if DataLoader.shared.likes.count > 0 {
+                self.likes = DataLoader.shared.likes
+            } else {
+                getFriendLikes()
+            }
+        }
     }
 
     private func getDishes() {
         let filter: DishFilter = (AppVariable.validUser == true) ? .none : .noauth
         BingeAPI.sharedClient.getDishes(filter: filter, success: { (dishes) in
             self.dishes = dishes
+        }) { (_, message) in
+            guard let message = message else { return }
+            print("\(message)")
+        }
+    }
+    
+    private func getFriendLikes() {
+        BingeAPI.sharedClient.getFriendLikes(success: { (likes) in
+            self.likes = likes
         }) { (_, message) in
             guard let message = message else { return }
             print("\(message)")
@@ -137,7 +169,9 @@ extension DishViewController: SwipeCardStackDelegate, SwipeCardStackDataSource {
             DataLoader.shared.likedDishes.append(dish)
         }
         
-        if dish.match == true {
+        let match: MatchType = checkMatch(dish)
+        
+        if match == .dish {
             SPAlert.present(title: "You matched this dish!", preset: .heart)
             tabBarController?.incrementBadgeCount(position: 2)
             PushAPI.shared.send(dish: dish)
@@ -145,12 +179,22 @@ extension DishViewController: SwipeCardStackDelegate, SwipeCardStackDataSource {
             return
         }
         
-        if dish.restaurantMatch == true {
+        if match == .restaurant {
             SPAlert.present(title: "You matched this restaurant!", preset: .star)
             tabBarController?.incrementBadgeCount(position: 2)
             PushAPI.shared.send(dish: dish)
             NotificationCenter.default.post(name: .matchedDish, object: dish)
             return
         }
+    }
+    
+    private func checkMatch(_ dish: Dish) -> MatchType {
+        if self.likes.first(where: { (like) -> Bool in like.dishId == dish.id}) != nil {
+            return .dish
+        }
+        if self.likes.first(where: { (like) -> Bool in like.restaurantId == dish.restaurantId }) != nil {
+            return .restaurant
+        }
+        return .none
     }
 }

@@ -56,6 +56,7 @@
 		BEFEEA5324A3983C008E2725 /* CustomAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEFEEA5224A3983C008E2725 /* CustomAlertController.swift */; };
 		BEFEEA5524A45DAB008E2725 /* DataLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEFEEA5424A45DAB008E2725 /* DataLoader.swift */; };
 		BEFEEA5924AAF46D008E2725 /* PushAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEFEEA5824AAF46D008E2725 /* PushAPI.swift */; };
+		BEFEEA5E24BA1FBE008E2725 /* Like.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEFEEA5D24BA1FBD008E2725 /* Like.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -112,6 +113,7 @@
 		BEFEEA5424A45DAB008E2725 /* DataLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataLoader.swift; sourceTree = "<group>"; };
 		BEFEEA5824AAF46D008E2725 /* PushAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushAPI.swift; sourceTree = "<group>"; };
 		BEFEEA5A24ACE94E008E2725 /* Binge.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Binge.entitlements; sourceTree = "<group>"; };
+		BEFEEA5D24BA1FBD008E2725 /* Like.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Like.swift; sourceTree = "<group>"; };
 		F8E12D4704556F1B02E21169 /* Pods_Binge.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Binge.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -210,6 +212,7 @@
 				BE5E69DD247AF62A00B4D937 /* Error.swift */,
 				BECEFBFF248D650800EB2516 /* User.swift */,
 				BECEFC01248DA91F00EB2516 /* Token.swift */,
+				BEFEEA5D24BA1FBD008E2725 /* Like.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -462,6 +465,7 @@
 				BE5E69ED247B3EF700B4D937 /* DishCardOverlay.swift in Sources */,
 				BECEFBFC248CA75500EB2516 /* VerifyViewController.swift in Sources */,
 				BE5E69E4247AFB1300B4D937 /* DishCardContentView.swift in Sources */,
+				BEFEEA5E24BA1FBE008E2725 /* Like.swift in Sources */,
 				BECEFBFA248CA46700EB2516 /* UINavigationItem.swift in Sources */,
 				BE5E69FD248320E200B4D937 /* DishCell.swift in Sources */,
 				BE5E69E7247B0C2800B4D937 /* UIView.swift in Sources */,
