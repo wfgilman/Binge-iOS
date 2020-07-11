@@ -39,7 +39,7 @@ class CustomAlertController {
         }
         
         if let phone = dish.phone {
-            let number = UIAlertAction(title: "Call \(phone)", style: .default) { (_) in
+            let number = UIAlertAction(title: "Call", style: .default) { (_) in
                 if let url = URL(string: "tel://\(phone)") {
                     UIApplication.shared.open(url)
                 }
