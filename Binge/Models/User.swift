@@ -8,6 +8,8 @@
 
 import Foundation
 import Codextended
+import ZendeskCoreSDK
+import SupportSDK
 
 class User: Codable {
     var id: Int
@@ -41,5 +43,11 @@ class User: Codable {
         AppVariable.accessToken = nil
         AppVariable.validUser = false
         NotificationCenter.default.post(name: .deletedUser, object: nil)
+    }
+    
+    class func identify(_ user: User) {
+        let identity = Identity.createAnonymous(name: user.firstName, email: user.email)
+        Zendesk.instance?.setIdentity(identity)
+        Support.initialize(withZendesk: Zendesk.instance)
     }
 }

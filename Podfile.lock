@@ -15,6 +15,20 @@ PODS:
   - SnapKit (5.0.1)
   - SPAlert (2.1.4)
   - SwipeCellKit (2.7.1)
+  - ZendeskCommonUISDK (5.0.0):
+    - ZendeskSDKConfigurationsSDK (~> 1.1.5)
+  - ZendeskCoreSDK (2.4.0)
+  - ZendeskMessagingAPISDK (3.6.0):
+    - ZendeskSDKConfigurationsSDK (~> 1.1.5)
+  - ZendeskMessagingSDK (3.6.0):
+    - ZendeskCommonUISDK (~> 5.0.0)
+    - ZendeskMessagingAPISDK (~> 3.6.0)
+  - ZendeskSDKConfigurationsSDK (1.1.5)
+  - ZendeskSupportProvidersSDK (5.0.5):
+    - ZendeskCoreSDK (~> 2.4.0)
+  - ZendeskSupportSDK (5.0.5):
+    - ZendeskMessagingSDK (~> 3.6.0)
+    - ZendeskSupportProvidersSDK (~> 5.0.5)
 
 DEPENDENCIES:
   - Alamofire
@@ -27,6 +41,7 @@ DEPENDENCIES:
   - Shuffle-iOS
   - SPAlert
   - SwipeCellKit
+  - ZendeskSupportSDK
 
 SPEC REPOS:
   trunk:
@@ -42,6 +57,13 @@ SPEC REPOS:
     - SnapKit
     - SPAlert
     - SwipeCellKit
+    - ZendeskCommonUISDK
+    - ZendeskCoreSDK
+    - ZendeskMessagingAPISDK
+    - ZendeskMessagingSDK
+    - ZendeskSDKConfigurationsSDK
+    - ZendeskSupportProvidersSDK
+    - ZendeskSupportSDK
 
 SPEC CHECKSUMS:
   Alamofire: 85e8a02c69d6020a0d734f6054870d7ecb75cf18
@@ -56,7 +78,14 @@ SPEC CHECKSUMS:
   SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
   SPAlert: 1a8afa1c6ac86a82ab5b2cfdf7f9a51e68cb6c0c
   SwipeCellKit: 3972254a826da74609926daf59b08d6c72e619ea
+  ZendeskCommonUISDK: 0b5ae632c28545c6f7e0791902f5672494d5ccd0
+  ZendeskCoreSDK: 804aff5229ae9500b8057b65fe53ad869856f427
+  ZendeskMessagingAPISDK: 29ce93e76b4833a2257d837de17a0efaeef867e5
+  ZendeskMessagingSDK: bdb534cc75853fab1bc201ce97faadf9accdd1ab
+  ZendeskSDKConfigurationsSDK: 0c610c22c9e3cafcd31591344b8cc3b4398e49b2
+  ZendeskSupportProvidersSDK: d21ce8eb3df1066338c7d3875bb818b32c3f124e
+  ZendeskSupportSDK: 7e29a825e862aba217b7b89f7d3397f7deef586a
 
-PODFILE CHECKSUM: 346cf58681e0e90d8456fe9a003b36ae19d47230
+PODFILE CHECKSUM: 995a2ec32cc806efaee8f585c824a63505ddc1a5
 
 COCOAPODS: 1.9.1

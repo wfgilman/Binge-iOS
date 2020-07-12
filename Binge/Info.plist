@@ -27,8 +27,12 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
+	<key>NSCameraUsageDescription</key>
+	<string>Binge uses your camera to take screenshots for Help and Support.</string>
 	<key>NSContactsUsageDescription</key>
 	<string>Binge uses your contacts to invite friends to connect and match dishes.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Binge uses your photos to upload screenshots for Help and Support.</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

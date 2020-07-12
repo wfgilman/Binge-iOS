@@ -8,6 +8,7 @@
 
 import UIKit
 import UserNotifications
+import ZendeskCoreSDK
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -19,6 +20,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.makeKeyAndVisible()
+        
+        Zendesk.initialize(appId: AppVariable.ZENDESK_APP_ID,
+                           clientId: AppVariable.ZENDESK_CLIENT_ID,
+                           zendeskUrl: AppVariable.ZENDESK_URL)
         
         DataLoader.shared.initialize()
         

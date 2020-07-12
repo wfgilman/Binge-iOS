@@ -31,7 +31,8 @@ class DataLoader {
     
     func initialize() {
         if AppVariable.accessToken != nil {
-            BingeAPI.sharedClient.getUser(success: { (_) in
+            BingeAPI.sharedClient.getUser(success: { (user) in
+                User.identify(user)
                 self.validUser = true
             }) { (_, _) in
                 self.validUser = false

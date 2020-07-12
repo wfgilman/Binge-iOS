@@ -16,4 +16,5 @@ target 'Binge' do
   pod 'Eureka'
   pod 'SPAlert'
   pod 'NotificationBannerSwift'
+  pod 'ZendeskSupportSDK'
 end

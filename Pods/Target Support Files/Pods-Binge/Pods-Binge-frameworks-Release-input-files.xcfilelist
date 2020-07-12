@@ -11,3 +11,10 @@ ${BUILT_PRODUCTS_DIR}/SPAlert/SPAlert.framework
 ${BUILT_PRODUCTS_DIR}/Shuffle-iOS/Shuffle_iOS.framework
 ${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework
 ${BUILT_PRODUCTS_DIR}/SwipeCellKit/SwipeCellKit.framework
+${PODS_ROOT}/ZendeskCommonUISDK/CommonUISDK.framework
+${PODS_ROOT}/ZendeskCoreSDK/ZendeskCoreSDK.framework
+${PODS_ROOT}/ZendeskMessagingAPISDK/MessagingAPI.framework
+${PODS_ROOT}/ZendeskMessagingSDK/MessagingSDK.framework
+${PODS_ROOT}/ZendeskSDKConfigurationsSDK/SDKConfigurations.framework
+${PODS_ROOT}/ZendeskSupportProvidersSDK/SupportProvidersSDK.framework
+${PODS_ROOT}/ZendeskSupportSDK/SupportSDK.framework

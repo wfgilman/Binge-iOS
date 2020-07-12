@@ -109,6 +109,7 @@ class SignUpViewController: UIViewController {
         guard let phone: String = phoneTextField.text else { return }
         if validateFields() == true {
             BingeAPI.sharedClient.createUser(name: name, phone: phone, success: { (user) in
+                User.identify(user)
                 self.performSegue(withIdentifier: "showVerifyViewController", sender: user)
             }) { (_, message) in
                 guard let message: String = message else { return }

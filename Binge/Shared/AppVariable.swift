@@ -12,6 +12,9 @@ struct AppVariable {
     
 //    static let baseURL = "http://localhost:4000/api/v1"
     static let baseURL = "https://binge.gigalixirapp.com/api/v1"
+    static let ZENDESK_URL = "https://binge.zendesk.com"
+    static let ZENDESK_APP_ID = "650ec577d8ec7ab6aa9a9f0c5e4138dc09c79dc819a6d27c"
+    static let ZENDESK_CLIENT_ID = "mobile_sdk_client_4649cea72bf1c295fff2"
     
     static let shareText = "Check out Binge...discover, decide and dine with friends!"
     

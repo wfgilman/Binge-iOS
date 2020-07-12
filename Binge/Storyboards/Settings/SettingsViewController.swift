@@ -9,6 +9,7 @@
 import UIKit
 import Eureka
 import HGPlaceholders
+import SupportSDK
 
 class SettingsViewController: FormViewController {
     
@@ -61,6 +62,7 @@ class SettingsViewController: FormViewController {
         super.viewDidLoad()
         configureListener()
         configureNavigationBar()
+        configureZendesk()
         layoutForm()
         layoutTable()
         initializeFormData()
@@ -89,8 +91,12 @@ class SettingsViewController: FormViewController {
     private func configureNavigationBar() {
         navigationItem.title = "Settings"
         if let navBar = navigationController?.navigationBar {
-             navBar.setup(titleColor: .black, hasBottomBorder: true, isTranslucent: false)
+            navBar.tintColor = .purple
         }
+    }
+    
+    private func configureZendesk() {
+        Theme.currentTheme.primaryColor = .purple
     }
     
     private func layoutForm() {
@@ -216,6 +222,15 @@ class SettingsViewController: FormViewController {
                     }
                 }
             }
+        })
+            
+        +++ ButtonRow("help") { row in
+            row.title = "Help & Feedback"
+            row.baseCell.tintColor = .black
+        }
+        .onCellSelection({ (_, _) in
+            let viewController = RequestUi.buildRequestList(with: [])
+            self.navigationController?.pushViewController(viewController, animated: true)
         })
             
         +++ ButtonRow("shareBinge") { row in
