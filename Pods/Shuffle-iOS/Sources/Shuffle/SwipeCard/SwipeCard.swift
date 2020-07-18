@@ -22,14 +22,14 @@
 /// SOFTWARE.
 ///
 
-
 import UIKit
 
+// swiftlint:disable:next identifier_name
 let CardDidFinishSwipeAnimationNotification = NSNotification.Name(rawValue: "cardDidFinishSwipeAnimation")
 
 open class SwipeCard: SwipeView {
 
-  public var animationOptions: CardAnimatableOptions = CardAnimationOptions.default
+  open var animationOptions: CardAnimatableOptions = CardAnimationOptions.default
 
   /// The the main content view.
   public var content: UIView? {
@@ -88,7 +88,7 @@ open class SwipeCard: SwipeView {
 
   // MARK: - Initialization
 
-  public override init(frame: CGRect) {
+  override public init(frame: CGRect) {
     super.init(frame: frame)
     initialize()
   }
@@ -116,7 +116,7 @@ open class SwipeCard: SwipeView {
 
   // MARK: - Layout
 
-  open override func layoutSubviews() {
+  override open func layoutSubviews() {
     super.layoutSubviews()
     footer?.frame = layoutProvider.createFooterFrame(for: self)
     layoutContentView()
@@ -174,26 +174,6 @@ open class SwipeCard: SwipeView {
     animator.animateReset(on: self)
   }
 
-  open override func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
-    if gestureRecognizer != panGestureRecognizer {
-      return super.gestureRecognizerShouldBegin(gestureRecognizer)
-    }
-
-    let velocity = panGestureRecognizer.velocity(in: superview)
-
-    if let shouldRecognizeHorizontalDrag = delegate?.shouldRecognizeHorizontalDrag(on: self),
-      abs(velocity.x) > abs(velocity.y) {
-      return shouldRecognizeHorizontalDrag
-    }
-
-    if let shouldRecognizeVerticalDrag = delegate?.shouldRecognizeVerticalDrag(on: self),
-      abs(velocity.x) < abs(velocity.y) {
-      return shouldRecognizeVerticalDrag
-    }
-
-    return super.gestureRecognizerShouldBegin(gestureRecognizer)
-  }
-
   // MARK: - Main Methods
 
   public func setOverlay(_ overlay: UIView?, forDirection direction: SwipeDirection) {
@@ -227,11 +207,10 @@ open class SwipeCard: SwipeView {
     isUserInteractionEnabled = false
     animator.animateSwipe(on: self,
                           direction: direction,
-                          forced: forced)
-    { [weak self] finished in
-      if finished {
-        self?.swipeCompletionBlock()
-      }
+                          forced: forced) { [weak self] finished in
+                            if finished {
+                              self?.swipeCompletionBlock()
+                            }
     }
   }
 
@@ -239,8 +218,7 @@ open class SwipeCard: SwipeView {
   /// - Parameter direction: The direction from which the card will be coming off-screen.
   public func reverseSwipe(from direction: SwipeDirection) {
     isUserInteractionEnabled = false
-    animator.animateReverseSwipe(on: self, from: direction)
-    { [weak self] finished in
+    animator.animateReverseSwipe(on: self, from: direction) { [weak self] finished in
       if finished {
         self?.reverseSwipeCompletionBlock()
       }

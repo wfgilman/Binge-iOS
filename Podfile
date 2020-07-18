@@ -17,4 +17,5 @@ target 'Binge' do
   pod 'SPAlert'
   pod 'NotificationBannerSwift'
   pod 'ZendeskSupportSDK'
+  pod 'PARTagPicker'
 end

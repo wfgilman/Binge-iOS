@@ -22,14 +22,21 @@
 /// SOFTWARE.
 ///
 
-
 import Foundation
 
-typealias Swipe = (index: Int, direction: SwipeDirection)
+struct Swipe: Equatable {
+  var index: Int
+  var direction: SwipeDirection
+}
 
 protocol CardStackStateManagable {
   var remainingIndices: [Int] { get }
   var swipes: [Swipe] { get }
+  var totalIndexCount: Int { get }
+
+  func insert(_ index: Int, at position: Int)
+  func delete(_ index: Int)
+  func delete(indexAtPosition position: Int)
 
   func swipe(_ direction: SwipeDirection)
   func undoSwipe() -> Swipe?
@@ -39,8 +46,6 @@ protocol CardStackStateManagable {
 
 /// An internal class to manage the current state of the card stack.
 class CardStackStateManager: CardStackStateManagable {
-
-  static let shared = CardStackStateManager()
 
   /// The indices of the data source which have yet to be swiped.
   ///
@@ -52,10 +57,55 @@ class CardStackStateManager: CardStackStateManagable {
   /// An array containing the swipe history of the card stack.
   var swipes: [Swipe] = []
 
+  var totalIndexCount: Int {
+    return remainingIndices.count + swipes.count
+  }
+
+  func insert(_ index: Int, at position: Int) {
+    precondition(index >= 0, "Attempt to insert card at index \(index)")
+    //swiftlint:disable:next line_length
+    precondition(index <= totalIndexCount, "Attempt to insert card at index \(index), but there are only \(totalIndexCount + 1) cards after the update")
+    precondition(position >= 0, "Attempt to insert card at position \(position)")
+    //swiftlint:disable:next line_length
+    precondition(position <= remainingIndices.count, "Attempt to insert card at position \(position), but there are only \(remainingIndices.count + 1) cards remaining in the stack after the update")
+
+    // Increment all stored indices greater than or equal to index by 1
+    remainingIndices = remainingIndices.map { $0 >= index ? $0 + 1 : $0 }
+    swipes = swipes.map { $0.index >= index ? Swipe(index: $0.index + 1, direction: $0.direction) : $0 }
+
+    remainingIndices.insert(index, at: position)
+  }
+
+  func delete(_ index: Int) {
+    precondition(index >= 0, "Attempt to delete card at index \(index)")
+    //swiftlint:disable:next line_length
+    precondition(index < totalIndexCount, "Attempt to delete card at index \(index), but there are only \(totalIndexCount) cards before the update")
+
+    swipes.removeAll { return $0.index == index }
+
+    if let position = remainingIndices.firstIndex(of: index) {
+      remainingIndices.remove(at: position)
+    }
+
+    // Decrement all stored indices greater than or equal to index by 1
+    remainingIndices = remainingIndices.map { $0 >= index ? $0 - 1 : $0 }
+    swipes = swipes.map { $0.index >= index ? Swipe(index: $0.index - 1, direction: $0.direction) : $0 }
+  }
+
+  func delete(indexAtPosition position: Int) {
+    precondition(position >= 0, "Attempt to delete card at position \(position)")
+    //swiftlint:disable:next line_length
+    precondition(position < remainingIndices.count, "Attempt to delete card at position \(position), but there are only \(remainingIndices.count) cards remaining in the stack before the update")
+
+    // Decrement all stored indices greater than or equal to index by 1
+    let index = remainingIndices.remove(at: position)
+    remainingIndices = remainingIndices.map { $0 >= index ? $0 - 1 : $0 }
+  }
+
   func swipe(_ direction: SwipeDirection) {
     if remainingIndices.isEmpty { return }
     let firstIndex = remainingIndices.removeFirst()
-    let swipe = Swipe(direction: direction, index: firstIndex)
+    let swipe = Swipe(index: firstIndex, direction: direction)
     swipes.append(swipe)
   }
 

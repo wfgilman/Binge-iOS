@@ -9,6 +9,7 @@
 import UIKit
 import Shuffle_iOS
 import SPAlert
+import PARTagPicker
 
 enum MatchType {
     case none
@@ -20,9 +21,15 @@ class DishViewController: UIViewController {
     
     var dishes = [Dish]() {
         didSet {
+            filteredDishes = dishes
             dishCardStack.reloadData()
         }
     }
+    
+    private var hiddenDishes = [Dish]()
+    private var filteredDishes = [Dish]()
+    
+    private var chosenFilters = [String]()
     
     private var likes = [Like]()
     
@@ -31,6 +38,29 @@ class DishViewController: UIViewController {
         stack.delegate = self
         stack.dataSource = self
         return stack
+    }()
+    
+    private lazy var tagController: PARTagPickerViewController = {
+        let tag = PARTagPickerViewController()
+        tag.delegate = self
+        tag.placeholderText = "Add a Filter"
+        tag.allTags = ["Breakfast", "Lunch", "Dinner", "American", "Chinese", "Mexican", "Indian"]
+        tag.allowsNewTags = true
+        tag.view.backgroundColor = .white
+        tag.textfieldRegularTextColor = .purple
+        tag.font = UIFont.systemFont(ofSize: 17)
+        let colors = PARTagColorReference()
+        colors?.defaultTagTextColor = .purple
+        colors?.defaultTagBorderColor = .purple
+        colors?.defaultTagBackgroundColor = .white
+        colors?.chosenTagTextColor = .white
+        colors?.chosenTagBorderColor = .purple
+        colors?.chosenTagBackgroundColor = .purple
+        colors?.highlightedTagTextColor = .white
+        colors?.highlightedTagBorderColor = .purple
+        colors?.highlightedTagBackgroundColor = .purple
+        tag.tagColorRef = colors
+        return tag
     }()
     
     private let actionSheet = CustomAlertController()
@@ -42,6 +72,13 @@ class DishViewController: UIViewController {
         layoutCardStackView()
         configureBackgroundGradient()
         initializeData()
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        guard let touch: UITouch = touches.first else { return }
+        if touch.view != tagController.view {
+            view.endEditing(true)
+        }
     }
     
     private func configureListener() {
@@ -100,19 +137,26 @@ class DishViewController: UIViewController {
     }
     
     private func layoutCardStackView() {
-      view.addSubview(dishCardStack)
-      dishCardStack.anchor(top: view.safeAreaLayoutGuide.topAnchor,
-                       left: view.safeAreaLayoutGuide.leftAnchor,
-                       bottom: view.safeAreaLayoutGuide.bottomAnchor,
-                       right: view.safeAreaLayoutGuide.rightAnchor)
+        addChild(tagController)
+        view.addSubview(tagController.view)
+//        tagController.view.anchor(top: view.safeAreaLayoutGuide.topAnchor,
+//                                  left: view.safeAreaLayoutGuide.leftAnchor,
+//                                  right: view.safeAreaLayoutGuide.rightAnchor,
+//                                  height: COLLECTION_VIEW_HEIGHT)
+        tagController.view.frame = CGRect(x: 0, y: 88, width: view.bounds.width, height: COLLECTION_VIEW_HEIGHT)
+        view.addSubview(dishCardStack)
+        dishCardStack.anchor(top: tagController.view.bottomAnchor,
+                             left: view.safeAreaLayoutGuide.leftAnchor,
+                             bottom: view.safeAreaLayoutGuide.bottomAnchor,
+                             right: view.safeAreaLayoutGuide.rightAnchor)
     }
     
     private func configureBackgroundGradient() {
-      let backgroundGray = UIColor(red: 244/255, green: 247/255, blue: 250/255, alpha: 1)
-      let gradientLayer = CAGradientLayer()
-      gradientLayer.colors = [UIColor.white.cgColor, backgroundGray.cgColor]
-      gradientLayer.frame = view.bounds
-      view.layer.insertSublayer(gradientLayer, at: 0)
+        let backgroundGray = UIColor(red: 244/255, green: 247/255, blue: 250/255, alpha: 1)
+        let gradientLayer = CAGradientLayer()
+        gradientLayer.colors = [UIColor.white.cgColor, backgroundGray.cgColor]
+        gradientLayer.frame = view.bounds
+        view.layer.insertSublayer(gradientLayer, at: 0)
     }
     
     @objc private func handleShift(_ sender: UIButton) {
@@ -129,7 +173,7 @@ extension DishViewController: SwipeCardStackDelegate, SwipeCardStackDataSource {
           card.setOverlay(DishCardOverlay(direction: direction), forDirection: direction)
         }
         
-        let dish = dishes[index]
+        let dish = filteredDishes[index]
         card.content = DishCardContentView(withDish: dish)
         card.footer = DishCardFooterView(withTitle: dish.name, subtitle: dish.restaurantName)
 
@@ -137,18 +181,17 @@ extension DishViewController: SwipeCardStackDelegate, SwipeCardStackDataSource {
     }
     
     func numberOfCards(in cardStack: SwipeCardStack) -> Int {
-        return dishes.count
+        return filteredDishes.count
     }
     
     func cardStack(_ cardStack: SwipeCardStack, didSwipeCardAt index: Int, with direction: SwipeDirection) {
+        let dish = filteredDishes[index]
         switch direction {
         case .up:
-            let dish = dishes[index]
             didLikeDish(dish)
             let alert = self.actionSheet.order(dish: dish)
             self.present(alert, animated: true, completion: nil)
         case .right:
-            let dish = dishes[index]
             didLikeDish(dish)
         default:
             break
@@ -196,5 +239,71 @@ extension DishViewController: SwipeCardStackDelegate, SwipeCardStackDataSource {
             return .restaurant
         }
         return .none
+    }
+}
+
+extension DishViewController: PARTagPickerDelegate {
+    
+    func tagPicker(_ tagPicker: PARTagPickerViewController!, visibilityChangedTo state: PARTagPickerVisibilityState) {
+        var newHeight: CGFloat = 0
+        if state == .topAndBottom {
+            newHeight = 2 * COLLECTION_VIEW_HEIGHT
+        } else if state == .topOnly {
+            newHeight = COLLECTION_VIEW_HEIGHT
+        }
+
+        var frame = tagPicker.view.frame
+        frame.size.height = newHeight
+
+        UIView.animate(withDuration: 0.3) {
+            tagPicker.view.frame = frame
+            self.view.layoutIfNeeded()
+        }
+    }
+    
+    func chosenTagsWereUpdated(inTagPicker tagPicker: PARTagPickerViewController!) {
+        guard let filter = selectedFilter() else { return }
+        
+        for (index, dish) in filteredDishes.enumerated() {
+//            if dish.category != filter {
+//                hideDish(dish, at: index)
+//            }
+        }
+    }
+    
+    private func selectedFilter() -> String? {
+        var changedFilters = [String]()
+        let chosenTags = tagController.chosenTags as! [String]
+        let changes = chosenFilters.difference(from: chosenTags)
+        chosenFilters = chosenTags
+        
+        let addedFilters = changes.insertions.compactMap { (change) -> String? in
+            guard case let .insert(_, element, _) = change else { return nil }
+            return element
+        }
+        let removedFilters = changes.removals.compactMap { (change) -> String? in
+            guard case let .remove(_, element, _) = change else { return nil }
+            return element
+        }
+        
+        changedFilters.append(contentsOf: addedFilters)
+        changedFilters.append(contentsOf: removedFilters)
+        
+        return changedFilters.first
+    }
+    
+    private func hideDish(_ dish: Dish, at index: Int) {
+        filteredDishes.remove(at: index)
+        hiddenDishes.append(dish)
+        dishCardStack.deleteCard(atIndex: index)
+    }
+    
+    private func showDishes(_ dishes: [Dish]) {
+        navigationItem.leftBarButtonItem?.isEnabled = false
+        for dish in dishes {
+            hiddenDishes.removeAll { $0.id == dish.id }
+        }
+        filteredDishes.append(contentsOf: dishes)
+        dishCardStack.reloadData()
     }
 }

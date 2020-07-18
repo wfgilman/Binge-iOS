@@ -45,6 +45,8 @@ class BingeAPI: NSObject {
             case .success(let value):
                 do {
                     let dishes = try value.decoded() as [Dish]
+                    for dish in dishes {
+                    }
                     success(dishes)
                 } catch {
                     // Handle failure.
