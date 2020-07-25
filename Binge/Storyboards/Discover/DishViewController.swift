@@ -17,6 +17,11 @@ enum MatchType {
     case restaurant
 }
 
+enum FilterAction {
+    case add
+    case remove
+}
+
 class DishViewController: UIViewController {
     
     var dishes = [Dish]() {
@@ -123,7 +128,7 @@ class DishViewController: UIViewController {
     }
     
     private func configureNavigationBar() {
-        navigationItem.addTextButton(side: .Left, text: "Undo", color: .lightGray, target: self, action: #selector(handleShift(_:)))
+//        navigationItem.addTextButton(side: .Left, text: "Undo", color: .lightGray, target: self, action: #selector(handleShift(_:)))
         navigationItem.addTextButton(side: .Right, text: "Share", color: .black, target: self, action: #selector(shareBinge))
         navigationItem.title = "Binge"
         if let navBar = navigationController?.navigationBar {
@@ -139,11 +144,11 @@ class DishViewController: UIViewController {
     private func layoutCardStackView() {
         addChild(tagController)
         view.addSubview(tagController.view)
-//        tagController.view.anchor(top: view.safeAreaLayoutGuide.topAnchor,
-//                                  left: view.safeAreaLayoutGuide.leftAnchor,
-//                                  right: view.safeAreaLayoutGuide.rightAnchor,
-//                                  height: COLLECTION_VIEW_HEIGHT)
-        tagController.view.frame = CGRect(x: 0, y: 88, width: view.bounds.width, height: COLLECTION_VIEW_HEIGHT)
+        tagController.view.anchor(top: view.safeAreaLayoutGuide.topAnchor,
+                                  left: view.safeAreaLayoutGuide.leftAnchor,
+                                  right: view.safeAreaLayoutGuide.rightAnchor,
+                                  height: COLLECTION_VIEW_HEIGHT)
+//        tagController.view.frame = CGRect(x: 0, y: 88, width: view.bounds.width, height: COLLECTION_VIEW_HEIGHT)
         view.addSubview(dishCardStack)
         dishCardStack.anchor(top: tagController.view.bottomAnchor,
                              left: view.safeAreaLayoutGuide.leftAnchor,
@@ -257,21 +262,25 @@ extension DishViewController: PARTagPickerDelegate {
 
         UIView.animate(withDuration: 0.3) {
             tagPicker.view.frame = frame
-            self.view.layoutIfNeeded()
+            self.tagController.view.layoutIfNeeded()
         }
     }
     
     func chosenTagsWereUpdated(inTagPicker tagPicker: PARTagPickerViewController!) {
-        guard let filter = selectedFilter() else { return }
+        let (action, filter) = selectedFilter()
         
-        for (index, dish) in filteredDishes.enumerated() {
-//            if dish.category != filter {
-//                hideDish(dish, at: index)
-//            }
+        switch action {
+        case .add:
+            let dishesToHide = filteredDishes.filter { $0.category != filter }
+            hideDishes(dishesToHide)
+        case .remove:
+            let dishesToShow = hiddenDishes.filter { $0.category != filter }
+            showDishes(dishesToShow)
         }
     }
     
-    private func selectedFilter() -> String? {
+    private func selectedFilter() -> (FilterAction, String) {
+        var action: FilterAction!
         var changedFilters = [String]()
         let chosenTags = tagController.chosenTags as! [String]
         let changes = chosenFilters.difference(from: chosenTags)
@@ -279,27 +288,30 @@ extension DishViewController: PARTagPickerDelegate {
         
         let addedFilters = changes.insertions.compactMap { (change) -> String? in
             guard case let .insert(_, element, _) = change else { return nil }
+            action = .remove
             return element
         }
         let removedFilters = changes.removals.compactMap { (change) -> String? in
             guard case let .remove(_, element, _) = change else { return nil }
+            action = .add
             return element
         }
         
         changedFilters.append(contentsOf: addedFilters)
         changedFilters.append(contentsOf: removedFilters)
         
-        return changedFilters.first
+        return (action, changedFilters.first!)
     }
     
-    private func hideDish(_ dish: Dish, at index: Int) {
-        filteredDishes.remove(at: index)
-        hiddenDishes.append(dish)
-        dishCardStack.deleteCard(atIndex: index)
+    private func hideDishes(_ dishes: [Dish]) {
+        for dish in dishes {
+            filteredDishes.removeAll { $0.id == dish.id }
+        }
+        hiddenDishes.append(contentsOf: dishes)
+        dishCardStack.reloadData()
     }
     
     private func showDishes(_ dishes: [Dish]) {
-        navigationItem.leftBarButtonItem?.isEnabled = false
         for dish in dishes {
             hiddenDishes.removeAll { $0.id == dish.id }
         }
