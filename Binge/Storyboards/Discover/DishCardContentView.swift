@@ -14,6 +14,7 @@ class DishCardContentView: UIView {
     
     private var bevelAmount: CGFloat!
     private var hasShadow: Bool!
+    private var footerHeight: CGFloat!
     
     private let backgroundView: UIView = {
       let background = UIView()
@@ -40,12 +41,13 @@ class DishCardContentView: UIView {
         return nil
     }
     
-    init(withDish dish: Dish, bevelAmount: CGFloat = 10, hasShadow: Bool = true) {
+    init(withDish dish: Dish, bevelAmount: CGFloat = 10, hasShadow: Bool = true, footerHeight: CGFloat = 0) {
         super.init(frame: .zero)
         let url = URL(string: dish.imageUrl)
         imageView.kf.setImage(with: url)
         self.bevelAmount = bevelAmount
         self.hasShadow = hasShadow
+        self.footerHeight = footerHeight
         initialize()
     }
     
@@ -54,7 +56,11 @@ class DishCardContentView: UIView {
         addSubview(backgroundView)
         backgroundView.anchorToSuperview()
         backgroundView.addSubview(imageView)
-        imageView.anchorToSuperview()
+        imageView.anchor(top: backgroundView.topAnchor,
+                         left: backgroundView.leftAnchor,
+                         bottom: backgroundView.bottomAnchor,
+                         right: backgroundView.rightAnchor,
+                         paddingBottom: footerHeight)
         applyShadow(radius: 8, opacity: 0.2, offset: CGSize(width: 0, height: 2))
         if hasShadow {
             backgroundView.layer.insertSublayer(gradientLayer, above: imageView.layer)
@@ -64,9 +70,9 @@ class DishCardContentView: UIView {
     override func draw(_ rect: CGRect) {
       super.draw(rect)
       let heightFactor: CGFloat = 0.35
-      gradientLayer.frame = CGRect(x: 0, y: (1 - heightFactor) * bounds.height,
+      gradientLayer.frame = CGRect(x: 0, y: (1 - heightFactor) * (bounds.height - footerHeight),
                                    width: bounds.width,
-                                   height: heightFactor * bounds.height)
+                                   height: heightFactor * (bounds.height - footerHeight))
     }
     
 }

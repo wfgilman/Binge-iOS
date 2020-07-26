@@ -20,7 +20,7 @@ class DishCardFooterView: UIView {
     
     init(withTitle title: String?, subtitle: String?) {
         super.init(frame: CGRect.zero)
-        backgroundColor = .clear
+        backgroundColor = .white
         layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
         layer.cornerRadius = 10
         clipsToBounds = true

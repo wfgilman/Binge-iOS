@@ -144,11 +144,9 @@ class DishViewController: UIViewController {
     private func layoutCardStackView() {
         addChild(tagController)
         view.addSubview(tagController.view)
-        tagController.view.anchor(top: view.safeAreaLayoutGuide.topAnchor,
-                                  left: view.safeAreaLayoutGuide.leftAnchor,
-                                  right: view.safeAreaLayoutGuide.rightAnchor,
-                                  height: COLLECTION_VIEW_HEIGHT)
-//        tagController.view.frame = CGRect(x: 0, y: 88, width: view.bounds.width, height: COLLECTION_VIEW_HEIGHT)
+        tagController.view.frame = CGRect(x: 0, y: 88, width: view.bounds.width, height: 2 * COLLECTION_VIEW_HEIGHT)
+        tagController.visibilityState = .topAndBottom
+        tagController.shouldAutomaticallyChangeVisibilityState = false
         view.addSubview(dishCardStack)
         dishCardStack.anchor(top: tagController.view.bottomAnchor,
                              left: view.safeAreaLayoutGuide.leftAnchor,
@@ -173,15 +171,16 @@ extension DishViewController: SwipeCardStackDelegate, SwipeCardStackDataSource {
     
     func cardStack(_ cardStack: SwipeCardStack, cardForIndexAt index: Int) -> SwipeCard {
         let card = SwipeCard()
+        let footerHeight: CGFloat = 100
         card.swipeDirections = [.left, .right, .up]
         for direction in card.swipeDirections {
           card.setOverlay(DishCardOverlay(direction: direction), forDirection: direction)
         }
         
         let dish = filteredDishes[index]
-        card.content = DishCardContentView(withDish: dish)
+        card.content = DishCardContentView(withDish: dish, footerHeight: footerHeight)
         card.footer = DishCardFooterView(withTitle: dish.name, subtitle: dish.restaurantName)
-
+        card.footerHeight = footerHeight
         return card
     }
     
@@ -191,6 +190,7 @@ extension DishViewController: SwipeCardStackDelegate, SwipeCardStackDataSource {
     
     func cardStack(_ cardStack: SwipeCardStack, didSwipeCardAt index: Int, with direction: SwipeDirection) {
         let dish = filteredDishes[index]
+        filteredDishes.removeAll(where: { $0.id == dish.id })
         switch direction {
         case .up:
             didLikeDish(dish)
@@ -250,31 +250,17 @@ extension DishViewController: SwipeCardStackDelegate, SwipeCardStackDataSource {
 extension DishViewController: PARTagPickerDelegate {
     
     func tagPicker(_ tagPicker: PARTagPickerViewController!, visibilityChangedTo state: PARTagPickerVisibilityState) {
-        var newHeight: CGFloat = 0
-        if state == .topAndBottom {
-            newHeight = 2 * COLLECTION_VIEW_HEIGHT
-        } else if state == .topOnly {
-            newHeight = COLLECTION_VIEW_HEIGHT
-        }
-
-        var frame = tagPicker.view.frame
-        frame.size.height = newHeight
-
-        UIView.animate(withDuration: 0.3) {
-            tagPicker.view.frame = frame
-            self.tagController.view.layoutIfNeeded()
-        }
+        // Nothing, visibility state changes are disabled.
     }
     
     func chosenTagsWereUpdated(inTagPicker tagPicker: PARTagPickerViewController!) {
         let (action, filter) = selectedFilter()
-        
         switch action {
         case .add:
-            let dishesToHide = filteredDishes.filter { $0.category != filter }
+            let dishesToHide = filteredDishes.filter { ($0.category != filter) && ($0.tags.localizedCaseInsensitiveContains(filter) == false) }
             hideDishes(dishesToHide)
         case .remove:
-            let dishesToShow = hiddenDishes.filter { $0.category != filter }
+            let dishesToShow = hiddenDishes.filter { ($0.category != filter) && ($0.tags.localizedCaseInsensitiveContains(filter) == false) }
             showDishes(dishesToShow)
         }
     }

@@ -20,13 +20,13 @@ extension NSAttributedString.Key {
 
     static var titleAttributes: [NSAttributedString.Key: Any] = [
         NSAttributedString.Key.font: UIFont(name: "ArialRoundedMTBold", size: 24)!,
-        NSAttributedString.Key.foregroundColor: UIColor.white,
+        NSAttributedString.Key.foregroundColor: UIColor.black,
         NSAttributedString.Key.shadow: NSAttributedString.Key.shadowAttribute
     ]
 
     static var subtitleAttributes: [NSAttributedString.Key: Any] = [
         NSAttributedString.Key.font: UIFont(name: "Arial", size: 17)!,
-        NSAttributedString.Key.foregroundColor: UIColor.white,
+        NSAttributedString.Key.foregroundColor: UIColor.black,
         NSAttributedString.Key.shadow: NSAttributedString.Key.shadowAttribute
     ]
     
