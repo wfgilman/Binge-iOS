@@ -145,7 +145,10 @@ class DishViewController: UIViewController {
     private func layoutCardStackView() {
         addChild(tagController)
         view.addSubview(tagController.view)
-        tagController.view.frame = CGRect(x: 0, y: 88, width: view.bounds.width, height: 2 * COLLECTION_VIEW_HEIGHT)
+        tagController.view.anchor(top: view.safeAreaLayoutGuide.topAnchor,
+                                  left: view.safeAreaLayoutGuide.leftAnchor,
+                                  right: view.safeAreaLayoutGuide.rightAnchor,
+                                  height: 2 * COLLECTION_VIEW_HEIGHT)
         tagController.visibilityState = .topAndBottom
         tagController.shouldAutomaticallyChangeVisibilityState = false
         view.addSubview(dishCardStack)
