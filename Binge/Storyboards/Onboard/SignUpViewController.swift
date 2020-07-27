@@ -104,7 +104,8 @@ class SignUpViewController: UIViewController {
         return true
     }
     
-    @objc private func createUser() {
+    @objc
+    private func createUser() {
         guard let name: String = nameTextField.text else { return }
         guard let phone: String = phoneTextField.text else { return }
         if validateFields() == true {

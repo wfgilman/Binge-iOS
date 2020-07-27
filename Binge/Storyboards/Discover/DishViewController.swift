@@ -128,7 +128,7 @@ class DishViewController: UIViewController {
     }
     
     private func configureNavigationBar() {
-//        navigationItem.addTextButton(side: .Left, text: "Undo", color: .lightGray, target: self, action: #selector(handleShift(_:)))
+        navigationItem.addTextButton(side: .Left, text: "Undo", color: .lightGray, target: self, action: #selector(handleShift(_:)))
         navigationItem.addTextButton(side: .Right, text: "Share", color: .black, target: self, action: #selector(shareBinge))
         navigationItem.title = "Binge"
         if let navBar = navigationController?.navigationBar {
@@ -136,7 +136,8 @@ class DishViewController: UIViewController {
         }
     }
     
-    @objc private func shareBinge() {
+    @objc
+    private func shareBinge() {
         let activity = UIActivityViewController(activityItems: [AppVariable.shareText], applicationActivities: nil)
         self.present(activity, animated: true, completion: nil)
     }
@@ -162,7 +163,8 @@ class DishViewController: UIViewController {
         view.layer.insertSublayer(gradientLayer, at: 0)
     }
     
-    @objc private func handleShift(_ sender: UIButton) {
+    @objc
+    private func handleShift(_ sender: UIButton) {
         dishCardStack.undoLastSwipe(animated: true)
     }
 }
@@ -171,16 +173,15 @@ extension DishViewController: SwipeCardStackDelegate, SwipeCardStackDataSource {
     
     func cardStack(_ cardStack: SwipeCardStack, cardForIndexAt index: Int) -> SwipeCard {
         let card = SwipeCard()
-        let footerHeight: CGFloat = 100
         card.swipeDirections = [.left, .right, .up]
         for direction in card.swipeDirections {
           card.setOverlay(DishCardOverlay(direction: direction), forDirection: direction)
         }
         
         let dish = filteredDishes[index]
-        card.content = DishCardContentView(withDish: dish, footerHeight: footerHeight)
+        card.content = DishCardContentView(withDish: dish)
         card.footer = DishCardFooterView(withTitle: dish.name, subtitle: dish.restaurantName)
-        card.footerHeight = footerHeight
+        
         return card
     }
     
@@ -190,7 +191,6 @@ extension DishViewController: SwipeCardStackDelegate, SwipeCardStackDataSource {
     
     func cardStack(_ cardStack: SwipeCardStack, didSwipeCardAt index: Int, with direction: SwipeDirection) {
         let dish = filteredDishes[index]
-        filteredDishes.removeAll(where: { $0.id == dish.id })
         switch direction {
         case .up:
             didLikeDish(dish)
@@ -294,6 +294,7 @@ extension DishViewController: PARTagPickerDelegate {
             filteredDishes.removeAll { $0.id == dish.id }
         }
         hiddenDishes.append(contentsOf: dishes)
+        filteredDishes.shuffle()
         dishCardStack.reloadData()
     }
     
@@ -302,6 +303,7 @@ extension DishViewController: PARTagPickerDelegate {
             hiddenDishes.removeAll { $0.id == dish.id }
         }
         filteredDishes.append(contentsOf: dishes)
+        filteredDishes.shuffle()
         dishCardStack.reloadData()
     }
 }

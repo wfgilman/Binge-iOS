@@ -79,7 +79,8 @@ class LikesViewController: UIViewController {
         }
     }
     
-    @objc private func reloadLikedDishes() {
+    @objc
+    private func reloadLikedDishes() {
         if AppVariable.validUser == true {
             BingeAPI.sharedClient.getDishes(filter: .like, success: { (dishes) in
                 self.dishes = dishes

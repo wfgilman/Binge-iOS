@@ -41,26 +41,22 @@ class DishCardContentView: UIView {
         return nil
     }
     
-    init(withDish dish: Dish, bevelAmount: CGFloat = 10, hasShadow: Bool = true, footerHeight: CGFloat = 0) {
+    init(withDish dish: Dish, bevelAmount: CGFloat = 10, hasShadow: Bool = true) {
         super.init(frame: .zero)
         let url = URL(string: dish.imageUrl)
         imageView.kf.setImage(with: url)
         self.bevelAmount = bevelAmount
         self.hasShadow = hasShadow
-        self.footerHeight = footerHeight
         initialize()
     }
     
     private func initialize() {
         backgroundView.layer.cornerRadius = bevelAmount
+        backgroundView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         addSubview(backgroundView)
         backgroundView.anchorToSuperview()
         backgroundView.addSubview(imageView)
-        imageView.anchor(top: backgroundView.topAnchor,
-                         left: backgroundView.leftAnchor,
-                         bottom: backgroundView.bottomAnchor,
-                         right: backgroundView.rightAnchor,
-                         paddingBottom: footerHeight)
+        imageView.anchorToSuperview()
         applyShadow(radius: 8, opacity: 0.2, offset: CGSize(width: 0, height: 2))
         if hasShadow {
             backgroundView.layer.insertSublayer(gradientLayer, above: imageView.layer)
@@ -70,9 +66,9 @@ class DishCardContentView: UIView {
     override func draw(_ rect: CGRect) {
       super.draw(rect)
       let heightFactor: CGFloat = 0.35
-      gradientLayer.frame = CGRect(x: 0, y: (1 - heightFactor) * (bounds.height - footerHeight),
+      gradientLayer.frame = CGRect(x: 0, y: (1 - heightFactor) * bounds.height,
                                    width: bounds.width,
-                                   height: heightFactor * (bounds.height - footerHeight))
+                                   height: heightFactor * bounds.height)
     }
     
 }

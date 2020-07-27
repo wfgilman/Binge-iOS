@@ -85,7 +85,8 @@ class VerifyViewController: UIViewController {
                                 paddingRight: 20)
     }
     
-    @objc private func sendVerificationCode() {
+    @objc
+    private func sendVerificationCode() {
         guard let user: User = self.user else {
             print("no user")
             return
@@ -98,7 +99,8 @@ class VerifyViewController: UIViewController {
         }
     }
     
-    @objc private func confirmCode() {
+    @objc
+    private func confirmCode() {
         codeTextField.resignFirstResponder()
         guard let code: String = codeTextField.text else { return }
         guard let user: User = self.user else { return }

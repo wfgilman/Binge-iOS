@@ -24,7 +24,7 @@ class DishCardFooterView: UIView {
         layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
         layer.cornerRadius = 10
         clipsToBounds = true
-        isOpaque = false
+        isOpaque = true
         initialize(title: title, subtitle: subtitle)
     }
     

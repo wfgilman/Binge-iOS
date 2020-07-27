@@ -113,9 +113,10 @@ class InviteViewController: UIViewController {
          }
          
          return true
-     }
+    }
      
-     @objc private func sendInvitation() {
+    @objc
+    private func sendInvitation() {
         var contact: CNMutableContact
         
         if self.contact == nil {

@@ -114,7 +114,8 @@ class MatchViewController: UIViewController {
         }
     }
     
-    @objc private func reloadMatchedDishes() {
+    @objc
+    private func reloadMatchedDishes() {
         if AppVariable.validUser == true {
             BingeAPI.sharedClient.getDishes(filter: .match, success: { (dishes) in
                 self.dishes = dishes

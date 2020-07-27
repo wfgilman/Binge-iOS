@@ -73,7 +73,8 @@ class SuccessViewController: UIViewController {
                             height: 44)
     }
     
-    @objc private func segueToInvite() {
+    @objc
+    private func segueToInvite() {
         weak var pvc = self.presentingViewController
         self.dismiss(animated: false) {
             let storyboard = UIStoryboard(name: "Invite", bundle: nil)
