@@ -10,7 +10,6 @@
 #endif
 #endif
 
-#import "Shuffle.h"
 
 FOUNDATION_EXPORT double Shuffle_iOSVersionNumber;
 FOUNDATION_EXPORT const unsigned char Shuffle_iOSVersionString[];

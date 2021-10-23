@@ -50,7 +50,7 @@ To run the example project, clone the repo and run the `ShuffleExample` target.
       card.content = UIImageView(image: image)
       
       let leftOverlay = UIView()
-      leftoverlay.backgroundColor = .green
+      leftOverlay.backgroundColor = .green
       
       let rightOverlay = UIView()
       rightOverlay.backgroundColor = .red
@@ -172,8 +172,8 @@ func setOverlays(_ overlays: [SwipeDirection: UIView])
 ## Advanced Usage
 For more advanced usage, including
 
-* [Adding New Cards](Documentation/AdvancedUsage.md#adding-new-cards)
 * [Animations](Documentation/AdvancedUsage.md#animations)
+* [Inserting and Deleting Cards](Documentation/AdvancedUsage.md#inserting-and-deleting-cards)
 * [Swipe Recognition](Documentation/AdvancedUsage.md#swipe-recognition)
 
 visit the document [here](Documentation/AdvancedUsage.md).
@@ -184,6 +184,12 @@ visit the document [here](Documentation/AdvancedUsage.md).
 Shuffle is available through [CocoaPods](<https://cocoapods.org/>). To install it, simply add the following line to your `Podfile`:
 
 	pod 'Shuffle-iOS'
+
+The import statement in this case will be
+
+```swift
+import Shuffle_iOS
+```
 
 ### Carthage
 
@@ -201,7 +207,7 @@ dependencies: [
 ```
 
 ### Manual
-Download and drop the `Shuffle` directory into your project.
+Download and drop the `Sources` directory into your project.
 
 ## Requirements
 * iOS 9.0+
@@ -226,6 +232,9 @@ We love to hear about apps that use Shuffle - feel free to submit a pull request
 
 <a href="https://apps.apple.com/us/app/id1516742129">
 <img src="https://raw.githubusercontent.com/mac-gallagher/Shuffle/master/Assets/AppIcons/eternal_app_icon.png" title="Eternal" width="80" align="center"></a>
+
+<a href="https://apps.apple.com/us/app/kanji-memo/id1552701832">
+<img src="Assets/AppIcons/KanjiMemo_app_icon.png" title="Kanji-Memo" width="80" align="center"></a>
 </p>
 
 ---

@@ -1,104 +1,86 @@
 # SPAlert
 
-**Popup from Apple Music & Feedback in AppStore**. Contains `Done`, `Heart`, `Error` and other presets. Supports Dark Mode. I tried to recreate Apple's alerts as much as possible. You can find these alerts in the AppStore after feedback and after you add a song to your library in Apple Music.
+**Popup from Apple Music & Feedback in AppStore**. Contains `Done`, `Heart`, `Error` and other presets. Supports Dark Mode. I tried to recreate Apple's alerts as much as possible. You can find these alerts in the AppStore after feedback and after you add a song to your library in Apple Music. Support `SwiftUI`.
 
 <p float="left">
-    <img src="https://github.com/ivanvorobei/SPAlert/blob/master/Assets/Readme/Preview%20-%20Done.gif" width="230">
-    <img src="https://github.com/ivanvorobei/SPAlert/blob/master/Assets/Readme/Preview%20-%20Heart.gif" width="230">
-    <img src="https://github.com/ivanvorobei/SPAlert/blob/master/Assets/Readme/Preview%20-%20Message.gif" width="230">
+<img src="https://github.com/ivanvorobei/SPAlert/blob/main/Assets/Readme/Animatable/Done.gif" width="230">
+<img src="https://github.com/ivanvorobei/SPAlert/blob/main/Assets/Readme/Animatable/Heart.gif" width="230">
+<img src="https://github.com/ivanvorobei/SPAlert/blob/main/Assets/Readme/Animatable/Message.gif" width="230">
 </p>
 
-And more:
+You can create more with custom images and [SFSymbols](https://developer.apple.com/sf-symbols/) more:
 
 <p float="left">
-    <img src="https://github.com/ivanvorobei/SPAlert/blob/master/Assets/Readme/Miniature%20-%20Doc.svg" width="50">
-    <img src="https://github.com/ivanvorobei/SPAlert/blob/master/Assets/Readme/Miniature%20-%20Bookmark.svg" width="50">
-    <img src="https://github.com/ivanvorobei/SPAlert/blob/master/Assets/Readme/Miniature%20-%20Moon.svg" width="50">
-    <img src="https://github.com/ivanvorobei/SPAlert/blob/master/Assets/Readme/Miniature%20-%20Star.svg" width="50">
-    <img src="https://github.com/ivanvorobei/SPAlert/blob/master/Assets/Readme/Miniature%20-%20Flag.svg" width="50">
-    <img src="https://github.com/ivanvorobei/SPAlert/blob/master/Assets/Readme/Miniature%20-%20Exclamation.svg" width="50">
-    <img src="https://github.com/ivanvorobei/SPAlert/blob/master/Assets/Readme/Miniature%20-%20Question.svg" width="50">
-    <img src="https://github.com/ivanvorobei/SPAlert/blob/master/Assets/Readme/Miniature%20-%20Message.svg" width="50">
-    <img src="https://github.com/ivanvorobei/SPAlert/blob/master/Assets/Readme/Miniature%20-%20Bolt.svg" width="50">
-    <img src="https://github.com/ivanvorobei/SPAlert/blob/master/Assets/Readme/Miniature%20-%20Eject.svg" width="50">
-    <img src="https://github.com/ivanvorobei/SPAlert/blob/master/Assets/Readme/Miniature%20-%20Card.svg" width="50">
-    <img src="https://github.com/ivanvorobei/SPAlert/blob/master/Assets/Readme/Miniature%20-%20Cart.svg" width="50">
-    <img src="https://github.com/ivanvorobei/SPAlert/blob/master/Assets/Readme/Miniature%20-%20Like.svg" width="50">
-    <img src="https://github.com/ivanvorobei/SPAlert/blob/master/Assets/Readme/Miniature%20-%20Dislike.svg" width="50">
-    <img src="https://github.com/ivanvorobei/SPAlert/blob/master/Assets/Readme/Miniature%20-%20Privacy.svg" width="50">
-    <img src="https://github.com/ivanvorobei/SPAlert/blob/master/Assets/Readme/Miniature%20-%20Rotate.svg" width="50">
-    <img src="https://github.com/ivanvorobei/SPAlert/blob/master/Assets/Readme/Miniature%20-%20Search.svg" width="50">
-    <img src="https://github.com/ivanvorobei/SPAlert/blob/master/Assets/Readme/Miniature%20-%20Add.svg" width="50">
-    <img src="https://github.com/ivanvorobei/SPAlert/blob/master/Assets/Readme/Miniature%20-%20Error.svg" width="50">
-    <img src="https://github.com/ivanvorobei/SPAlert/blob/master/Assets/Readme/Miniature%20-%20Shuffle.svg" width="50">
-    <img src="https://github.com/ivanvorobei/SPAlert/blob/master/Assets/Readme/Miniature%20-%20Repeat.svg" width="50">
+<img src="https://github.com/ivanvorobei/SPAlert/blob/main/Assets/Readme/Miniatures/Bookmark.svg" width="50">
+<img src="https://github.com/ivanvorobei/SPAlert/blob/main/Assets/Readme/Miniatures/Moon.svg" width="50">
+<img src="https://github.com/ivanvorobei/SPAlert/blob/main/Assets/Readme/Miniatures/Star.svg" width="50">
+<img src="https://github.com/ivanvorobei/SPAlert/blob/main/Assets/Readme/Miniatures/Exclamation.svg" width="50">
+<img src="https://github.com/ivanvorobei/SPAlert/blob/main/Assets/Readme/Miniatures/Bolt.svg" width="50">
+<img src="https://github.com/ivanvorobei/SPAlert/blob/main/Assets/Readme/Miniatures/Cart.svg" width="50">
+<img src="https://github.com/ivanvorobei/SPAlert/blob/main/Assets/Readme/Miniatures/Like.svg" width="50">
+<img src="https://github.com/ivanvorobei/SPAlert/blob/main/Assets/Readme/Miniatures/Dislike.svg" width="50">
+<img src="https://github.com/ivanvorobei/SPAlert/blob/main/Assets/Readme/Miniatures/Privacy.svg" width="50">
+<img src="https://github.com/ivanvorobei/SPAlert/blob/main/Assets/Readme/Miniatures/Search.svg" width="50">
+<img src="https://github.com/ivanvorobei/SPAlert/blob/main/Assets/Readme/Miniatures/Add.svg" width="50">
+<img src="https://github.com/ivanvorobei/SPAlert/blob/main/Assets/Readme/Miniatures/Error.svg" width="50">
 </p>
 
-If you like the project, please do not forget to `star ★` this repository and follow me on GitHub. To help out with the project, see the [Сooperation](#сooperation) section.
+If you like the project, don't forget to `put star ★`<br>Check out my other libraries:
 
-For an example of this plugin in use, check this app: _Debts - Spending tracker_ for [iOS](https://itunes.apple.com/app/id1446635818) and [macOS](https://apps.apple.com/app/id1496914334). You can buy source code this apps in my store for iOS developers:
-
-[![xcode-shop.com](https://github.com/ivanvorobei/SPPermissions/blob/master/Assets/Buttons/xcode-shop.svg)](https://xcode-shop.com)
-[![https://github.com/ivanvorobei](https://github.com/ivanvorobei/SPPermissions/blob/master/Assets/Buttons/follow-me-on-github.svg)](https://github.com/ivanvorobei)
+<p float="left">
+    <a href="https://opensource.ivanvorobei.by">
+        <img src="https://github.com/ivanvorobei/Readme/blob/main/Buttons/more-libraries.svg">
+    </a>
+</p>
 
 ## Navigate
 
-- [Requirements](#requirements)
 - [Installation](#installation)
-    - [CocoaPods](#cocoapods)
     - [Swift Package Manager](#swift-package-manager)
-    - [Carthage](#carthage)
+    - [CocoaPods](#cocoapods)
     - [Manually](#manually)
 - [Quick Start](#quick-start)
 - [Usage](#usage)
     - [Duration](#duration)
-    - [Dark Mode](#dark-mode)
     - [Layout](#layout)
     - [Dismiss by Tap](#dismiss-by-tap)
-    - [Haptic](#haptic)   
-    - [Corner Radius](#corner-radius)
-- [Сooperation](#сooperation)
-- [License](#license)
-
-## Requirements
-
-Swift `4.2` & `5.0`. Ready for use on iOS 10+
+    - [Haptic](#haptic)
+    - [Shared Configuration](#shared-configuration)
+- [SwiftUI](#swiftui)
+- [Other Projects](#other-projects)
+- [Russian Community](#russian-community)
 
 ## Installation
 
-### CocoaPods:
+Ready for use on iOS 11+. Works with Swift 5+. Required Xcode 12.0 and higher.
 
-[CocoaPods](https://cocoapods.org) is a dependency manager for Cocoa projects. For usage and installation instructions, visit their website. To integrate `SPAlert` into your Xcode project using CocoaPods, specify it in your `Podfile`:
-
-```ruby
-pod 'SPAlert'
-```
+<img align="right" src="https://github.com/ivanvorobei/SPAlert/blob/main/Assets/Readme/spm-install-preview.png" width="520"/>
 
 ### Swift Package Manager
 
 The [Swift Package Manager](https://swift.org/package-manager/) is a tool for managing the distribution of Swift code. It’s integrated with the Swift build system to automate the process of downloading, compiling, and linking dependencies.
 
-To integrate `SPAlert` into your Xcode project using Xcode 11, specify it in `File > Swift Packages > Add`:
+To integrate using Xcode 12, specify it in `File > Swift Packages > Add Package Dependency...`:
 
 ```ogdl
 https://github.com/ivanvorobei/SPAlert
 ```
 
-### Carthage
+### CocoaPods:
 
-[Carthage](https://github.com/Carthage/Carthage) is a decentralized dependency manager that builds your dependencies and provides you with binary frameworks. To integrate `SPAlert` into your Xcode project using Carthage, specify it in your `Cartfile`:
+[CocoaPods](https://cocoapods.org) is a dependency manager for Cocoa projects. For usage and installation instructions, visit their website. To integrate using CocoaPods, specify it in your `Podfile`:
 
-```ogdl
-github "ivanvorobei/SPAlert"
+```ruby
+pod 'SPAlert'
 ```
 
 ### Manually
 
-If you prefer not to use any of dependency managers, you can integrate `SPAlert` into your project manually. Put `Source/SPAlert` folder in your Xcode project. Make sure to enable `Copy items if needed` and `Create groups`.
+If you prefer not to use any of dependency managers, you can integrate manually. Put `Sources/SPAlert` folder in your Xcode project. Make sure to enable `Copy items if needed` and `Create groups`.
 
 ## Quick Start
 
-For best experience, I recommend presenting the alerts by calling the class functions on `SPAlert`. These functions are updated regularly and show the alerts "the Apple way". I focus on presets: 
+For best experience, I recommend presenting alerts by calling the class functions `SPAlert`. These functions are updated regularly and show the alerts as Apple way: 
 
 ```swift
 SPAlert.present(title: "Added to Library", preset: .done)
@@ -107,89 +89,124 @@ SPAlert.present(title: "Added to Library", preset: .done)
 For using a custom image:
 
 ```swift 
-SPAlert.present(title: "Love", message: "We'll recommend more like this in For You", image: UIImage(named: "Heart")!)
+SPAlert.present(title: "Love", message: "We'll recommend more like this in For You", preset: .custom(UIImage.init(named: "heart")!))
 ```
 
 For showing a simple text message:
 
 ```swift 
-SPAlert.present(message: "Text!")
+SPAlert.present(message: "Something going wrong", haptic: .error)
 ```
 
 ## Usage
 
-If you require deep customization, this section will show you what you can do.
-
 ### Duration
 
-If you want the `SPAlert` to be shwon longer, use the `duration` property:
-
-```swift 
-let alertView = SPAlertView(title: "Added to Library", message: nil, preset: SPAlertPreset.done)
-alertView.duration = 3
-alertView.present()
-```
-
-### Dark Mode
-
-<img align="left" src="https://github.com/ivanvorobei/SPAlert/blob/master/Assets/Readme/Preview%20-%20DarkMode.jpg" width="220">
-
-Dark Mode needs no additional configuration. As soon as the user changes their interface to dark, all alerts will follow suit.
-
-This is achieved by checking the `userInterfaceStyle` property on `traitCollection`.:
+For change duration of present time, create alert view and call `present` method with custom duration:
 
 ```swift
-if self.traitCollection.userInterfaceStyle == .dark {
-    return true
-}
+let alertView = SPAlertView(title: "Complete", preset: .done)
+alertView.present(duration: 3)
 ```
-
-It is available since iOS 12, for earlier iOS versions the alerts will always be shown in Light Mode. 
 
 ### Layout
 
-To change the size and spacing of the alerts:
+For customise layout and margins, use `layout` property. You can manage margins for each side, icon size and space between image and titles:
 
 ```swift
-alertView.layout.topSpace = 18
-alertView.layout.iconHeight = 25
+alertView.layout.iconSize = .init(width: 24, height: 24)
+alertView.layout.margins.top = 12
+alertView.layout.spaceBetweenIconAndTitle = 8
 ```
-
-For more properties see the class.
 
 ### Dismiss by Tap
 
-If you tap the alert, it will disappear ahead of time. This can be disabled:
+If you tap the alert, it will disappear. This can be disabled:
 
 ```swift
 alertView.dismissByTap = false
 ```
-
 ### Haptic
 
-If you use presets, the vibro-response will be started automatically. To customize this, you need set the `haptic` property:
+For manage haptic, you shoud pass it in present method:
 
 ```swift
-alertView.haptic = .success
+alertView.present(duration: 1.5, haptic: .success, completion: nil)
 ```
 
-To disable haptics, set it to `.none`.
+You can remove duration and completion, its have default values.
 
-### Corner Radius
+### Shared Configuration
 
-You can change the corner radius by setting the `cornerRadius` property:
+Also you can change some default values for alerts. For example you can change default duration and corner radius for alert with next code:
 
 ```swift
-alertView.layer.cornerRadius = 40
+SPAlertView.appearance().duration = 2
+SPAlertView.appearance().cornerRadius = 12
 ```
 
-## Сooperation
+It will apply for all alerts. I recomend set it in app delegate. But you can change it in runtime.
 
-This project is free to use, but developing it takes time. Contributing to this project is a huge help. Here is list of tasks that need to be done:
+## SwiftUI
 
-- Add documentation in the source files (description of public methods and parameters). 
-- Help me translate my app [Debts - Spending tracker](https://itunes.apple.com/app/id1446635818) for other languages. 
+Use like system alert only show message tips:
 
-## License
+```swift
+Button("Show alert") {
+    showAlert = true
+}.spAlert(isPresent: $showAlert, message: "this is message only")
+```
 
-`SPAlert` is released under the MIT license. Check `LICENSE.md` for details.
+or show message, title, image and other configuration:
+
+```swift
+Button("Show alert") {
+    showAlert = true
+}.spAlert(isPresent: $showAlert, 
+        title: "Alert title", 
+        message: "Alert message",
+        duration: 2.0, 
+        dismissOnTap: false, 
+        present: .custom(UIImage(systemName: "heart")!), 
+        haptic: .success, 
+        layout: .init(), 
+        completion: {
+            print("Alert is destory")
+        })
+```
+
+## Сontribution
+
+My English is very bad. You can see this once you read the documentation. I would really like to have clean and nice documentation. If you see gramatical errors and can help fix the Readme, please contact me hello@ivanvorobei.by or make a Pull Request. Thank you in advance!
+
+## Other Projects
+
+I love being helpful. Here I have provided a list of libraries that I keep up to date. For see `video previews` of libraries without install open [opensource.ivanvorobei.by](https://opensource.ivanvorobei.by) website.<br>
+I have libraries with native interface and managing permissions. Also available pack of useful extensions for boost your development process.
+
+<p float="left">
+    <a href="https://opensource.ivanvorobei.by">
+        <img src="https://github.com/ivanvorobei/Readme/blob/main/Buttons/more-libraries.svg">
+    </a>
+        <a href="https://xcodeshop.ivanvorobei.by">
+        <img src="https://github.com/ivanvorobei/Readme/blob/main/Buttons/xcode-shop.svg">
+    </a>
+</p>
+
+## Russian Community
+
+Подписывайся в телеграмм-канал, если хочешь получать уведомления о новых туториалах.<br>
+Со сложными и непонятными задачами помогут в чате.
+
+<p float="left">
+    <a href="https://tutorials.ivanvorobei.by/telegram/channel">
+        <img src="https://github.com/ivanvorobei/Readme/blob/main/Buttons/open-telegram-channel.svg">
+    </a>
+    <a href="https://tutorials.ivanvorobei.by/telegram/chat">
+        <img src="https://github.com/ivanvorobei/Readme/blob/main/Buttons/russian-community-chat.svg">
+    </a>
+</p>
+
+Видео-туториалы выклыдываю на [YouTube](https://tutorials.ivanvorobei.by/youtube):
+
+[![Tutorials on YouTube](https://cdn.ivanvorobei.by/github/readme/youtube-preview.jpg)](https://tutorials.ivanvorobei.by/youtube)
