@@ -247,7 +247,7 @@ class SettingsViewController: FormViewController {
             row.baseCell.tintColor = .red
         }
         .onCellSelection({ (_, _) in
-            self.confirmDelete()
+            self.deleteUser()
         })
     }
     
@@ -372,18 +372,6 @@ class SettingsViewController: FormViewController {
         }
     }
     
-    private func confirmDelete() {
-        let alert = UIAlertController(title: "Confirm Delete", message: "Are you sure? This action cannot be undone.", preferredStyle: .alert)
-        let delete = UIAlertAction(title: "Delete", style: .destructive) { (_) in
-            self.deleteUser()
-        }
-        let cancel = UIAlertAction(title: "Cancel", style: .default, handler: nil)
-        alert.addAction(delete)
-        alert.addAction(cancel)
-        alert.preferredAction = cancel
-        self.present(alert, animated: true, completion: nil)
-    }
-
     private func deleteUser() {
         BingeAPI.sharedClient.deleteUser(success: {
             User.delete()
