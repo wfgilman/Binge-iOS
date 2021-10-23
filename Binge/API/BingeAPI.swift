@@ -94,16 +94,11 @@ class BingeAPI: NSObject {
     
     func createUser(name: String, phone: String, success: @escaping (User) -> (), failure: @escaping (Error, String?) -> ()) {
         let url: URLConvertible = self.baseURL + "/users"
-        var params: Parameters = [
+        let params: Parameters = [
             "first_name": name,
             "phone": phone.cleanPhoneNumber(),
             "status": "signed_up"
         ]
-        // MARK: If a user is re-creating his account after deleting but NOT after deleting the app, we need to persist the existing device token because iOS will not ask for it again unless the app is deleted.
-        if let deviceToken = AppVariable.deviceToken {
-            params["device_token"] = deviceToken
-            params["push_enabled"] = "true"
-        }
         af?.request(url, method: .post, parameters: params, encoding: JSONEncoding.default, headers: headers)
             .validate()
             .responseData(completionHandler: { (response) in
