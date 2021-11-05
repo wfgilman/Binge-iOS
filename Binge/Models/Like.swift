@@ -7,14 +7,23 @@
 //
 
 import Foundation
-import Codextended
 
-struct Like: Codable {
-    var dishId: Int
-    var restaurantId: Int
+struct Like: Decodable {
+    let dishId: Int
+    let restaurantId: Int
     
-    init(from decoder: Decoder) throws {
-        dishId = try decoder.decode("dish_id")
-        restaurantId = try decoder.decode("restaurant_id")
+    enum CodingKeys: String, CodingKey {
+        case dishId = "dish_id"
+        case restaurantId = "restaurant_id"
+    }
+}
+
+struct Likes: Decodable {
+    let count: Int
+    let likes: [Like]
+    
+    enum CodingKeys: String, CodingKey {
+        case count
+        case likes = "data"
     }
 }

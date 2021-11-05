@@ -7,9 +7,12 @@
 //
 
 import Foundation
-import Codextended
 
-struct ApiError: Codable {
-    var code: String
-    var message: String
+struct ApiError: Decodable {
+    let code: String
+    let message: String
+    
+    enum CodingKeys: String, CodingKey {
+        case code, message
+    }
 }

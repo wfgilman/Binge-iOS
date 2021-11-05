@@ -7,12 +7,11 @@
 //
 
 import Foundation
-import Codextended
 
-struct Token: Codable {
-    var accessToken: String
+struct Token: Decodable {
+    let accessToken: String
     
-    init(from decoder: Decoder) throws {
-        accessToken = try decoder.decode("access_token")
+    enum CodingKeys: String, CodingKey {
+        case accessToken = "access_token"
     }
 }

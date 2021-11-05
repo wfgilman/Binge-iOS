@@ -26,36 +26,31 @@ enum DishAction {
 class BingeAPI: NSObject {
     static let sharedClient = BingeAPI(baseURL: AppVariable.baseURL)
     var baseURL: String
-    var headers = ["content-type": "application/json"]
-    var af: Alamofire.SessionManager?
+    var headers: HTTPHeaders = ["content-type": "application/json"]
+    var af: Alamofire.Session?
     
     init(baseURL: String) {
         self.baseURL = baseURL
         let configuration = URLSessionConfiguration.default
         configuration.timeoutIntervalForRequest = 15
         configuration.urlCache = URLCache(memoryCapacity: 4 * 1024 * 1024, diskCapacity: 20 * 1024 * 1024, diskPath: nil)
-        self.af = Alamofire.SessionManager(configuration: configuration)
+        self.af = Alamofire.Session(configuration: configuration)
     }
     
     func getDishes(filter: DishFilter, success: @escaping ([Dish]) -> (), failure: @escaping (Error, String?) -> ()) {
         let headers = getAuthHeaders()
         let url = buildURL(filter: filter)
-        af?.request(url, method: .get, headers: headers).validate().responseData(completionHandler: { (response) in
-            switch response.result {
-            case .success(let value):
-                do {
-                    let dishes = try value.decoded() as [Dish]
-                    success(dishes)
-                } catch {
-                    // Handle failure.
-                    print("decoding Dishes failed")
+        af?.request(url, method: .get, headers: headers)
+            .validate()
+            .responseDecodable(of: Dishes.self, completionHandler: { response in
+                switch response.result {
+                case .success(let value):
+                    success(value.dishes)
+                case .failure(let error):
+                    print(error)
+                    failure(error, error.errorDescription)
                 }
-            case .failure(let error):
-                let err = self.getError(response: response)
-                self.handleFailure(error: err)
-                failure(error, err.message)
-            }
-        })
+            })
     }
     
     private func buildURL(filter: DishFilter) -> String {
@@ -80,16 +75,15 @@ class BingeAPI: NSObject {
         }
         af?.request(url, method: .post, parameters: params, encoding: JSONEncoding.default, headers: headers)
             .validate()
-            .responseData(completionHandler: { (response) in
+            .response(completionHandler: { response in
                 switch response.result {
                 case .success:
                     success()
                 case .failure(let error):
-                    let err = self.getError(response: response)
-                    self.handleFailure(error: err)
-                    failure(error, err.message)
+                    print(error)
+                    failure(error, error.errorDescription)
                 }
-        })
+            })
     }
     
     func createUser(name: String, phone: String, success: @escaping (User) -> (), failure: @escaping (Error, String?) -> ()) {
@@ -101,22 +95,15 @@ class BingeAPI: NSObject {
         ]
         af?.request(url, method: .post, parameters: params, encoding: JSONEncoding.default, headers: headers)
             .validate()
-            .responseData(completionHandler: { (response) in
+            .responseDecodable(of: User.self, completionHandler: { response in
                 switch response.result {
-                case .success(let value):
-                    do {
-                        let user = try value.decoded() as User
-                        success(user)
-                    } catch {
-                        // Handle failure.
-                        print("decoding User failed")
-                    }
+                case .success(let user):
+                    success(user)
                 case .failure(let error):
-                    let err = self.getError(response: response)
-                    self.handleFailure(error: err)
-                    failure(error, err.message)
-            }
-        })
+                    print(error)
+                    failure(error, error.errorDescription)
+                }
+            })
     }
     
     func generateCode(user: User, success: @escaping () -> (), failure: @escaping (Error, String?) -> ()) {
@@ -124,16 +111,15 @@ class BingeAPI: NSObject {
         let params: Parameters = ["user_id": user.id, "type": "sms"]
         af?.request(url, method: .post, parameters: params, encoding: JSONEncoding.default, headers: headers)
             .validate()
-            .responseData(completionHandler: { (response) in
+            .response(completionHandler: { response in
                 switch response.result {
                 case .success:
                     success()
                 case .failure(let error):
-                    let err = self.getError(response: response)
-                    self.handleFailure(error: err)
-                    failure(error, err.message)
+                    print(error)
+                    failure(error, error.errorDescription)
                 }
-        })
+            })
     }
     
     func verifyCode(user: User, code: String, success: @escaping (Token) -> (), failure: @escaping (Error, String?) -> ()) {
@@ -141,22 +127,15 @@ class BingeAPI: NSObject {
         let params: Parameters = ["user_id": user.id, "code": code]
         af?.request(url, method: .patch, parameters: params, encoding: JSONEncoding.default, headers: headers)
             .validate()
-            .responseData(completionHandler: { (response) in
-            switch response.result {
+            .responseDecodable(of: Token.self, completionHandler: { response in
+                switch response.result {
                 case .success(let value):
-                    do {
-                        let token = try value.decoded() as Token
-                        success(token)
-                    } catch {
-                        // Handle failure.
-                        print("decoding Token failed")
-                    }
+                    success(value)
                 case .failure(let error):
-                    let err = self.getError(response: response)
-                    self.handleFailure(error: err)
-                    failure(error, err.message)
-            }
-        })
+                    print(error)
+                    failure(error, error.errorDescription)
+                }
+            })
     }
     
     func inviteUser(contact: CNMutableContact, success: @escaping () -> (), failure: @escaping (Error, String?) -> ()) {
@@ -171,37 +150,29 @@ class BingeAPI: NSObject {
         ]
         af?.request(url, method: .post, parameters: params, encoding: JSONEncoding.default, headers: headers)
             .validate()
-            .responseData(completionHandler: { (response) in
+            .response(completionHandler: { response in
                 switch response.result {
                 case .success:
                     success()
                 case .failure(let error):
-                    let err = self.getError(response: response)
-                    self.handleFailure(error: err)
-                    failure(error, err.message)
+                    print(error)
+                    failure(error, error.errorDescription)
                 }
-        })
+            })
     }
     
     func getUser(success: @escaping (User) -> (), failure: @escaping (Error, String?) -> ()) {
         let url: URLConvertible = self.baseURL + "/users"
         let headers = getAuthHeaders()
-        af?.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: headers)
+        af?.request(url, method: .get, encoding: JSONEncoding.default, headers: headers)
             .validate()
-            .responseData(completionHandler: { (response) in
+            .responseDecodable(of: User.self, completionHandler: { response in
                 switch response.result {
-                case .success(let value):
-                    do {
-                        let user = try value.decoded() as User
-                        success(user)
-                    } catch {
-                        // Handle failure.
-                        print("decoding User failed")
-                    }
+                case .success(let user):
+                    success(user)
                 case .failure(let error):
-                    let err = self.getError(response: response)
-                    self.handleFailure(error: err)
-                    failure(error, err.message)
+                    print(error)
+                    failure(error, error.errorDescription)
                 }
             })
     }
@@ -212,14 +183,13 @@ class BingeAPI: NSObject {
         let params: Parameters = params
         af?.request(url, method: .patch, parameters: params, encoding: JSONEncoding.default, headers: headers)
             .validate()
-            .responseData(completionHandler: { (response) in
+            .response(completionHandler: { response in
                 switch response.result {
                 case .success:
                     success()
                 case .failure(let error):
-                    let err = self.getError(response: response)
-                    self.handleFailure(error: err)
-                    failure(error, err.message)
+                    print(error)
+                    failure(error, error.errorDescription)
                 }
             })
     }
@@ -227,16 +197,15 @@ class BingeAPI: NSObject {
     func deleteUser(success: @escaping () -> (), failure: @escaping (Error, String?) -> ()) {
         let url: URLConvertible = self.baseURL + "/users"
         let headers = getAuthHeaders()
-        af?.request(url, method: .delete, parameters: nil, encoding: JSONEncoding.default, headers: headers)
-        .validate()
-            .responseData(completionHandler: { (response) in
+        af?.request(url, method: .delete, encoding: JSONEncoding.default, headers: headers)
+            .validate()
+            .response(completionHandler: { response in
                 switch response.result {
                 case .success:
                     success()
                 case .failure(let error):
-                    let err = self.getError(response: response)
-                    self.handleFailure(error: err)
-                    failure(error, err.message)
+                    print(error)
+                    failure(error, error.errorDescription)
                 }
             })
     }
@@ -244,23 +213,15 @@ class BingeAPI: NSObject {
     func getFriend(success: @escaping (User?) -> (), failure: @escaping (Error, String?) -> ()) {
         let url: URLConvertible = self.baseURL + "/users/friends?active=true"
         let headers = getAuthHeaders()
-        af?.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: headers)
+        af?.request(url, method: .get, encoding: JSONEncoding.default, headers: headers)
             .validate()
-            .responseData(completionHandler: { (response) in
+            .responseDecodable(of: User.self, completionHandler: { response in
                 switch response.result {
-                case .success(let value):
-                    do {
-                        let user = try value.decoded() as User
-                        success(user)
-                    } catch {
-                        // Handle failure.
-                        print("decoding Friend failed")
-                        success(nil)
-                    }
+                case .success(let user):
+                    success(user)
                 case .failure(let error):
-                    let err = self.getError(response: response)
-                    self.handleFailure(error: err)
-                    failure(error, err.message)
+                    print(error)
+                    failure(error, error.errorDescription)
                 }
             })
     }
@@ -268,22 +229,15 @@ class BingeAPI: NSObject {
     func getFriends(success: @escaping ([User]) -> (), failure: @escaping (Error, String?) -> ()) {
         let url: URLConvertible = self.baseURL + "/users/friends"
         let headers = getAuthHeaders()
-        af?.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: headers)
+        af?.request(url, method: .get, encoding: JSONEncoding.default, headers: headers)
             .validate()
-            .responseData(completionHandler: { (response) in
+            .responseDecodable(of: Friends.self, completionHandler: { response in
                 switch response.result {
                 case .success(let value):
-                    do {
-                        let users = try value.decoded() as [User]
-                        success(users)
-                    } catch {
-                        // Handle failure.
-                        print("decoding Friends failed")
-                    }
+                    success(value.friends)
                 case .failure(let error):
-                    let err = self.getError(response: response)
-                    self.handleFailure(error: err)
-                    failure(error, err.message)
+                    print(error)
+                    failure(error, error.errorDescription)
                 }
             })
     }
@@ -292,26 +246,19 @@ class BingeAPI: NSObject {
         let url: URLConvertible = self.baseURL + "/users/friends/likes?active_friend=true"
         let headers = getAuthHeaders()
         af?.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: headers)
-        .validate()
-            .responseData(completionHandler: { (response) in
+            .validate()
+            .responseDecodable(of: Likes.self, completionHandler: { response in
                 switch response.result {
                 case .success(let value):
-                    do {
-                        let likes = try value.decoded() as [Like]
-                        success(likes)
-                    } catch {
-                        // Handle failure.
-                        print("decoding Likes failed")
-                    }
+                    success(value.likes)
                 case .failure(let error):
-                    let err = self.getError(response: response)
-                    self.handleFailure(error: err)
-                    failure(error, err.message)
+                    print(error)
+                    failure(error, error.errorDescription)
                 }
             })
     }
     
-    private func getAuthHeaders() -> [String : String] {
+    private func getAuthHeaders() -> HTTPHeaders {
         var headers = self.headers
         guard let token: String = AppVariable.accessToken else {
             return headers
@@ -330,17 +277,17 @@ class BingeAPI: NSObject {
         }
     }
     
-    private func getError(response: DataResponse<Data>) -> ApiError {
-        if let data = response.data {
-            do {
-                let err = try data.decoded() as ApiError
-                return err
-            } catch {
-                // Handle error.
-                print("decoding ApiError failed")
-                return ApiError(code: "decode_error", message: "Failed to decode API error.")
-            }
-        }
-        return ApiError(code: "unknown_error", message: "No response from server.")
-    }
+//    private func getError(response: AFDataResponse<Data>) -> ApiError {
+//        if let data = response.data {
+//            do {
+//                let err = try data.decoded() as ApiError
+//                return err
+//            } catch {
+//                // Handle error.
+//                print("decoding ApiError failed")
+//                return ApiError(code: "decode_error", message: "Failed to decode API error.")
+//            }
+//        }
+//        return ApiError(code: "unknown_error", message: "No response from server.")
+//    }
 }

@@ -1,13 +1,11 @@
 ${PODS_ROOT}/Target Support Files/Pods-Binge/Pods-Binge-frameworks.sh
 ${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework
 ${BUILT_PRODUCTS_DIR}/AnimatedTextInput/AnimatedTextInput.framework
-${BUILT_PRODUCTS_DIR}/Codextended/Codextended.framework
 ${BUILT_PRODUCTS_DIR}/Eureka/Eureka.framework
 ${BUILT_PRODUCTS_DIR}/HGPlaceholders/HGPlaceholders.framework
 ${BUILT_PRODUCTS_DIR}/Kingfisher/Kingfisher.framework
 ${BUILT_PRODUCTS_DIR}/MarqueeLabel/MarqueeLabel.framework
 ${BUILT_PRODUCTS_DIR}/NotificationBannerSwift/NotificationBannerSwift.framework
-${BUILT_PRODUCTS_DIR}/PARTagPicker/PARTagPicker.framework
 ${BUILT_PRODUCTS_DIR}/SPAlert/SPAlert.framework
 ${BUILT_PRODUCTS_DIR}/Shuffle-iOS/Shuffle_iOS.framework
 ${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework

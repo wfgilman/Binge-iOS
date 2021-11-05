@@ -1,6 +1,0 @@
-framework module PARTagPicker {
-  umbrella header "PARTagPicker-umbrella.h"
-
-  export *
-  module * { export * }
-}

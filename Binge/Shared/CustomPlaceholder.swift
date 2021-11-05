@@ -67,7 +67,7 @@ class CustomPlaceholder {
         var noResultsData: PlaceholderData = .noResults
         noResultsData.image = UIImage(systemName: "person.2.fill")
         noResultsData.title = "Dine with a friend"
-        noResultsData.subtitle = "Find out what you're both \nhanckering for 🤤"
+        noResultsData.subtitle = "Find out what you're both \nhankering for 🤤"
         noResultsData.action = "Get Started"
         
         let noResults = Placeholder(data: noResultsData, style: commonPlaceholderStyle, key: .noResultsKey)

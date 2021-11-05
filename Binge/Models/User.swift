@@ -7,11 +7,10 @@
 //
 
 import Foundation
-import Codextended
 import ZendeskCoreSDK
 import SupportSDK
 
-class User: Codable {
+class User: Decodable {
     var id: Int
     var firstName: String
     var lastName: String?
@@ -20,16 +19,28 @@ class User: Codable {
     var status: String
     var friendId: Int?
     var pushEnabled: Bool
+    
+    enum CodingKeys: String, CodingKey {
+        case id
+        case firstName = "first_name"
+        case lastName = "last_name"
+        case phone
+        case email
+        case status
+        case friendId = "friend_id"
+        case pushEnabled = "push_enabled"
+    }
 
     required init(from decoder: Decoder) throws {
-        id = try decoder.decode("id")
-        firstName = try decoder.decode("first_name")
-        lastName = try decoder.decode("last_name")
-        phone = try decoder.decode("phone")
-        email = try decoder.decode("email")
-        status = try decoder.decode("status")
-        friendId = try decoder.decode("friend_id")
-        pushEnabled = try decoder.decode("push_enabled")
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        id = try container.decode(Int.self, forKey: .id)
+        firstName = try container.decode(String.self, forKey: .firstName)
+        lastName = try container.decodeIfPresent(String.self, forKey: .lastName)
+        phone = try container.decode(String.self, forKey: .phone)
+        email = try container.decodeIfPresent(String.self, forKey: .email)
+        status = try container.decode(String.self, forKey: .status)
+        friendId = try container.decodeIfPresent(Int.self, forKey: .friendId)
+        pushEnabled = try container.decode(Bool.self, forKey: .pushEnabled)
     }
     
     class func create(with token: Token) {
@@ -49,5 +60,15 @@ class User: Codable {
         let identity = Identity.createAnonymous(name: user.firstName, email: user.email)
         Zendesk.instance?.setIdentity(identity)
         Support.initialize(withZendesk: Zendesk.instance)
+    }
+}
+
+struct Friends: Decodable {
+    let count: Int
+    let friends: [User]
+    
+    enum CodingKeys: String, CodingKey {
+        case count
+        case friends = "data"
     }
 }

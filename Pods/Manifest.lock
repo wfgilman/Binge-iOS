@@ -1,7 +1,6 @@
 PODS:
   - Alamofire (5.4.4)
   - AnimatedTextInput (0.5.5)
-  - Codextended (0.3.0)
   - Eureka (5.3.4)
   - HGPlaceholders (0.5.0)
   - Kingfisher (7.1.1)
@@ -9,7 +8,6 @@ PODS:
   - NotificationBannerSwift (3.0.6):
     - MarqueeLabel (~> 4.0.5)
     - SnapKit (~> 5.0.1)
-  - PARTagPicker (1.4.0)
   - Shuffle-iOS (0.5.0)
   - SnapKit (5.0.1)
   - SPAlert (3.4.1)
@@ -29,14 +27,12 @@ PODS:
     - ZendeskSupportProvidersSDK (~> 5.3.0)
 
 DEPENDENCIES:
-  - Alamofire
+  - Alamofire (~> 5.0)
   - AnimatedTextInput
-  - Codextended
   - Eureka
   - HGPlaceholders
   - Kingfisher
   - NotificationBannerSwift
-  - PARTagPicker
   - Shuffle-iOS
   - SPAlert
   - SwipeCellKit
@@ -46,13 +42,11 @@ SPEC REPOS:
   trunk:
     - Alamofire
     - AnimatedTextInput
-    - Codextended
     - Eureka
     - HGPlaceholders
     - Kingfisher
     - MarqueeLabel
     - NotificationBannerSwift
-    - PARTagPicker
     - Shuffle-iOS
     - SnapKit
     - SPAlert
@@ -68,13 +62,11 @@ SPEC REPOS:
 SPEC CHECKSUMS:
   Alamofire: f3b09a368f1582ab751b3fff5460276e0d2cf5c9
   AnimatedTextInput: aadbdfa5a538a03cc9fbea700b43d2bb21a5d132
-  Codextended: f384271b8694376ad766ddbf2a011efbfdcee905
   Eureka: 60cf058f86a8fb3ed26165ba5292b9850361b0a6
   HGPlaceholders: cbf8caed8360fc2ab5e8a4610cce61f76fbd2c37
   Kingfisher: f738f9c4a3415823b8e2985d10aa2d6a9f37bc4d
   MarqueeLabel: 00cc0bcd087111dca575878b3531af980559707d
   NotificationBannerSwift: 7021be2338f8f29cf424b0aca43da462bf9e2a1a
-  PARTagPicker: d2e1153e2278f66bf392fc1e02b5f53decbf58df
   Shuffle-iOS: ff33658fb1e5eebd6a4724c156473e63754be9cb
   SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
   SPAlert: 5738ac9368870ada154af03ce70d0542b80c676e
@@ -87,6 +79,6 @@ SPEC CHECKSUMS:
   ZendeskSupportProvidersSDK: 2bdf8544f7cd0fd4c002546f5704b813845beb2a
   ZendeskSupportSDK: 3a8e508ab1d9dd22dc038df6c694466414e037ba
 
-PODFILE CHECKSUM: 7d91d17c6225c9bb392d837629a561cde2d0c8ed
+PODFILE CHECKSUM: 689ced10a68bf660c9a1ffaedede3e8914e3bc0f
 
 COCOAPODS: 1.11.2

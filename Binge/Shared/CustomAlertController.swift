@@ -13,12 +13,14 @@ class CustomAlertController {
     func order(dish: Dish) -> UIAlertController {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
-        let doordash = UIAlertAction(title: "Doordash", style: .default) { (_) in
-            if let url = URL(string: dish.doordashUrl) {
-                UIApplication.shared.open(url)
+        if let doordashUrl = dish.doordashUrl {
+            let doordash = UIAlertAction(title: "Doordash", style: .default) { (_) in
+                if let url = URL(string: doordashUrl) {
+                    UIApplication.shared.open(url)
+                }
             }
+            alert.addAction(doordash)
         }
-        alert.addAction(doordash)
         
         if let uberEatsUrl = dish.uberEatsUrl {
             let uberEats = UIAlertAction(title: "Uber Eats", style: .default) { (_) in

@@ -6,8 +6,7 @@ target 'Binge' do
   use_frameworks!
 
   # Pods for Binge
-  pod 'Alamofire'
-  pod 'Codextended'
+  pod 'Alamofire', '~> 5.0'
   pod 'Shuffle-iOS'
   pod 'Kingfisher'
   pod 'SwipeCellKit'
@@ -17,5 +16,4 @@ target 'Binge' do
   pod 'SPAlert'
   pod 'NotificationBannerSwift'
   pod 'ZendeskSupportSDK'
-  pod 'PARTagPicker'
 end

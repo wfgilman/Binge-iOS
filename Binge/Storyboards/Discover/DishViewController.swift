@@ -9,7 +9,6 @@
 import UIKit
 import Shuffle_iOS
 import SPAlert
-import PARTagPicker
 
 enum MatchType {
     case none
@@ -26,15 +25,9 @@ class DishViewController: UIViewController {
     
     var dishes = [Dish]() {
         didSet {
-            filteredDishes = dishes
             dishCardStack.reloadData()
         }
     }
-    
-    private var hiddenDishes = [Dish]()
-    private var filteredDishes = [Dish]()
-    
-    private var chosenFilters = [String]()
     
     private var likes = [Like]()
     
@@ -43,29 +36,6 @@ class DishViewController: UIViewController {
         stack.delegate = self
         stack.dataSource = self
         return stack
-    }()
-    
-    private lazy var tagController: PARTagPickerViewController = {
-        let tag = PARTagPickerViewController()
-        tag.delegate = self
-        tag.placeholderText = "Add a Filter"
-        tag.allTags = ["Breakfast", "Lunch", "Dinner", "American", "Chinese", "Mexican", "Indian"]
-        tag.allowsNewTags = true
-        tag.view.backgroundColor = .white
-        tag.textfieldRegularTextColor = .purple
-        tag.font = UIFont.systemFont(ofSize: 17)
-        let colors = PARTagColorReference()
-        colors?.defaultTagTextColor = .purple
-        colors?.defaultTagBorderColor = .purple
-        colors?.defaultTagBackgroundColor = .white
-        colors?.chosenTagTextColor = .white
-        colors?.chosenTagBorderColor = .purple
-        colors?.chosenTagBackgroundColor = .purple
-        colors?.highlightedTagTextColor = .white
-        colors?.highlightedTagBorderColor = .purple
-        colors?.highlightedTagBackgroundColor = .purple
-        tag.tagColorRef = colors
-        return tag
     }()
     
     private let actionSheet = CustomAlertController()
@@ -77,13 +47,6 @@ class DishViewController: UIViewController {
         layoutCardStackView()
         configureBackgroundGradient()
         initializeData()
-    }
-    
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        guard let touch: UITouch = touches.first else { return }
-        if touch.view != tagController.view {
-            view.endEditing(true)
-        }
     }
     
     private func configureListener() {
@@ -143,19 +106,11 @@ class DishViewController: UIViewController {
     }
     
     private func layoutCardStackView() {
-        addChild(tagController)
-        view.addSubview(tagController.view)
-        tagController.view.anchor(top: view.safeAreaLayoutGuide.topAnchor,
-                                  left: view.safeAreaLayoutGuide.leftAnchor,
-                                  right: view.safeAreaLayoutGuide.rightAnchor,
-                                  height: 2 * COLLECTION_VIEW_HEIGHT)
-        tagController.visibilityState = .topAndBottom
-        tagController.shouldAutomaticallyChangeVisibilityState = false
         view.addSubview(dishCardStack)
-        dishCardStack.anchor(top: tagController.view.bottomAnchor,
-                             left: view.safeAreaLayoutGuide.leftAnchor,
-                             bottom: view.safeAreaLayoutGuide.bottomAnchor,
-                             right: view.safeAreaLayoutGuide.rightAnchor)
+        dishCardStack.anchor(top: view.safeAreaLayoutGuide.topAnchor,
+                               left: view.safeAreaLayoutGuide.leftAnchor,
+                               bottom: view.safeAreaLayoutGuide.bottomAnchor,
+                               right: view.safeAreaLayoutGuide.rightAnchor)
     }
     
     private func configureBackgroundGradient() {
@@ -181,7 +136,7 @@ extension DishViewController: SwipeCardStackDelegate, SwipeCardStackDataSource {
           card.setOverlay(DishCardOverlay(direction: direction), forDirection: direction)
         }
         
-        let dish = filteredDishes[index]
+        let dish = dishes[index]
         card.content = DishCardContentView(withDish: dish)
         card.footer = DishCardFooterView(withTitle: dish.name, subtitle: dish.restaurantName)
         
@@ -189,11 +144,11 @@ extension DishViewController: SwipeCardStackDelegate, SwipeCardStackDataSource {
     }
     
     func numberOfCards(in cardStack: SwipeCardStack) -> Int {
-        return filteredDishes.count
+        return dishes.count
     }
     
     func cardStack(_ cardStack: SwipeCardStack, didSwipeCardAt index: Int, with direction: SwipeDirection) {
-        let dish = filteredDishes[index]
+        let dish = dishes[index]
         switch direction {
         case .up:
             didLikeDish(dish)
@@ -231,7 +186,7 @@ extension DishViewController: SwipeCardStackDelegate, SwipeCardStackDataSource {
         }
         
         if match == .restaurant {
-            SPAlert.present(title: "You matched this restaurant!", preset: .star)
+            SPAlert.present(title: "You matched this restaurant!", preset: .heart)
             tabBarController?.incrementBadgeCount(position: 2)
             PushAPI.shared.send(dish: dish)
             NotificationCenter.default.post(name: .matchedDish, object: dish)
@@ -247,66 +202,5 @@ extension DishViewController: SwipeCardStackDelegate, SwipeCardStackDataSource {
             return .restaurant
         }
         return .none
-    }
-}
-
-extension DishViewController: PARTagPickerDelegate {
-    
-    func tagPicker(_ tagPicker: PARTagPickerViewController!, visibilityChangedTo state: PARTagPickerVisibilityState) {
-        // Nothing, visibility state changes are disabled.
-    }
-    
-    func chosenTagsWereUpdated(inTagPicker tagPicker: PARTagPickerViewController!) {
-        let (action, filter) = selectedFilter()
-        switch action {
-        case .add:
-            let dishesToHide = filteredDishes.filter { ($0.category != filter) && ($0.tags.localizedCaseInsensitiveContains(filter) == false) }
-            hideDishes(dishesToHide)
-        case .remove:
-            let dishesToShow = hiddenDishes.filter { ($0.category != filter) && ($0.tags.localizedCaseInsensitiveContains(filter) == false) }
-            showDishes(dishesToShow)
-        }
-    }
-    
-    private func selectedFilter() -> (FilterAction, String) {
-        var action: FilterAction!
-        var changedFilters = [String]()
-        let chosenTags = tagController.chosenTags as! [String]
-        let changes = chosenFilters.difference(from: chosenTags)
-        chosenFilters = chosenTags
-        
-        let addedFilters = changes.insertions.compactMap { (change) -> String? in
-            guard case let .insert(_, element, _) = change else { return nil }
-            action = .remove
-            return element
-        }
-        let removedFilters = changes.removals.compactMap { (change) -> String? in
-            guard case let .remove(_, element, _) = change else { return nil }
-            action = .add
-            return element
-        }
-        
-        changedFilters.append(contentsOf: addedFilters)
-        changedFilters.append(contentsOf: removedFilters)
-        
-        return (action, changedFilters.first!)
-    }
-    
-    private func hideDishes(_ dishes: [Dish]) {
-        for dish in dishes {
-            filteredDishes.removeAll { $0.id == dish.id }
-        }
-        hiddenDishes.append(contentsOf: dishes)
-        filteredDishes.shuffle()
-        dishCardStack.reloadData()
-    }
-    
-    private func showDishes(_ dishes: [Dish]) {
-        for dish in dishes {
-            hiddenDishes.removeAll { $0.id == dish.id }
-        }
-        filteredDishes.append(contentsOf: dishes)
-        filteredDishes.shuffle()
-        dishCardStack.reloadData()
     }
 }
