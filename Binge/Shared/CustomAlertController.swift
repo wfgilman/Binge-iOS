@@ -31,6 +31,16 @@ class CustomAlertController {
             alert.addAction(uberEats)
         }
         
+        if let instagram = dish.instagram {
+            let instagramHandle = instagram.replacingOccurrences(of: "@", with: "")
+            let ig = UIAlertAction(title: "Instagram", style: .default) { (_) in
+                if let url = URL(string: "https://instagram.com/\(instagramHandle)") {
+                    UIApplication.shared.open(url)
+                }
+            }
+            alert.addAction(ig)
+        }
+        
         if let websiteUrl = dish.websiteUrl {
             let web = UIAlertAction(title: "Visit Website", style: .default) { (_) in
                 if let url = URL(string: websiteUrl) {
@@ -42,11 +52,22 @@ class CustomAlertController {
         
         if let phone = dish.phone {
             let number = UIAlertAction(title: "Call", style: .default) { (_) in
-                if let url = URL(string: "tel://\(phone)") {
+                if let url = URL(string: "tel://1\(phone.cleanPhoneNumber())") {
                     UIApplication.shared.open(url)
                 }
             }
             alert.addAction(number)
+        }
+        
+        if let address = dish.restaurantAddress {
+            if let addressUrlEncoded = address.addingPercentEncoding(withAllowedCharacters: .alphanumerics) {
+                let addy = UIAlertAction(title: "Google Maps", style: .default) { (_) in
+                    if let url = URL(string: "https://www.google.com/maps/search/?api=1&query=\(addressUrlEncoded)") {
+                        UIApplication.shared.open(url)
+                    }
+                }
+                alert.addAction(addy)
+            }
         }
         
         let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)

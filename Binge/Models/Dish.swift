@@ -15,6 +15,7 @@ class Dish: Decodable {
     var match: Bool
     var restaurantId: Int
     var restaurantName: String
+    var restaurantAddress: String?
     var restaurantMatch: Bool
     var doordashUrl: String?
     var uberEatsUrl: String?
@@ -29,6 +30,7 @@ class Dish: Decodable {
         case match
         case restaurantId = "restaurant_id"
         case restaurantName = "restaurant_name"
+        case restaurantAddress = "restaurant_address"
         case restaurantMatch = "restaurant_match"
         case doordashUrl = "doordash_url"
         case uberEatsUrl = "ubereats_url"
@@ -45,6 +47,7 @@ class Dish: Decodable {
         match = try container.decode(Bool.self, forKey: .match)
         restaurantId = try container.decode(Int.self, forKey: .restaurantId)
         restaurantName = try container.decode(String.self, forKey: .restaurantName)
+        restaurantAddress = try container.decode(String.self, forKey: .restaurantAddress)
         restaurantMatch = try container.decode(Bool.self, forKey: .restaurantMatch)
         doordashUrl = try container.decodeIfPresent(String.self, forKey: .doordashUrl)
         uberEatsUrl = try container.decodeIfPresent(String.self, forKey: .uberEatsUrl)
