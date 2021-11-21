@@ -17,24 +17,23 @@ class DishCardContentView: UIView {
     private var footerHeight: CGFloat!
     
     private let backgroundView: UIView = {
-      let background = UIView()
-      background.clipsToBounds = true
-      return background
+        let background = UIView()
+        background.clipsToBounds = true
+        return background
     }()
     
     private let imageView: UIImageView = {
-      let imageView = UIImageView()
+        let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
-      return imageView
+        return imageView
     }()
     
     private let gradientLayer: CAGradientLayer = {
-      let gradient = CAGradientLayer()
-      gradient.colors = [UIColor.black.withAlphaComponent(0.01).cgColor,
-                         UIColor.black.withAlphaComponent(0.8).cgColor]
-      gradient.startPoint = CGPoint(x: 0.5, y: 0)
-      gradient.endPoint = CGPoint(x: 0.5, y: 1)
-      return gradient
+        let gradient = CAGradientLayer()
+        gradient.colors = [UIColor.black.withAlphaComponent(0.01).cgColor, UIColor.black.withAlphaComponent(0.8).cgColor]
+        gradient.startPoint = CGPoint(x: 0.5, y: 0)
+        gradient.endPoint = CGPoint(x: 0.5, y: 1)
+        return gradient
     }()
     
     required init?(coder aDecoder: NSCoder) {
@@ -52,7 +51,7 @@ class DishCardContentView: UIView {
     
     private func initialize() {
         backgroundView.layer.cornerRadius = bevelAmount
-        backgroundView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        backgroundView.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner, .layerMaxXMaxYCorner, .layerMinXMaxYCorner]
         addSubview(backgroundView)
         backgroundView.anchorToSuperview()
         backgroundView.addSubview(imageView)

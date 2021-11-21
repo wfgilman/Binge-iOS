@@ -7,33 +7,35 @@
 //
 
 import UIKit
-import SwipeCellKit
 import HGPlaceholders
 
 class MatchViewController: UIViewController {
     
     private var dishes = [Dish](){
         didSet {
-            table.reload()
+            collection.reloadData()
         }
     }
     
     private var friend: User? {
         didSet {
             guard let friend = friend else { return }
-            configureNavigationBar(title: "Dining with \(friend.firstName)")
+            configureNavigationBar(title: "Matches with \(friend.firstName)")
             configureEmptyState()
         }
     }
     
-    private lazy var table: TableView = {
-        let tableView = TableView(frame: .zero, style: .plain)
-        tableView.backgroundColor = .white
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.register(DishCell.self, forCellReuseIdentifier: DishCell.identifier)
-        tableView.placeholderDelegate = self
-        return tableView
+    private var flowLayout = UICollectionViewFlowLayout()
+    private var flowPadding: CGFloat = 16
+    
+    private lazy var collection: CollectionView = {
+        let collectionView = CollectionView(frame: .zero, collectionViewLayout: flowLayout)
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        collectionView.register(MatchTile.self, forCellWithReuseIdentifier: MatchTile.identifier)
+        collectionView.placeholdersProvider = CustomPlaceholder.noLikes
+        collectionView.placeholderDelegate = self
+        return collectionView
     }()
     
     private lazy var refresh: UIRefreshControl = {
@@ -46,7 +48,7 @@ class MatchViewController: UIViewController {
         super.viewDidLoad()
         configureListener()
         configureNavigationBar()
-        layoutTableView()
+        layoutCollectionView()
         configureEmptyState()
         initializeData()
     }
@@ -71,7 +73,7 @@ class MatchViewController: UIViewController {
             guard let dish: Dish = notification.object as? Dish else { return }
             if self.dishes.first(where: { (d) -> Bool in d.id == dish.id }) == nil {
                 self.dishes.append(dish)
-                self.table.reload()
+                self.collection.reloadData()
             }
         }
         NotificationCenter.default.addObserver(forName: .unlikedDish, object: nil, queue: .main) { (notification) in
@@ -79,7 +81,7 @@ class MatchViewController: UIViewController {
             self.dishes.removeAll { (d) -> Bool in
                 d.id == dish.id
             }
-            self.table.reload()
+            self.collection.reloadData()
         }
     }
     
@@ -125,6 +127,24 @@ class MatchViewController: UIViewController {
                 guard let message: String = message else { return }
                 print(message)
             }
+        } else {
+            self.refresh.endRefreshing()
+        }
+    }
+    
+    @objc
+    private func didTapRemoveButton(sender: UIButton) {
+        let indexPathRow: Int = sender.tag
+        let dish = self.dishes[indexPathRow]
+        if AppVariable.validUser == true {
+            BingeAPI.sharedClient.dishAction(dish: dish, action: .unlike) {
+                NotificationCenter.default.post(name: .unlikedDish, object: dish)
+            } failure: { _, message in
+                guard let message = message else { return }
+                print("\(message)")
+            }
+        } else {
+            self.dishes.remove(at: indexPathRow)
         }
     }
     
@@ -139,105 +159,72 @@ class MatchViewController: UIViewController {
         }
     }
     
-    private func layoutTableView() {
-        table.translatesAutoresizingMaskIntoConstraints = false
-        table.showsVerticalScrollIndicator = false
-        view.addSubview(table)
-        table.anchor(top: view.safeAreaLayoutGuide.topAnchor,
-                     left: view.safeAreaLayoutGuide.leftAnchor,
-                     bottom: view.safeAreaLayoutGuide.bottomAnchor,
-                     right: view.safeAreaLayoutGuide.rightAnchor,
-                     paddingLeft: 20,
-                     paddingRight: 20)
-        table.rowHeight = view.bounds.height / 4
-        table.separatorStyle = .none
-        table.insertSubview(refresh, at: 0)
+    private func layoutCollectionView() {
+        collection.translatesAutoresizingMaskIntoConstraints = false
+        collection.showsVerticalScrollIndicator = false
+        view.addSubview(collection)
+        collection.anchor(top: view.safeAreaLayoutGuide.topAnchor,
+                          left: view.safeAreaLayoutGuide.leftAnchor,
+                          bottom: view.safeAreaLayoutGuide.bottomAnchor,
+                          right: view.safeAreaLayoutGuide.rightAnchor,
+                          paddingLeft: 0,
+                          paddingRight: 0)
+        collection.insertSubview(refresh, at: 0)
+        flowLayout.scrollDirection = .vertical
     }
     
     private func configureEmptyState() {
         if AppVariable.validUser == true && friend != nil {
-            table.placeholdersProvider = CustomPlaceholder.noMatches
+            collection.placeholdersProvider = CustomPlaceholder.noMatches
         } else {
-            table.placeholdersProvider = CustomPlaceholder.signupToMatch
+            collection.placeholdersProvider = CustomPlaceholder.signupToMatch
         }
-        table.reload()
+        collection.reloadData()
     }
 }
 
-extension MatchViewController: UITableViewDataSource, UITableViewDelegate {
+extension MatchViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     
-    func numberOfSections(in tableView: UITableView) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return dishes.count
     }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
-    }
-    
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 20
-    }
-    
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let headerView = UIView()
-        headerView.backgroundColor = .clear
-        return headerView
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let dish = dishes[indexPath.section]
-        let cell = table.dequeueReusableCell(withIdentifier: DishCell.identifier, for: indexPath) as! SwipeTableViewCell
-        cell.delegate = self
-        cell.backgroundView = DishCardContentView(withDish: dish, bevelAmount: 10, hasShadow: true)
-        let matchLabel = matchTypeLabel(dish: dish)
-        cell.addSubview(matchLabel)
-        matchLabel.anchor(top: cell.safeAreaLayoutGuide.topAnchor,
-                          right: cell.safeAreaLayoutGuide.rightAnchor,
-                          paddingTop: 8,
-                          paddingRight: 8)
-        return cell
-    }
-    
-    private func matchTypeLabel(dish: Dish) -> UIView {
-        var title: String
-        if dish.match == true {
-            title = "DISH"
-        } else if dish.restaurantMatch == true {
-            title = "RESTAURANT"
-        } else {
-            return UIView()
-        }
-        return DishCardOverlayLabelView(withTitle: title, color: .green, rotation: 0)
-    }
-}
-
-extension MatchViewController: SwipeTableViewCellDelegate {
-    
-    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
-        guard orientation == .right else { return nil }
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let dish = dishes[indexPath.row]
+        let tile = collection.dequeueReusableCell(withReuseIdentifier: MatchTile.identifier, for: indexPath) as! MatchTile
+        tile.backgroundView = DishCardContentView(withDish: dish, bevelAmount: 10, hasShadow: true)
         
-        let deleteAction = SwipeAction(style: .destructive, title: "👎") { (action, indexPath) in
-            let dish = self.dishes[indexPath.section]
-            BingeAPI.sharedClient.dishAction(dish: dish, action: .unlike, success: {
-                self.dishes.remove(at: indexPath.section)
-                NotificationCenter.default.post(name: .unlikedDish, object: dish)
-            }) { (_, message) in
-                guard let message = message else { return }
-                print("\(message)")
-            }
-        }
+        let removeButton = UIButton(type: .system)
+        removeButton.setImage(UIImage(systemName: "xmark.circle.fill"), for: .normal)
+        removeButton.tintColor = .gray
+        removeButton.addTarget(self, action: #selector(didTapRemoveButton(sender:)), for: .touchUpInside)
+        removeButton.tag = indexPath.row
+        tile.backgroundView?.addSubview(removeButton)
+        removeButton.anchor(top: tile.backgroundView?.safeAreaLayoutGuide.topAnchor,
+                            right: tile.backgroundView?.safeAreaLayoutGuide.rightAnchor,
+                            width: 36,
+                            height: 36)
         
-        deleteAction.backgroundColor = .white
-        deleteAction.font = UIFont.systemFont(ofSize: 52)
+        let likeTypeView = UILabel(frame: .zero)
+        likeTypeView.text = dish.match == true ? "🍽" : "🎉"
+        likeTypeView.font = UIFont(name: "ArialRoundedMTBold", size: 48)
+        tile.backgroundView?.addSubview(likeTypeView)
+        likeTypeView.anchor(left: tile.backgroundView?.safeAreaLayoutGuide.leftAnchor,
+                            bottom: tile.backgroundView?.safeAreaLayoutGuide.bottomAnchor,
+                            paddingLeft: 8,
+                            paddingBottom: 8)
         
-        return [deleteAction]
+        return tile
     }
-
-    func tableView(_ tableView: UITableView, editActionsOptionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> SwipeOptions {
-        var options = SwipeOptions()
-        options.expansionStyle = .destructive(automaticallyDelete: false)
-        options.transitionStyle = .drag
-        return options
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let itemWidth = (collection.bounds.width - flowPadding * 3) / 2
+        let itemHeight = itemWidth * 1.2
+        return CGSize(width: itemWidth, height: itemHeight)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return UIEdgeInsets(top: flowPadding, left: flowPadding, bottom: flowPadding, right: flowPadding)
     }
 }
 

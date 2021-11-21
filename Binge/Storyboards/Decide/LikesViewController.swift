@@ -7,26 +7,27 @@
 //
 
 import UIKit
-import SwipeCellKit
 import HGPlaceholders
 
 class LikesViewController: UIViewController {
     
     private var dishes = [Dish]() {
         didSet {
-            table.reload()
+            collection.reloadData()
         }
     }
     
-    private lazy var table: TableView = {
-        let tableView = TableView(frame: .zero, style: .plain)
-        tableView.backgroundColor = .white
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.register(DishCell.self, forCellReuseIdentifier: DishCell.identifier)
-        tableView.placeholdersProvider = CustomPlaceholder.noLikes
-        tableView.placeholderDelegate = self
-        return tableView
+    private var flowLayout = UICollectionViewFlowLayout()
+    private var flowPadding: CGFloat = 16
+    
+    private lazy var collection: CollectionView = {
+        let collectionView = CollectionView(frame: .zero, collectionViewLayout: flowLayout)
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        collectionView.register(DishTile.self, forCellWithReuseIdentifier: DishTile.identifier)
+        collectionView.placeholdersProvider = CustomPlaceholder.noLikes
+        collectionView.placeholderDelegate = self
+        return collectionView
     }()
     
     private lazy var refresh: UIRefreshControl = {
@@ -39,7 +40,7 @@ class LikesViewController: UIViewController {
         super.viewDidLoad()
         configureNavigationBar()
         configureListener()
-        layoutTableView()
+        layoutCollectionView()
         initializeData()
     }
     
@@ -48,7 +49,7 @@ class LikesViewController: UIViewController {
             guard let dish: Dish = notification.object as? Dish else { return }
             if self.dishes.first(where: { (d) -> Bool in d.id == dish.id }) == nil {
                 self.dishes.append(dish)
-                self.table.reload()
+                self.collection.reloadData()
             }
         }
         NotificationCenter.default.addObserver(forName: .unlikedDish, object: nil, queue: .main) { (notification) in
@@ -56,7 +57,7 @@ class LikesViewController: UIViewController {
             self.dishes.removeAll { (d) -> Bool in
                 d.id == dish.id
             }
-            self.table.reload()
+            self.collection.reloadData()
         }
     }
     
@@ -90,89 +91,82 @@ class LikesViewController: UIViewController {
                 guard let message: String = message else { return }
                 print(message)
             }
+        } else {
+            self.refresh.endRefreshing()
+        }
+    }
+    
+    @objc
+    private func didTapRemoveButton(sender: UIButton) {
+        let indexPathRow: Int = sender.tag
+        let dish = self.dishes[indexPathRow]
+        if AppVariable.validUser == true {
+            BingeAPI.sharedClient.dishAction(dish: dish, action: .unlike) {
+                NotificationCenter.default.post(name: .unlikedDish, object: dish)
+            } failure: { _, message in
+                guard let message = message else { return }
+                print("\(message)")
+            }
+        } else {
+            self.dishes.remove(at: indexPathRow)
         }
     }
     
     private func configureNavigationBar() {
-        navigationItem.title = "Liked Dishes"
+        navigationItem.title = "Likes"
         if let navBar = navigationController?.navigationBar {
              navBar.setup(titleColor: .black, hasBottomBorder: false, isTranslucent: true)
         }
     }
     
-    private func layoutTableView() {
-        table.translatesAutoresizingMaskIntoConstraints = false
-        table.showsVerticalScrollIndicator = false
-        view.addSubview(table)
-        table.anchor(top: view.safeAreaLayoutGuide.topAnchor,
-                     left: view.safeAreaLayoutGuide.leftAnchor,
-                     bottom: view.safeAreaLayoutGuide.bottomAnchor,
-                     right: view.safeAreaLayoutGuide.rightAnchor,
-                     paddingLeft: 20,
-                     paddingRight: 20)
-        table.rowHeight = view.bounds.height / 4
-        table.separatorStyle = .none
-        table.insertSubview(refresh, at: 0)
+    private func layoutCollectionView() {
+        collection.translatesAutoresizingMaskIntoConstraints = false
+        collection.showsVerticalScrollIndicator = false
+        view.addSubview(collection)
+        collection.anchor(top: view.safeAreaLayoutGuide.topAnchor,
+                          left: view.safeAreaLayoutGuide.leftAnchor,
+                          bottom: view.safeAreaLayoutGuide.bottomAnchor,
+                          right: view.safeAreaLayoutGuide.rightAnchor,
+                          paddingLeft: 0,
+                          paddingRight: 0)
+        collection.insertSubview(refresh, at: 0)
+        flowLayout.scrollDirection = .vertical
     }
 }
 
-extension LikesViewController: UITableViewDataSource, UITableViewDelegate {
+extension LikesViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     
-    func numberOfSections(in tableView: UITableView) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return dishes.count
     }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
-    }
-    
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 20
-    }
-    
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let headerView = UIView()
-        headerView.backgroundColor = .clear
-        return headerView
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let dish = dishes[indexPath.section]
-        let cell = table.dequeueReusableCell(withIdentifier: DishCell.identifier, for: indexPath) as! SwipeTableViewCell
-        cell.delegate = self
-        cell.backgroundView = DishCardContentView(withDish: dish, bevelAmount: 10, hasShadow: true)
-        return cell
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let dish = dishes[indexPath.row]
+        let tile = collection.dequeueReusableCell(withReuseIdentifier: DishTile.identifier, for: indexPath) as! DishTile
+        tile.backgroundView = DishCardContentView(withDish: dish, bevelAmount: 10, hasShadow: true)
         
-    }
-}
-
-extension LikesViewController: SwipeTableViewCellDelegate {
-    
-    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
-        guard orientation == .right else { return nil }
+        let removeButton = UIButton(type: .system)
+        removeButton.setImage(UIImage(systemName: "xmark.circle.fill"), for: .normal)
+        removeButton.tintColor = .gray
+        removeButton.addTarget(self, action: #selector(didTapRemoveButton(sender:)), for: .touchUpInside)
+        removeButton.tag = indexPath.row
+        tile.backgroundView?.addSubview(removeButton)
+        removeButton.anchor(top: tile.backgroundView?.safeAreaLayoutGuide.topAnchor,
+                            right: tile.backgroundView?.safeAreaLayoutGuide.rightAnchor,
+                            width: 36,
+                            height: 36)
         
-        let deleteAction = SwipeAction(style: .destructive, title: "👎") { (action, indexPath) in
-            let dish = self.dishes[indexPath.section]
-            BingeAPI.sharedClient.dishAction(dish: dish, action: .unlike, success: {
-                self.dishes.remove(at: indexPath.section)
-                NotificationCenter.default.post(name: .unlikedDish, object: dish)
-            }) { (_, message) in
-                guard let message = message else { return }
-                print("\(message)")
-            }
-        }
-        
-        deleteAction.backgroundColor = .white
-        deleteAction.font = UIFont.systemFont(ofSize: 52)
-        
-        return [deleteAction]
+        return tile
     }
     
-    func tableView(_ tableView: UITableView, editActionsOptionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> SwipeOptions {
-        var options = SwipeOptions()
-        options.expansionStyle = .destructive(automaticallyDelete: false)
-        options.transitionStyle = .drag
-        return options
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let itemWidth = (collection.bounds.width - flowPadding * 3) / 2
+        let itemHeight = itemWidth * 1.2
+        return CGSize(width: itemWidth, height: itemHeight)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return UIEdgeInsets(top: flowPadding, left: flowPadding, bottom: flowPadding, right: flowPadding)
     }
 }
 
@@ -183,6 +177,4 @@ extension LikesViewController: PlaceholderDelegate {
             tabBar.selectedIndex = 0
         }
     }
-    
-    
 }
