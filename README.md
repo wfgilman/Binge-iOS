@@ -28,6 +28,8 @@ https://github.com/wfgilman/binge
 - User can filter dishes by multiple categories
 - User can order dish from likes tab
 - User can initiate a bracket tournament from liked dishes to decide top selection
+- Professionally skin the app
+- Add splash screen
 
 ### Credits
 - Shuffle https://github.com/mac-gallagher/Shuffle
